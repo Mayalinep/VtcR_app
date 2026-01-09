@@ -1656,4 +1656,872 @@ Quand utilisateur clique "Annuler" :
 
 ---
 
-*Document en cours de création - Section suivante à venir après validation*
+## Guidelines UX
+
+### Principes d'Interaction
+
+#### Micro-animations
+
+**Philosophy :** Animations subtiles qui guident l'utilisateur sans le distraire.
+
+**Durées Standards :**
+```css
+--duration-instant: 100ms;   /* Feedback immédiat (hover, active) */
+--duration-fast: 200ms;      /* Transitions rapides (slides, fades) */
+--duration-normal: 300ms;    /* Transitions standard (modals, menus) */
+--duration-slow: 500ms;      /* Animations importantes (page transitions) */
+```
+
+**Courbes d'accélération :**
+```css
+--ease-in: cubic-bezier(0.4, 0, 1, 1);           /* Démarrage lent */
+--ease-out: cubic-bezier(0, 0, 0.2, 1);          /* Arrivée douce */
+--ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);     /* Standard */
+--ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* Rebond subtil */
+```
+
+**Exemples d'Usage :**
+
+```css
+/* Hover sur bouton */
+.button {
+  transition: all var(--duration-instant) var(--ease-out);
+}
+.button:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Apparition modal */
+.modal {
+  animation: fadeInScale var(--duration-normal) var(--ease-out);
+}
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Navigation entre étapes */
+.step-content {
+  animation: slideIn var(--duration-fast) var(--ease-in-out);
+}
+@keyframes slideIn {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+```
+
+---
+
+#### Interactions Clavier
+
+**Tous les éléments interactifs doivent être accessibles au clavier.**
+
+| Élément | Action | Comportement |
+|---------|--------|--------------|
+| Bouton | Tab | Focus visible avec ring |
+| Bouton | Enter/Space | Déclenche action |
+| Input | Tab | Focus avec ring vert |
+| Modal | Escape | Ferme le modal |
+| Dropdown | Arrow Up/Down | Navigation options |
+| Carousel | Arrow Left/Right | Navigation slides |
+
+**Focus Visible :**
+```css
+*:focus-visible {
+  outline: 2px solid var(--forest-green);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}
+```
+
+---
+
+#### États des Composants
+
+**Boutons :**
+
+| État | Style | Durée |
+|------|-------|-------|
+| Default | Couleur de base | - |
+| Hover | Scale 1.02, shadow-lg | 100ms |
+| Active/Click | Scale 0.98 | 100ms |
+| Focus | Ring vert | - |
+| Disabled | Opacity 0.5, cursor not-allowed | - |
+| Loading | Spinner + texte "Chargement..." | - |
+
+**Inputs :**
+
+| État | Style |
+|------|-------|
+| Default | Border gray-200 |
+| Focus | Ring-2 forest-green, border-forest-green |
+| Error | Ring-2 error, border-error, texte rouge |
+| Success | Border success, icône CheckCircle verte |
+| Disabled | Background gray-100, cursor not-allowed |
+
+**Cards :**
+
+| État | Style |
+|------|-------|
+| Default | Shadow-sm |
+| Hover | Scale 1.02, shadow-lg, cursor-pointer |
+| Active/Selected | Border forest-green, shadow-green |
+
+---
+
+### Tone of Voice
+
+**Principes :**
+- Tutoiement moderne et accessible
+- Professionnel mais chaleureux
+- Rassurant et digne de confiance
+- Concis et actionnable
+- Pas de jargon technique
+
+#### Messages Système
+
+**Succès :**
+```
+✓ "Réservation confirmée !"
+✓ "Votre paiement a été accepté"
+✓ "Profil mis à jour avec succès"
+✓ "Email envoyé, vérifiez votre boîte de réception"
+```
+
+**Erreurs :**
+```
+✗ "Cette adresse n'existe pas. Vérifiez votre saisie."
+✗ "Ce créneau horaire n'est pas disponible. Essayez 15h00 ou 16h00."
+✗ "Votre paiement n'a pas pu être traité. Vérifiez vos informations bancaires."
+✗ "Connexion impossible. Vérifiez votre email et mot de passe."
+```
+
+**Avertissements :**
+```
+⚠ "Annulation gratuite jusqu'à 12h avant votre course"
+⚠ "Des frais de 15€ s'appliquent si vous annulez maintenant"
+⚠ "Votre réservation n'a pas encore été confirmée par Rachel"
+```
+
+**Informations :**
+```
+ⓘ "Rachel vous contactera 30 min avant le départ"
+ⓘ "Paiement sécurisé par Stripe. Vos données ne sont jamais stockées."
+ⓘ "Un email de confirmation vous a été envoyé"
+```
+
+**Empty States :**
+```
+"Aucune réservation pour le moment"
+→ "Réservez votre première course avec Rachel"
+
+"Aucun historique"
+→ "Vos courses passées s'afficheront ici"
+
+"Aucune adresse favorite"
+→ "Ajoutez vos adresses fréquentes pour réserver plus rapidement"
+```
+
+**Actions (CTA) :**
+```
+✓ "Réserver maintenant"
+✓ "Confirmer et payer"
+✓ "Voir les détails"
+✓ "Télécharger la facture"
+✓ "Modifier ma réservation"
+
+✗ "Cliquez ici" (trop vague)
+✗ "Soumettre" (trop technique)
+✗ "Valider" (trop administratif)
+```
+
+---
+
+### Loading States
+
+**Principes :**
+- Feedback immédiat (< 100ms)
+- Skeleton screens plutôt que spinners
+- Messages contextuels
+- Pas de blocage interface si non nécessaire
+
+#### Types de Loading
+
+**1. Skeleton Screens (préféré)**
+
+Utilisé pour : Chargement initial de contenu
+
+```
+┌─────────────────────────────────────┐
+│ [████████░░░░░░░░░░░░░░░░░░]       │ ← Titre
+│ [████░░░░░░░░░░░░]                 │ ← Sous-titre
+│                                     │
+│ [████████████████████░░░░░░░]      │ ← Texte
+│ [████████████████░░░░░░░░░░]      │
+│                                     │
+│ [████████░░] [████████░░]          │ ← Boutons
+└─────────────────────────────────────┘
+```
+
+**2. Spinner (si skeleton impossible)**
+
+```tsx
+<div className="flex items-center justify-center p-8">
+  <Loader2 className="animate-spin text-forest-green" size={32} />
+  <span className="ml-3 text-gray-600">Chargement...</span>
+</div>
+```
+
+**3. Bouton Loading**
+
+```tsx
+<Button disabled>
+  <Loader2 className="animate-spin mr-2" size={16} />
+  Traitement en cours...
+</Button>
+```
+
+**4. Progress Bar (pour uploads/processus longs)**
+
+```tsx
+<div className="w-full bg-gray-200 rounded-full h-2">
+  <div 
+    className="bg-forest-green h-2 rounded-full transition-all"
+    style={{ width: `${progress}%` }}
+  />
+</div>
+<p className="text-sm text-gray-600 mt-2">{progress}% - Génération de votre facture...</p>
+```
+
+#### Messages de Loading Contextuels
+
+| Action | Message |
+|--------|---------|
+| Calcul trajet | "Calcul de l'itinéraire..." |
+| Vérification dispo | "Vérification de la disponibilité..." |
+| Création réservation | "Création de votre réservation..." |
+| Traitement paiement | "Traitement sécurisé de votre paiement..." |
+| Génération facture | "Génération de votre facture PDF..." |
+| Chargement données | "Chargement de vos réservations..." |
+
+---
+
+### Error Handling
+
+**Principes :**
+- Message clair et actionnable
+- Toujours proposer une solution
+- Ton empathique, pas accusateur
+- Icône visuelle appropriée
+
+#### Types d'Erreurs
+
+**Erreurs de Validation (Input) :**
+
+```
+Champ vide :
+"L'adresse de départ est requise"
+
+Format invalide :
+"L'email doit être au format nom@exemple.com"
+
+Valeur hors limites :
+"Le nombre de passagers doit être entre 1 et 4"
+
+Date passée :
+"La date doit être dans le futur"
+```
+
+**Erreurs Métier :**
+
+```
+Créneau indisponible :
+"Ce créneau horaire n'est pas disponible"
+→ [Voir les créneaux disponibles]
+
+Modification impossible :
+"Impossible de modifier moins de 4h avant le départ"
+→ [Contactez Rachel directement]
+
+Annulation refusée :
+"Annulation impossible moins de 2h avant le départ"
+→ [Contacter le service client]
+```
+
+**Erreurs Techniques :**
+
+```
+Erreur réseau :
+"Impossible de se connecter au serveur"
+→ [Réessayer] + "Vérifiez votre connexion internet"
+
+Erreur serveur :
+"Une erreur inattendue s'est produite"
+→ [Réessayer] + "Si le problème persiste, contactez-nous"
+
+Paiement échoué :
+"Votre paiement n'a pas pu être traité"
+→ "Vérifiez vos informations bancaires et réessayez"
+→ [Modifier le moyen de paiement]
+```
+
+**Erreurs 404 :**
+
+```
+Page non trouvée :
+"Cette page n'existe pas ou a été déplacée"
+→ [Retour à l'accueil]
+
+Réservation non trouvée :
+"Cette réservation est introuvable"
+→ [Voir mes réservations]
+```
+
+#### Format Visuel des Erreurs
+
+```tsx
+// Toast Error (temporaire, auto-dismiss)
+<Toast variant="error">
+  <XCircle size={20} />
+  <div>
+    <p className="font-medium">Erreur de paiement</p>
+    <p className="text-sm">Vérifiez vos informations bancaires</p>
+  </div>
+</Toast>
+
+// Inline Error (sous input)
+<div className="flex items-center gap-2 text-error text-sm mt-1">
+  <AlertCircle size={16} />
+  <span>L'adresse de départ est requise</span>
+</div>
+
+// Modal Error (action bloquante)
+<Modal>
+  <div className="text-center">
+    <XCircle size={48} className="text-error mx-auto mb-4" />
+    <h3>Créneau indisponible</h3>
+    <p>Une autre réservation existe à cet horaire</p>
+    <Button onClick={showAlternatives}>Voir les créneaux disponibles</Button>
+  </div>
+</Modal>
+```
+
+---
+
+### Success States
+
+**Principes :**
+- Célébration visuelle (mais subtile)
+- Confirmation claire
+- Prochaines étapes proposées
+
+#### Animations de Succès
+
+**Confetti (pour actions importantes) :**
+```tsx
+import confetti from 'canvas-confetti';
+
+// Lors du paiement réussi
+confetti({
+  particleCount: 100,
+  spread: 70,
+  origin: { y: 0.6 },
+  colors: ['#0F4C3A', '#D4AF37', '#16A34A']
+});
+```
+
+**Checkmark animé :**
+```tsx
+<motion.div
+  initial={{ scale: 0 }}
+  animate={{ scale: 1 }}
+  transition={{ type: "spring", duration: 0.5 }}
+>
+  <CheckCircle size={64} className="text-success" />
+</motion.div>
+```
+
+#### Messages de Succès
+
+```
+Réservation créée :
+"Réservation confirmée !"
+→ "Un email de confirmation vous a été envoyé"
+→ [Voir ma réservation] [Retour au dashboard]
+
+Paiement accepté :
+"Paiement accepté"
+→ "Votre réservation est confirmée"
+→ [Télécharger la facture]
+
+Profil mis à jour :
+"Modifications enregistrées"
+→ Simple toast, auto-dismiss après 3s
+
+Mot de passe réinitialisé :
+"Email envoyé"
+→ "Vérifiez votre boîte de réception"
+```
+
+---
+
+## Accessibilité
+
+### Standards WCAG 2.1 AA
+
+**Objectif :** Application accessible à tous, y compris personnes en situation de handicap.
+
+#### Contraste des Couleurs
+
+**Ratios minimum requis :**
+
+| Usage | Ratio | Couleurs VTC Rachel |
+|-------|-------|---------------------|
+| Texte normal (< 18px) | 4.5:1 | gray-900 sur white : 16:1 ✓ |
+| Texte large (≥ 18px) | 3:1 | gray-600 sur white : 7:1 ✓ |
+| Éléments UI (icônes, borders) | 3:1 | forest-green sur white : 6.5:1 ✓ |
+
+**Vérification :**
+- Utiliser [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+- Tester avec extension Chrome "WCAG Color contrast checker"
+
+**Cas particuliers :**
+- Or champagne sur blanc : 3.2:1 (OK pour texte large uniquement)
+- Si utilisé pour texte petit → ajouter outline ou background foncé
+
+---
+
+#### Navigation Clavier
+
+**Ordre de tabulation logique :**
+1. Navigation principale
+2. Contenu principal (skip link disponible)
+3. Formulaires (ordre naturel de lecture)
+4. Actions secondaires
+5. Footer
+
+**Skip Links :**
+```tsx
+<a 
+  href="#main-content" 
+  className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2"
+>
+  Aller au contenu principal
+</a>
+```
+
+**Focus Trap dans Modals :**
+```tsx
+// Utiliser Radix UI Dialog qui gère automatiquement
+<Dialog.Root>
+  <Dialog.Content>
+    {/* Focus piégé ici, Tab circule uniquement dans modal */}
+  </Dialog.Content>
+</Dialog.Root>
+```
+
+---
+
+#### ARIA Labels & Roles
+
+**Landmarks HTML5 :**
+```tsx
+<header role="banner">
+  <nav role="navigation" aria-label="Navigation principale">
+  </nav>
+</header>
+
+<main role="main" id="main-content">
+  {/* Contenu principal */}
+</main>
+
+<aside role="complementary" aria-label="Informations complémentaires">
+</aside>
+
+<footer role="contentinfo">
+</footer>
+```
+
+**Boutons & Actions :**
+```tsx
+// Bouton avec texte visible : OK
+<button>Réserver</button>
+
+// Bouton icône seule : ARIA label obligatoire
+<button aria-label="Fermer le modal">
+  <X size={20} />
+</button>
+
+// Lien externe : indiquer
+<a href="..." target="_blank" rel="noopener noreferrer">
+  En savoir plus
+  <span className="sr-only">(ouvre dans un nouvel onglet)</span>
+</a>
+```
+
+**Formulaires :**
+```tsx
+// Labels explicites (pas de placeholder uniquement)
+<label htmlFor="email" className="block mb-2">
+  Adresse email
+</label>
+<input 
+  id="email" 
+  type="email"
+  aria-required="true"
+  aria-invalid={hasError}
+  aria-describedby={hasError ? "email-error" : undefined}
+/>
+{hasError && (
+  <p id="email-error" role="alert" className="text-error">
+    L'email doit être au format nom@exemple.com
+  </p>
+)}
+```
+
+**Live Regions (pour updates dynamiques) :**
+```tsx
+// Notification toast
+<div role="alert" aria-live="assertive" aria-atomic="true">
+  Réservation confirmée !
+</div>
+
+// Chargement
+<div role="status" aria-live="polite" aria-atomic="true">
+  <Loader2 className="animate-spin" />
+  <span>Chargement des réservations...</span>
+</div>
+```
+
+---
+
+#### Screen Readers
+
+**Texte caché visuellement mais accessible :**
+```css
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+```
+
+**Images :**
+```tsx
+// Image décorative
+<img src="..." alt="" role="presentation" />
+
+// Image informative
+<img src="voiture.jpg" alt="Véhicule Mercedes Classe E noir, intérieur cuir beige" />
+
+// Logo
+<img src="logo.svg" alt="VTC Rachel - Retour à l'accueil" />
+```
+
+---
+
+#### Mouvements & Animations
+
+**Respecter `prefers-reduced-motion` :**
+
+```css
+/* Animations normales */
+.card {
+  transition: transform 0.2s ease-out;
+}
+.card:hover {
+  transform: scale(1.02);
+}
+
+/* Désactiver pour utilisateurs sensibles */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .card:hover {
+    transform: none; /* Pas de scale */
+  }
+}
+```
+
+**En React :**
+```tsx
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+<motion.div
+  animate={{ scale: prefersReducedMotion ? 1 : 1.02 }}
+  transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
+>
+```
+
+---
+
+## Responsive Design
+
+### Breakpoints
+
+```css
+/* Mobile First approach */
+/* Mobile : Default (< 640px) */
+
+/* Tablet */
+@media (min-width: 640px) { /* sm */ }
+@media (min-width: 768px) { /* md */ }
+
+/* Desktop */
+@media (min-width: 1024px) { /* lg */ }
+@media (min-width: 1280px) { /* xl */ }
+@media (min-width: 1536px) { /* 2xl */ }
+```
+
+**Tailwind CSS équivalent :**
+```tsx
+<div className="
+  w-full              // Mobile : full width
+  sm:w-1/2            // Tablet : 50%
+  lg:w-1/3            // Desktop : 33%
+">
+```
+
+---
+
+### Layout Responsive
+
+**Container :**
+```css
+.container {
+  width: 100%;
+  padding-left: 1.5rem; /* 24px */
+  padding-right: 1.5rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .container { max-width: 640px; }
+}
+@media (min-width: 768px) {
+  .container { max-width: 768px; }
+}
+@media (min-width: 1024px) {
+  .container { max-width: 1024px; }
+}
+@media (min-width: 1280px) {
+  .container { max-width: 1200px; }
+}
+```
+
+**Grilles Responsive :**
+```tsx
+// Auto-responsive avec Tailwind
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {/* Cards */}
+</div>
+
+// Ou avec CSS Grid natif
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+```
+
+---
+
+### Navigation Responsive
+
+**Desktop :**
+```tsx
+<nav className="hidden lg:flex items-center gap-8">
+  <a href="/tarifs">Tarifs</a>
+  <a href="/about">À propos</a>
+  <a href="/contact">Contact</a>
+  <Button>Connexion</Button>
+</nav>
+```
+
+**Mobile (Hamburger Menu) :**
+```tsx
+<Sheet>
+  <SheetTrigger className="lg:hidden">
+    <Menu size={24} />
+  </SheetTrigger>
+  <SheetContent side="right">
+    <nav className="flex flex-col gap-6 mt-8">
+      <a href="/tarifs">Tarifs</a>
+      <a href="/about">À propos</a>
+      <a href="/contact">Contact</a>
+      <Button className="w-full">Connexion</Button>
+    </nav>
+  </SheetContent>
+</Sheet>
+```
+
+---
+
+### Typography Responsive
+
+**Fluid Typography (avec clamp) :**
+```css
+/* Hero title : 40px mobile → 64px desktop */
+.text-hero {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* H1 : 32px mobile → 48px desktop */
+.text-h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+/* Body : 14px mobile → 16px desktop */
+.text-body {
+  font-size: clamp(0.875rem, 1vw, 1rem);
+}
+```
+
+**Tailwind CSS équivalent :**
+```tsx
+<h1 className="text-4xl sm:text-5xl lg:text-6xl">
+  {/* 36px → 48px → 60px */}
+</h1>
+```
+
+---
+
+### Touch Targets (Mobile)
+
+**Minimum 44x44px pour zone cliquable :**
+
+```css
+/* Boutons */
+button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 12px 24px;
+}
+
+/* Liens dans navigation */
+nav a {
+  padding: 12px 16px;
+  display: inline-block;
+}
+
+/* Checkbox/Radio */
+input[type="checkbox"],
+input[type="radio"] {
+  width: 24px;
+  height: 24px;
+  /* Avec padding autour pour atteindre 44px total */
+}
+```
+
+---
+
+### Images Responsive
+
+**Next.js Image Component :**
+```tsx
+import Image from 'next/image';
+
+<Image 
+  src="/voiture.jpg"
+  alt="Véhicule premium"
+  width={1200}
+  height={800}
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+  priority={false} // true pour hero image
+  quality={85}
+/>
+```
+
+**Formats modernes automatiques :**
+- Next.js convertit automatiquement en WebP/AVIF
+- Lazy loading par défaut (sauf priority={true})
+- Responsive srcset généré automatiquement
+
+---
+
+### Test Devices
+
+**Résolutions à tester :**
+
+| Device | Résolution | Breakpoint |
+|--------|-----------|------------|
+| iPhone SE | 375 × 667 | Mobile |
+| iPhone 14 | 390 × 844 | Mobile |
+| iPhone 14 Pro Max | 430 × 932 | Mobile |
+| iPad Mini | 768 × 1024 | Tablet |
+| iPad Pro | 1024 × 1366 | Tablet/Desktop |
+| Laptop | 1280 × 720 | Desktop |
+| Desktop | 1920 × 1080 | Desktop |
+
+**Outils de test :**
+- Chrome DevTools (Device Mode)
+- BrowserStack (vrais devices)
+- Responsively App (multi-screen)
+
+---
+
+## Front-End Specification Complète
+
+**Ce que nous avons créé :**
+
+### Design System
+- Palette de couleurs (Vert forêt + Or champagne)
+- Typographie (Inter + Playfair Display)
+- Spacing, shadows, composants UI
+- Iconographie Lucide
+
+### Wireframes (5 écrans)
+- Landing Page
+- Formulaire de réservation (3 étapes)
+- Dashboard client
+- Détail réservation
+- Dashboard admin Rachel
+
+### Guidelines UX
+- Micro-animations (durées, courbes)
+- Tone of voice (messages, copy)
+- Loading states (skeletons, spinners)
+- Error handling (messages contextuels)
+- Success states (célébrations)
+
+### Accessibilité
+- WCAG 2.1 AA conforme
+- Navigation clavier complète
+- ARIA labels appropriés
+- Screen readers optimisés
+- Respect prefers-reduced-motion
+
+### Responsive Design
+- Breakpoints mobile-first
+- Layouts adaptatifs
+- Typography fluide
+- Touch targets optimisés
+- Images responsive
+
+**Ready pour le développement !**
+
+---
+
+*Document complet - Spécification Front-End finalisée*
