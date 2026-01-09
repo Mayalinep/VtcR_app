@@ -223,6 +223,154 @@ Date de création : 9 janvier 2026
 
 ---
 
+## Opérationnel & Cas Particuliers
+
+### 15. Pourboires
+
+**Question :** Acceptes-tu les pourboires ?
+
+**À décider :**
+- Pourboire via l'app : Oui / Non ?
+- Si oui, suggestions de montants : 5% / 10% / 15% / Montant libre ?
+- Pourboire cash uniquement : Accepté ?
+
+---
+
+### 16. No-show (client absent)
+
+**Question :** Que faire si le client ne se présente pas ?
+
+**À clarifier :**
+- Temps d'attente sur place : X minutes ?
+- Après ce délai : Annulation automatique ?
+- Frais de no-show : 100% du montant ou X% ?
+- Notification client avant annulation : Combien d'appels/SMS ?
+
+---
+
+### 17. Retard du client
+
+**Question :** Comment gérer les retards clients ?
+
+**À valider :**
+- Temps d'attente gratuit : X minutes (ex: 10 min) ?
+- Après X min : Facturation par tranche de 15 min ?
+- Limite max de retard accepté : X minutes avant annulation ?
+
+---
+
+### 18. Cas d'urgence / Imprévus
+
+**Question :** Procédures en cas de problème ?
+
+**À prévoir :**
+- Numéro d'urgence à communiquer aux clients : ?
+- Si panne/accident en cours de route : Procédure ?
+- Véhicule de remplacement disponible : Partenaire VTC ? Taxi ?
+- Remboursement/compensation si problème de ton côté : Règle ?
+
+---
+
+### 19. Multi-langues
+
+**Question :** Clients internationaux fréquents ?
+
+**À décider :**
+- App en anglais nécessaire : Oui / Non ?
+- Tu parles anglais pour communiquer : Niveau ?
+- Autres langues utiles : Espagnol, Italien, Allemand ?
+- Traduction automatique suffisante ou traduction pro ?
+
+**Phase MVP :** Français uniquement ou bilingue FR/EN ?
+
+---
+
+## Précisions Service
+
+### 20. Politique bagages détaillée
+
+**Question :** Limites exactes pour les bagages ?
+
+**À préciser :**
+- Nombre max de valises standard (ex: 56x45x25cm) : ?
+- Valises cabine : Combien ?
+- Bagages volumineux acceptés : Dimensions/poids max ?
+- Objets interdits : Armes, produits dangereux, autres ?
+- Objets nécessitant autorisation préalable : Vélo, ski, instruments musique ?
+
+---
+
+### 21. Temps de préparation
+
+**Question :** Temps nécessaire avant chaque course ?
+
+**À calculer :**
+- Buffer entre ton lieu actuel et pickup client : Combien de temps prévoir ?
+- Minimum entre 2 réservations : X minutes (trajet + nettoyage rapide) ?
+- Courses aéroport : Arriver combien de temps avant heure vol client ?
+
+**Important :** Pour calculer disponibilités automatiques dans l'app.
+
+---
+
+### 22. Assurance passagers
+
+**Question :** Informations assurance à communiquer ?
+
+**À obtenir :**
+- Montant couverture assurance : X millions € ?
+- Nom de ton assureur VTC : ?
+- Numéro police : ?
+- Info à afficher sur l'app : "Assurance responsabilité civile X€" ?
+
+**Communication rassurante :** Clients aiment savoir qu'ils sont couverts.
+
+---
+
+## Marketing & Visibilité
+
+### 23. Avis clients publics
+
+**Question :** Comment gérer l'affichage des avis ?
+
+**À décider :**
+- Afficher avis sur landing page : Oui / Non ?
+- Modération avant publication : Manuelle / Automatique / Aucune ?
+- Note minimale pour publier : Tous / Seulement ≥ 3 étoiles ?
+- Répondre aux avis : Toi ou réponse auto ?
+
+**Important :** Avis = social proof = confiance clients.
+
+---
+
+### 24. Partenariats existants
+
+**Question :** As-tu déjà des partenaires / clients réguliers ?
+
+**À valider :**
+- Hotels avec qui tu travailles : Lesquels ?
+- Entreprises clientes : Lesquelles ?
+- Tarifs négociés spécifiques : À intégrer ?
+- Codes promo partenaires : Format ? Réduction ?
+
+**Fonctionnalité MVP :** Codes promo ou Phase 2 ?
+
+---
+
+### 25. Lancement et communication
+
+**Question :** Plan de lancement de l'app ?
+
+**À planifier :**
+- Base clients existante : Combien de personnes ?
+- Annonce lancement : Email, SMS, réseaux sociaux ?
+- Budget marketing initial : X€ pour pub Facebook/Google ?
+- Incentive lancement : Première course à -20% ?
+
+**Important :** Préparer templates emails d'annonce.
+
+---
+
 ## Prochaines Étapes
 
 **Actions à planifier :**
