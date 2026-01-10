@@ -1,8 +1,9 @@
-import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
-import ContactForm from '../components/ContactForm';
-import FadeIn from '../components/FadeIn';
-import FadeInSection from '../components/FadeInSection';
+import Navigation from '../components/layout/Navigation';
+import Footer from '../components/layout/Footer';
+import ContactForm from '../components/forms/ContactForm';
+import Hero from '../components/sections/Hero';
+import CTASection from '../components/sections/CTASection';
+import FadeInSection from '../components/animations/FadeInSection';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -16,35 +17,11 @@ export default function ContactPage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <FadeIn delay={0.4}>
-            <div 
-              className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-6"
-              style={{ 
-                backgroundColor: 'var(--gold-light)',
-                color: 'var(--forest-green)'
-              }}
-            >
-              Nous sommes à votre écoute
-            </div>
-          </FadeIn>
-          
-          <FadeIn delay={0.7}>
-            <h1 className="text-4xl sm:text-5xl font-bold mb-6" style={{ fontFamily: 'var(--font-playfair)' }}>
-              Contactez
-              <br />
-              <span style={{ color: 'var(--forest-green)' }}>VTC Rachel</span>
-            </h1>
-          </FadeIn>
-          
-          <FadeIn delay={1}>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Une question ? Un devis personnalisé ? Notre équipe vous répond rapidement
-            </p>
-          </FadeIn>
-        </div>
-      </section>
+      <Hero
+        badge="Nous sommes à votre écoute"
+        title={<>Contactez<br /><span style={{ color: 'var(--forest-green)' }}>VTC Rachel</span></>}
+        description="Une question ? Un devis personnalisé ? Notre équipe vous répond rapidement"
+      />
 
       {/* Contact Section */}
       <section className="py-16 px-4 sm:px-6">
@@ -228,42 +205,19 @@ export default function ContactPage() {
 
       {/* CTA Section */}
       <FadeInSection delay={0}>
-        <section 
-          className="mx-4 sm:mx-6 my-16 p-12 rounded-2xl text-center"
-          style={{ backgroundColor: 'var(--forest-green)' }}
-        >
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
-              Besoin d&apos;une course immédiate ?
-            </h2>
-            <p className="text-lg text-white/80 mb-8">
-              Appelez-nous directement pour une réservation rapide
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="tel:+33612345678"
-                className="px-8 py-4 rounded-lg font-semibold transition-all hover:scale-105 shadow-xl active:scale-95"
-                style={{ 
-                  backgroundColor: 'var(--gold-champagne)',
-                  color: 'var(--forest-green)'
-                }}
-              >
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  Appeler maintenant
-                </span>
-              </a>
-              <a
-                href="/"
-                className="px-8 py-4 rounded-lg font-semibold transition-all hover:scale-105 border-2 border-white text-white hover:bg-white/10 active:scale-95"
-              >
-                Réserver en ligne
-              </a>
-            </div>
-          </div>
-        </section>
+        <CTASection
+          title="Besoin d'une course immédiate ?"
+          description="Appelez-nous directement pour une réservation rapide"
+          primaryButton={{
+            text: "Appeler maintenant",
+            href: "tel:+33612345678"
+          }}
+          secondaryButton={{
+            text: "Réserver en ligne",
+            href: "/"
+          }}
+          className="my-16"
+        />
       </FadeInSection>
 
       <Footer />

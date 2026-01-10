@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { TESTIMONIALS_DATA } from '../lib/data/testimonials';
 
 /**
  * Testimonials - Carrousel de témoignages clients
@@ -12,41 +13,6 @@ import { motion, AnimatePresence } from 'framer-motion';
  * @example
  * <Testimonials />
  */
-
-const testimonials = [
-  {
-    id: 1,
-    name: "Sophie Dubois",
-    location: "Paris 16e",
-    rating: 5,
-    text: "Service impeccable ! Ponctualité, véhicule luxueux et chauffeur très professionnel. Je recommande vivement pour les trajets aéroport.",
-    avatar: "SD"
-  },
-  {
-    id: 2,
-    name: "Thomas Martin",
-    location: "Neuilly-sur-Seine",
-    rating: 5,
-    text: "Rachel m'a dépanné plusieurs fois pour mes déplacements professionnels. Toujours à l'heure, discret et très arrangeant. Un vrai partenaire de confiance.",
-    avatar: "TM"
-  },
-  {
-    id: 3,
-    name: "Marie Lefebvre",
-    location: "Versailles",
-    rating: 5,
-    text: "Excellent service pour notre mariage ! Rachel a géré tous nos déplacements avec professionnalisme. Les invités ont adoré. Merci encore !",
-    avatar: "ML"
-  },
-  {
-    id: 4,
-    name: "Jean Dupont",
-    location: "La Défense",
-    rating: 5,
-    text: "Depuis 2 ans, je fais appel à Rachel pour mes trajets CDG. Jamais déçu, suivi des vols en temps réel, aide avec les bagages. Top !",
-    avatar: "JD"
-  }
-];
 
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -78,8 +44,8 @@ export default function Testimonials() {
     setDirection(newDirection);
     setCurrentIndex((prevIndex) => {
       let nextIndex = prevIndex + newDirection;
-      if (nextIndex < 0) nextIndex = testimonials.length - 1;
-      if (nextIndex >= testimonials.length) nextIndex = 0;
+      if (nextIndex < 0) nextIndex = TESTIMONIALS_DATA.length - 1;
+      if (nextIndex >= TESTIMONIALS_DATA.length) nextIndex = 0;
       return nextIndex;
     });
   };
@@ -120,7 +86,7 @@ export default function Testimonials() {
               >
                 {/* Étoiles */}
                 <div className="flex gap-1 mb-4">
-                  {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
+                  {[...Array(TESTIMONIALS_DATA[currentIndex].rating)].map((_, i) => (
                     <svg
                       key={i}
                       className="w-5 h-5"
@@ -135,7 +101,7 @@ export default function Testimonials() {
 
                 {/* Texte */}
                 <p className="text-gray-700 text-base sm:text-lg leading-relaxed mb-6 italic">
-                  &ldquo;{testimonials[currentIndex].text}&rdquo;
+                  &ldquo;{TESTIMONIALS_DATA[currentIndex].text}&rdquo;
                 </p>
 
                 {/* Auteur */}
@@ -144,14 +110,14 @@ export default function Testimonials() {
                     className="w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold"
                     style={{ backgroundColor: 'var(--forest-green)' }}
                   >
-                    {testimonials[currentIndex].avatar}
+                    {TESTIMONIALS_DATA[currentIndex].avatar}
                   </div>
                   <div>
                     <div className="font-semibold text-gray-900">
-                      {testimonials[currentIndex].name}
+                      {TESTIMONIALS_DATA[currentIndex].name}
                     </div>
                     <div className="text-sm text-gray-500">
-                      {testimonials[currentIndex].location}
+                      {TESTIMONIALS_DATA[currentIndex].location}
                     </div>
                   </div>
                 </div>
@@ -179,7 +145,7 @@ export default function Testimonials() {
 
           {/* Dots */}
           <div className="flex gap-2">
-            {testimonials.map((_, index) => (
+            {TESTIMONIALS_DATA.map((_, index) => (
               <button
                 key={index}
                 onClick={() => {

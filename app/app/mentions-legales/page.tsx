@@ -1,7 +1,7 @@
-import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
-import FadeIn from '../components/FadeIn';
-import FadeInSection from '../components/FadeInSection';
+import Navigation from '../components/layout/Navigation';
+import Footer from '../components/layout/Footer';
+import Hero from '../components/sections/Hero';
+import FadeInSection from '../components/animations/FadeInSection';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -15,35 +15,11 @@ export default function MentionsLegalesPage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <FadeIn delay={0.4}>
-            <div 
-              className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-6"
-              style={{ 
-                backgroundColor: 'var(--gold-light)',
-                color: 'var(--forest-green)'
-              }}
-            >
-              Informations légales
-            </div>
-          </FadeIn>
-          
-          <FadeIn delay={0.7}>
-            <h1 className="text-4xl sm:text-5xl font-bold mb-6" style={{ fontFamily: 'var(--font-playfair)' }}>
-              Mentions
-              <br />
-              <span style={{ color: 'var(--forest-green)' }}>Légales</span>
-            </h1>
-          </FadeIn>
-          
-          <FadeIn delay={1}>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Informations légales concernant VTC Rachel et l&apos;utilisation de ce site
-            </p>
-          </FadeIn>
-        </div>
-      </section>
+      <Hero
+        badge="Informations légales"
+        title={<>Mentions<br /><span style={{ color: 'var(--forest-green)' }}>Légales</span></>}
+        description="Informations légales concernant VTC Rachel et l'utilisation de ce site"
+      />
 
       {/* Contenu */}
       <section className="py-16 px-4 sm:px-6">

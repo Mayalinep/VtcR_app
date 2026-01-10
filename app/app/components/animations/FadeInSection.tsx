@@ -7,6 +7,7 @@ interface FadeInSectionProps {
   children: ReactNode;
   delay?: number;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 /**
@@ -18,13 +19,14 @@ interface FadeInSectionProps {
  * @param {ReactNode} children - Contenu à animer
  * @param {number} delay - Délai avant le démarrage de l'animation (en secondes)
  * @param {string} className - Classes CSS additionnelles
+ * @param {React.CSSProperties} style - Styles inline optionnels
  * 
  * @example
  * <FadeInSection delay={0.2}>
  *   <section>Contenu de la section</section>
  * </FadeInSection>
  */
-export default function FadeInSection({ children, delay = 0, className = '' }: FadeInSectionProps) {
+export default function FadeInSection({ children, delay = 0, className = '', style }: FadeInSectionProps) {
   const ref = useRef(null);
   
   const isInView = useInView(ref, { 
@@ -44,6 +46,7 @@ export default function FadeInSection({ children, delay = 0, className = '' }: F
         y: { duration: 1.2, ease: [0.16, 1, 0.3, 1] }
       }}
       className={className}
+      style={style}
     >
       {children}
     </motion.div>

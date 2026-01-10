@@ -1,7 +1,8 @@
-import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
-import FadeIn from '../components/FadeIn';
-import FadeInSection from '../components/FadeInSection';
+import Navigation from '../components/layout/Navigation';
+import Footer from '../components/layout/Footer';
+import Hero from '../components/sections/Hero';
+import CTASection from '../components/sections/CTASection';
+import FadeInSection from '../components/animations/FadeInSection';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -15,36 +16,11 @@ export default function TarifsPage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <FadeIn delay={0.4}>
-            <div 
-              className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-6"
-              style={{ 
-                backgroundColor: 'var(--gold-light)',
-                color: 'var(--forest-green)'
-              }}
-            >
-              Tarification transparente
-            </div>
-          </FadeIn>
-          
-          <FadeIn delay={0.7}>
-            <h1 className="text-4xl sm:text-5xl font-bold mb-6" style={{ fontFamily: 'var(--font-playfair)' }}>
-              Nos
-              <br />
-              <span style={{ color: 'var(--forest-green)' }}>Tarifs</span>
-            </h1>
-          </FadeIn>
-          
-          <FadeIn delay={1}>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Prix fixes, pas de surprise. Tous nos tarifs incluent les frais d&apos;approche, 
-              d&apos;autoroute et de stationnement
-            </p>
-          </FadeIn>
-        </div>
-      </section>
+      <Hero
+        badge="Tarification transparente"
+        title={<>Nos<br /><span style={{ color: 'var(--forest-green)' }}>Tarifs</span></>}
+        description="Prix fixes, pas de surprise. Tous nos tarifs incluent les frais d'approche, d'autoroute et de stationnement"
+      />
 
       {/* Forfaits Aéroports */}
       <section className="py-16 px-4 sm:px-6">
@@ -617,38 +593,18 @@ export default function TarifsPage() {
 
       {/* CTA */}
       <FadeInSection delay={0}>
-        <section 
-          className="mx-4 sm:mx-6 mb-16 p-12 rounded-2xl text-center"
-          style={{ backgroundColor: 'var(--forest-green)' }}
-        >
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
-              Besoin d&apos;un Devis Personnalisé ?
-            </h2>
-            <p className="text-lg text-white/80 mb-8">
-              Contactez-nous pour obtenir un tarif adapté à vos besoins spécifiques
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="/"
-                className="inline-block px-8 py-4 rounded-lg font-semibold transition-all hover:scale-105 shadow-xl active:scale-95"
-                style={{ 
-                  backgroundColor: 'var(--gold-champagne)',
-                  color: 'var(--forest-green)'
-                }}
-              >
-                Réserver maintenant
-              </a>
-              <a
-                href="/contact"
-                className="inline-block px-8 py-4 rounded-lg font-semibold transition-all hover:scale-105 shadow-xl active:scale-95 bg-white"
-                style={{ color: 'var(--forest-green)' }}
-              >
-                Demander un devis
-              </a>
-            </div>
-          </div>
-        </section>
+        <CTASection
+          title="Besoin d'un Devis Personnalisé ?"
+          description="Contactez-nous pour obtenir un tarif adapté à vos besoins spécifiques"
+          primaryButton={{
+            text: "Réserver maintenant",
+            href: "/"
+          }}
+          secondaryButton={{
+            text: "Demander un devis",
+            href: "/contact"
+          }}
+        />
       </FadeInSection>
 
       <Footer />

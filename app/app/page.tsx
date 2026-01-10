@@ -1,10 +1,10 @@
-import Navigation from './components/Navigation';
-import Footer from './components/Footer';
-import FadeIn from './components/FadeIn';
-import FadeInSection from './components/FadeInSection';
-import PriceEstimator from './components/PriceEstimator';
-import ScrollIndicator from './components/ScrollIndicator';
-import PulseCTA from './components/PulseCTA';
+import Navigation from './components/layout/Navigation';
+import Footer from './components/layout/Footer';
+import FadeIn from './components/animations/FadeIn';
+import FadeInSection from './components/animations/FadeInSection';
+import PriceEstimator from './components/forms/PriceEstimator';
+import ScrollIndicator from './components/ui/ScrollIndicator';
+import PulseCTA from './components/ui/PulseCTA';
 import Testimonials from './components/Testimonials';
 
 export default function Home() {
