@@ -9,67 +9,84 @@ export default function Home() {
       <Navigation />
 
       {/* Hero Section */}
-      <main className="pt-32 sm:pt-36 lg:pt-40 pb-12 sm:pb-20 px-4 sm:px-6">
+      <main className="pt-32 sm:pt-36 lg:pt-40 pb-12 sm:pb-16 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          {/* Hero 2 colonnes (desktop) / empilé (mobile) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-            {/* Colonne gauche - Contenu texte */}
-            <div className="lg:col-span-7 text-center lg:text-left">
-              <FadeIn delay={0.4}>
-                <div 
-                  className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-10"
+          {/* Hero centré */}
+          <div className="max-w-4xl mx-auto text-center">
+            <FadeIn delay={0.4}>
+              <div 
+                className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-10"
+                style={{ 
+                  backgroundColor: 'var(--gold-light)',
+                  color: 'var(--forest-green)'
+                }}
+              >
+                Service Premium Île-de-France
+              </div>
+            </FadeIn>
+            
+            <FadeIn delay={0.7}>
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6 tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
+                Votre chauffeur
+                <br />
+                <span style={{ color: 'var(--forest-green)' }}>de confiance</span>
+              </h1>
+            </FadeIn>
+            
+            <FadeIn delay={1}>
+              <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto px-4">
+                Réservez votre course VTC en quelques clics. Service professionnel, 
+                confort premium, tarifs transparents.
+              </p>
+            </FadeIn>
+
+            <FadeIn delay={1.3}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center px-4 max-w-md sm:max-w-none mx-auto">
+                <button 
+                  className="w-full sm:w-auto px-10 py-4 rounded-lg font-semibold text-white text-base transition-all hover:scale-105 shadow-lg active:scale-95"
+                  style={{ backgroundColor: 'var(--forest-green)' }}
+                >
+                  Réserver maintenant
+                </button>
+                <button 
+                  className="w-full sm:w-auto px-10 py-3.5 rounded-lg font-medium transition-all hover:scale-105 border-2 active:scale-95"
                   style={{ 
-                    backgroundColor: 'var(--gold-light)',
-                    color: 'var(--forest-green)'
+                    borderColor: 'var(--forest-green)',
+                    color: 'var(--forest-green)',
+                    backgroundColor: 'transparent'
                   }}
                 >
-                  Service Premium Île-de-France
-                </div>
-              </FadeIn>
-              
-              <FadeIn delay={0.7}>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6 tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
-                  Votre chauffeur
-                  <br />
-                  <span style={{ color: 'var(--forest-green)' }}>de confiance</span>
-                </h1>
-              </FadeIn>
-              
-              <FadeIn delay={1}>
-                <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-10 leading-relaxed">
-                  Réservez votre course VTC en quelques clics. Service professionnel, 
-                  confort premium, tarifs transparents.
-                </p>
-              </FadeIn>
+                  En savoir plus
+                </button>
+              </div>
+            </FadeIn>
+          </div>
+        </div>
+      </main>
 
-              <FadeIn delay={1.3}>
-                <div className="flex flex-col sm:flex-row gap-4 lg:justify-start justify-center">
-                  <button 
-                    className="w-full sm:w-auto px-10 py-4 rounded-lg font-semibold text-white text-base transition-all hover:scale-105 shadow-lg active:scale-95"
-                    style={{ backgroundColor: 'var(--forest-green)' }}
-                  >
-                    Voir les tarifs
-                  </button>
-                  <button 
-                    className="w-full sm:w-auto px-10 py-3.5 rounded-lg font-medium transition-all hover:scale-105 border-2 active:scale-95"
-                    style={{ 
-                      borderColor: 'var(--forest-green)',
-                      color: 'var(--forest-green)',
-                      backgroundColor: 'transparent'
-                    }}
-                  >
-                    En savoir plus
-                  </button>
-                </div>
-              </FadeIn>
+      {/* Section Estimateur de prix */}
+      <FadeInSection delay={0}>
+        <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6" style={{ backgroundColor: '#FAFAF9' }}>
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
+                Estimez votre course
+              </h2>
+              <p className="text-gray-600 text-base sm:text-lg">
+                Obtenez un tarif instantané et transparent pour votre trajet
+              </p>
             </div>
-
-            {/* Colonne droite - Estimateur de prix */}
-            <div className="lg:col-span-5">
+            
+            <div className="max-w-2xl mx-auto">
               <PriceEstimator />
             </div>
           </div>
+        </section>
+      </FadeInSection>
 
+      {/* Comment ça marche Section */}
+      <main className="px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">
           {/* Comment ça marche */}
           <div className="mt-20 sm:mt-28 lg:mt-36">
             <FadeInSection delay={0} className="text-center mb-12 sm:mb-16 px-4">
