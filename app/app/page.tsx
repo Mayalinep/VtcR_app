@@ -9,8 +9,14 @@ export default function Home() {
       <Navigation />
 
       {/* Hero Section */}
-      <main className="pt-32 sm:pt-36 lg:pt-40 pb-12 sm:pb-16 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
+      <main 
+        className="min-h-screen flex items-center justify-center px-4 sm:px-6 relative"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40' fill='%230F4C3A' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+          backgroundColor: '#ffffff'
+        }}
+      >
+        <div className="max-w-7xl mx-auto w-full">
           {/* Hero centré */}
           <div className="max-w-4xl mx-auto text-center">
             <FadeIn delay={0.4}>
