@@ -594,21 +594,21 @@ Les wireframes suivants décrivent la structure et l'organisation des écrans pr
 │                                                              │
 │  Titre H2 : "Ce que disent nos clients"                     │
 │                                                              │
-│  Carousel (3 témoignages visibles, scroll horizontal)       │
+│  Carousel avec effet de profondeur (peek)                   │
 │                                                              │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐                  │
-│  │ Card     │  │ Card     │  │ Card     │                  │
-│  │          │  │          │  │          │                  │
-│  │ "Quote"  │  │ "Quote"  │  │ "Quote"  │                  │
-│  │          │  │          │  │          │                  │
-│  │ ─ Nom    │  │ ─ Nom    │  │ ─ Nom    │                  │
-│  │   Client │  │   Client │  │   Client │                  │
-│  │          │  │          │  │          │                  │
-│  │ 5 étoiles│  │ 5 étoiles│  │ 5 étoiles│                  │
-│  │ (icons)  │  │ (icons)  │  │ (icons)  │                  │
-│  └──────────┘  └──────────┘  └──────────┘                  │
+│  ┌────────┐      ┌─────────────────┐      ┌────────┐       │
+│  │ Card 1 │      │    Card 2       │      │ Card 3 │       │
+│  │        │      │    (ACTIF)      │      │        │       │
+│  │ Partiel│      │                 │      │ Partiel│       │
+│  │ 30%    │      │   "Quote..."    │      │ 30%    │       │
+│  │ opacité│      │                 │      │ opacité│       │
+│  │        │      │   ─ Nom Client  │      │        │       │
+│  │        │      │                 │      │        │       │
+│  │        │      │   5 étoiles     │      │        │       │
+│  └────────┘      └─────────────────┘      └────────┘       │
+│    (peek)           (full opacity)           (peek)         │
 │                                                              │
-│       [< Précédent]    [Suivant >]                          │
+│       [< Précédent]    Dots    [Suivant >]                  │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 
@@ -704,8 +704,11 @@ Les wireframes suivants décrivent la structure et l'organisation des écrans pr
 - Zoom/Pan activés
 
 **Témoignages :**
-- Carousel avec navigation fléchée
-- Swipe horizontal sur mobile
+- Carousel avec effet "peek" (cards précédent/suivant partiellement visibles)
+- Card active : 100% opacité, centrée, full width
+- Cards adjacentes : 30% opacité, 30-40% visibles sur les côtés
+- Navigation : Flèches + dots indicateurs + swipe (mobile/desktop)
+- Transition smooth 300ms entre slides
 - 5 étoiles visuelles (icônes Star remplies)
 - Citation en italique
 
