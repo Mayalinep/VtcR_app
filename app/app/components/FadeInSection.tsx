@@ -42,7 +42,7 @@ export default function FadeInSection({ children, delay = 0, className = '' }: F
   
   const isInView = useInView(ref, { 
     once: false, // Se rejoue à chaque scroll !
-    amount: 0.3
+    amount: 0.25 // 25% de l'élément doit être visible pour déclencher
   });
   
   // Ne s'anime QUE si on a scrollé OU si c'est vraiment visible

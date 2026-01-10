@@ -4,6 +4,7 @@ import FadeInSection from './components/FadeInSection';
 import PriceEstimator from './components/PriceEstimator';
 import ScrollIndicator from './components/ScrollIndicator';
 import PulseCTA from './components/PulseCTA';
+import Testimonials from './components/Testimonials';
 
 export default function Home() {
   return (
@@ -90,6 +91,116 @@ export default function Home() {
             
             <div className="max-w-2xl mx-auto">
               <PriceEstimator />
+            </div>
+          </div>
+        </section>
+      </FadeInSection>
+
+      {/* Pourquoi nous choisir Section */}
+      <FadeInSection delay={0}>
+        <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+              {/* Colonne gauche - Texte */}
+              <div>
+                <div 
+                  className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-6"
+                  style={{ 
+                    backgroundColor: 'var(--gold-light)',
+                    color: 'var(--forest-green)'
+                  }}
+                >
+                  Votre partenaire de confiance
+                </div>
+                
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6" style={{ fontFamily: 'var(--font-playfair)' }}>
+                  Pourquoi choisir
+                  <br />
+                  <span style={{ color: 'var(--forest-green)' }}>VTC Rachel</span> ?
+                </h2>
+                
+                <p className="text-gray-600 text-base sm:text-lg mb-8 leading-relaxed">
+                  Un service VTC premium qui place votre confort et votre sérénité au cœur de chaque trajet.
+                </p>
+
+                <div className="space-y-5">
+                  {[
+                    {
+                      title: 'Chauffeur certifié et expérimenté',
+                      description: '5 ans d\'expérience, formation continue, connaissance parfaite de l\'Île-de-France'
+                    },
+                    {
+                      title: 'Service personnalisé',
+                      description: 'Accueil sur-mesure, préférences mémorisées, attention aux détails'
+                    },
+                    {
+                      title: 'Spécialiste des aéroports',
+                      description: 'Suivi des vols en temps réel, aide aux bagages, connaissance des terminaux'
+                    },
+                    {
+                      title: 'Ponctualité garantie',
+                      description: 'Engagement de respect des horaires, itinéraires optimisés, marge de sécurité'
+                    }
+                  ].map((item, i) => (
+                    <div key={i} className="flex gap-4">
+                      <div className="flex-shrink-0 mt-1">
+                        <svg 
+                          className="w-6 h-6" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          viewBox="0 0 24 24"
+                          style={{ color: 'var(--forest-green)' }}
+                        >
+                          <path 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            strokeWidth={2.5} 
+                            d="M5 13l4 4L19 7" 
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-1">{item.title}</h3>
+                        <p className="text-sm text-gray-600 leading-relaxed">{item.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Colonne droite - Visuel */}
+              <div className="relative">
+                <div 
+                  className="aspect-square rounded-2xl flex items-center justify-center"
+                  style={{ backgroundColor: 'var(--gold-light)' }}
+                >
+                  <svg 
+                    className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    style={{ color: 'var(--forest-green)', opacity: 0.3 }}
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={0.5}
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    />
+                  </svg>
+                </div>
+                
+                {/* Badge flottant */}
+                <div 
+                  className="absolute -bottom-6 -right-6 px-6 py-4 rounded-xl shadow-xl"
+                  style={{ backgroundColor: 'var(--forest-green)' }}
+                >
+                  <div className="text-white text-center">
+                    <div className="text-3xl font-bold" style={{ fontFamily: 'var(--font-playfair)' }}>5+</div>
+                    <div className="text-xs font-medium">Ans d'expérience</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -192,6 +303,31 @@ export default function Home() {
               </FadeInSection>
             ))}
           </div>
+
+          {/* Témoignages */}
+          <FadeInSection delay={0}>
+            <section className="mt-20 sm:mt-28 lg:mt-36">
+              <div className="text-center mb-12 sm:mb-16 px-4">
+                <div 
+                  className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-6"
+                  style={{ 
+                    backgroundColor: 'var(--gold-light)',
+                    color: 'var(--forest-green)'
+                  }}
+                >
+                  Ils nous font confiance
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
+                  Ce que disent nos clients
+                </h2>
+                <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+                  Plus de 500 clients satisfaits en Île-de-France
+                </p>
+              </div>
+              
+              <Testimonials />
+            </section>
+          </FadeInSection>
 
           {/* Zones desservies */}
           <FadeInSection className="mt-16 sm:mt-24 lg:mt-32 p-6 sm:p-8 lg:p-12 rounded-2xl" style={{ backgroundColor: 'var(--gold-light)' }}>
