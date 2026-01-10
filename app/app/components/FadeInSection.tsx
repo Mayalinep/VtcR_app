@@ -26,7 +26,7 @@ export default function FadeInSection({ children, delay = 0, className = '' }: F
   }, []);
   
   const isInView = useInView(ref, { 
-    once: true, 
+    once: false, // Se rejoue à chaque scroll !
     amount: 0.3
   });
   
@@ -41,7 +41,7 @@ export default function FadeInSection({ children, delay = 0, className = '' }: F
       transition={{ 
         duration: 1.2,
         delay,
-        opacity: { duration: 1.4, ease: [0.16, 1, 0.3, 1] }, // Opacité encore plus lente
+        opacity: { duration: 1.4, ease: [0.16, 1, 0.3, 1] },
         y: { duration: 1.2, ease: [0.16, 1, 0.3, 1] }
       }}
       className={className}
