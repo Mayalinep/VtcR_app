@@ -1,7 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { ReactNode, useRef, useEffect, useState } from 'react';
 
 interface FadeInSectionProps {
   children: ReactNode;
@@ -9,16 +9,39 @@ interface FadeInSectionProps {
   className?: string;
 }
 
+// Animation au scroll (pour les sections après le Hero)
 export default function FadeInSection({ children, delay = 0, className = '' }: FadeInSectionProps) {
+  const ref = useRef(null);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setHasScrolled(true);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  
+  const isInView = useInView(ref, { 
+    once: true, 
+    amount: 0.3
+  });
+  
+  // Ne s'anime QUE si on a scrollé OU si c'est vraiment visible
+  const shouldAnimate = hasScrolled && isInView;
+  
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={shouldAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
       transition={{ 
         duration: 0.6, 
         delay,
-        ease: [0.22, 1, 0.36, 1] // Courbe d'accélération premium (ease-out custom)
+        ease: [0.22, 1, 0.36, 1]
       }}
       className={className}
     >
