@@ -1,4 +1,5 @@
 import Navigation from './components/Navigation';
+import Footer from './components/Footer';
 import FadeIn from './components/FadeIn';
 import FadeInSection from './components/FadeInSection';
 import PriceEstimator from './components/PriceEstimator';
@@ -386,53 +387,7 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-gray-100 py-8 sm:py-12 px-4 sm:px-6 mt-12 sm:mt-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
-            <div className="col-span-2 md:col-span-1">
-              <div className="text-xl sm:text-2xl font-semibold mb-3" style={{ color: 'var(--forest-green)', fontFamily: 'var(--font-playfair)' }}>
-                VTC Rachel
-              </div>
-              <p className="text-sm text-gray-600">
-                Service VTC premium en Île-de-France
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base">Navigation</h4>
-              <ul className="space-y-1 sm:space-y-2 text-sm text-gray-600">
-                <li><a href="/" className="hover:text-gray-900 inline-block py-0.5">Accueil</a></li>
-                <li><a href="/a-propos" className="hover:text-gray-900 inline-block py-0.5">À propos</a></li>
-                <li><a href="/tarifs" className="hover:text-gray-900 inline-block py-0.5">Tarifs</a></li>
-                <li><a href="/faq" className="hover:text-gray-900 inline-block py-0.5">FAQ</a></li>
-                <li><a href="/contact" className="hover:text-gray-900 inline-block py-0.5">Contact</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base">Légal</h4>
-              <ul className="space-y-1 sm:space-y-2 text-sm text-gray-600">
-                <li><a href="#" className="hover:text-gray-900 inline-block py-0.5">CGV</a></li>
-                <li><a href="#" className="hover:text-gray-900 inline-block py-0.5">Mentions légales</a></li>
-                <li><a href="#" className="hover:text-gray-900 inline-block py-0.5">Confidentialité</a></li>
-              </ul>
-            </div>
-            
-            <div className="col-span-2 md:col-span-1">
-              <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base">Contact</h4>
-              <ul className="space-y-1 sm:space-y-2 text-sm text-gray-600">
-                <li className="py-0.5">contact@vtc-rachel.fr</li>
-                <li className="py-0.5">+33 6 XX XX XX XX</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="border-t border-gray-100 pt-4 sm:pt-6 text-center text-xs sm:text-sm text-gray-500">
-            © 2026 VTC Rachel. Tous droits réservés.
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
