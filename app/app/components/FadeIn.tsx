@@ -9,7 +9,21 @@ interface FadeInProps {
   className?: string;
 }
 
-// Animation immédiate au chargement (pour Hero)
+/**
+ * FadeIn - Animation de fade-in immédiate au chargement de la page
+ * 
+ * Utilisé pour les éléments du Hero qui doivent s'animer dès l'arrivée sur la page.
+ * L'animation démarre automatiquement avec un délai optionnel.
+ * 
+ * @param {ReactNode} children - Contenu à animer
+ * @param {number} delay - Délai avant le démarrage de l'animation (en secondes)
+ * @param {string} className - Classes CSS additionnelles
+ * 
+ * @example
+ * <FadeIn delay={0.4}>
+ *   <h1>Titre du Hero</h1>
+ * </FadeIn>
+ */
 export default function FadeIn({ children, delay = 0, className = '' }: FadeInProps) {
   return (
     <motion.div

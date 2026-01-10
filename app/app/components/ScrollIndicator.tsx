@@ -2,6 +2,15 @@
 
 import { motion } from 'framer-motion';
 
+/**
+ * ScrollIndicator - Flèche animée pour inciter au scroll
+ * 
+ * Affiche une flèche avec animation "bounce" en bas du Hero fullscreen.
+ * Cliquable pour scroller automatiquement vers la section suivante.
+ * 
+ * @example
+ * <ScrollIndicator />
+ */
 export default function ScrollIndicator() {
   const handleClick = () => {
     window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });

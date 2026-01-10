@@ -3,6 +3,23 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion';
 
+/**
+ * PriceEstimator - Estimateur de prix de course VTC
+ * 
+ * Composant interactif permettant d'estimer le prix d'une course.
+ * Fonctionnalités :
+ * - 2 inputs (départ/arrivée) avec validation
+ * - Loader pendant le calcul (0.5s)
+ * - Animation du prix (compteur de 0 à prix final)
+ * - Focus states élégants
+ * - Bouton CTA pour réserver
+ * 
+ * Note : Utilise actuellement un calcul fictif (45-85€).
+ * À remplacer par Google Distance Matrix API en production.
+ * 
+ * @example
+ * <PriceEstimator />
+ */
 export default function PriceEstimator() {
   const [departure, setDeparture] = useState('');
   const [arrival, setArrival] = useState('');

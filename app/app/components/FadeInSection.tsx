@@ -9,7 +9,22 @@ interface FadeInSectionProps {
   className?: string;
 }
 
-// Animation au scroll (pour les sections après le Hero)
+/**
+ * FadeInSection - Animation de fade-in déclenchée par le scroll
+ * 
+ * Utilisé pour les sections après le Hero. L'animation se déclenche uniquement
+ * lorsque l'utilisateur a scrollé et que l'élément entre dans le viewport.
+ * L'animation peut se répéter à chaque scroll (once: false).
+ * 
+ * @param {ReactNode} children - Contenu à animer
+ * @param {number} delay - Délai avant le démarrage de l'animation (en secondes)
+ * @param {string} className - Classes CSS additionnelles
+ * 
+ * @example
+ * <FadeInSection delay={0.2}>
+ *   <section>Contenu de la section</section>
+ * </FadeInSection>
+ */
 export default function FadeInSection({ children, delay = 0, className = '' }: FadeInSectionProps) {
   const ref = useRef(null);
   const [hasScrolled, setHasScrolled] = useState(false);

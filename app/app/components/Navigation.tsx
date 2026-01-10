@@ -3,6 +3,16 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+/**
+ * Navigation - Barre de navigation responsive avec menu hamburger
+ * 
+ * Navigation fixe en haut de page avec :
+ * - Desktop : Logo + liens + bouton CTA
+ * - Mobile : Logo + hamburger menu (slide-down animé)
+ * 
+ * @example
+ * <Navigation />
+ */
 export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
 
