@@ -1,19 +1,44 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion';
 
 export default function PriceEstimator() {
   const [departure, setDeparture] = useState('');
   const [arrival, setArrival] = useState('');
   const [estimatedPrice, setEstimatedPrice] = useState<number | null>(null);
+  const [isCalculating, setIsCalculating] = useState(false);
+  
+  // Animation du compteur de prix
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => Math.round(latest));
+  const [displayPrice, setDisplayPrice] = useState(0);
+
+  useEffect(() => {
+    const unsubscribe = rounded.on('change', (latest) => {
+      setDisplayPrice(latest);
+    });
+    return () => unsubscribe();
+  }, [rounded]);
 
   // Calcul fictif du prix (sera remplacé par Google Distance Matrix API plus tard)
   const calculatePrice = () => {
     if (departure && arrival) {
-      // Prix de base entre 45€ et 85€ pour le MVP
-      const basePrice = Math.floor(Math.random() * 40) + 45;
-      setEstimatedPrice(basePrice);
+      setIsCalculating(true);
+      
+      // Simule un délai de calcul
+      setTimeout(() => {
+        // Prix de base entre 45€ et 85€ pour le MVP
+        const basePrice = Math.floor(Math.random() * 40) + 45;
+        setEstimatedPrice(basePrice);
+        setIsCalculating(false);
+        
+        // Anime le compteur de 0 à basePrice
+        animate(count, basePrice, {
+          duration: 1,
+          ease: "easeOut"
+        });
+      }, 500);
     }
   };
 
@@ -65,7 +90,7 @@ export default function PriceEstimator() {
                 }}
                 onBlur={calculatePrice}
                 placeholder="Ex: Paris 8e arrondissement"
-                className="w-full pl-10 lg:pl-10 pr-3 py-2.5 lg:py-2.5 text-sm rounded-lg border border-gray-200 focus:border-forest-green focus:ring-2 focus:ring-forest-green/20 transition-all outline-none"
+                className="w-full pl-10 lg:pl-10 pr-3 py-2.5 lg:py-2.5 text-sm rounded-lg border border-gray-200 focus:border-forest-green focus:ring-2 focus:ring-forest-green/20 focus:shadow-md transition-all duration-300 outline-none hover:border-gray-300"
               />
             </div>
           </div>
@@ -92,15 +117,37 @@ export default function PriceEstimator() {
                 }}
                 onBlur={calculatePrice}
                 placeholder="Ex: Aéroport CDG Terminal 2"
-                className="w-full pl-10 lg:pl-10 pr-3 py-2.5 lg:py-2.5 text-sm rounded-lg border border-gray-200 focus:border-forest-green focus:ring-2 focus:ring-forest-green/20 transition-all outline-none"
+                className="w-full pl-10 lg:pl-10 pr-3 py-2.5 lg:py-2.5 text-sm rounded-lg border border-gray-200 focus:border-forest-green focus:ring-2 focus:ring-forest-green/20 focus:shadow-md transition-all duration-300 outline-none hover:border-gray-300"
               />
             </div>
           </div>
         </div>
 
+        {/* Calcul en cours */}
+        <AnimatePresence>
+          {isCalculating && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden mb-3 lg:mb-3"
+            >
+              <div className="flex items-center justify-center gap-2 py-2">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  className="w-4 h-4 border-2 border-forest-green border-t-transparent rounded-full"
+                />
+                <span className="text-sm text-gray-600">Calcul en cours...</span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Prix estimé */}
         <AnimatePresence>
-          {estimatedPrice && (
+          {estimatedPrice && !isCalculating && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
@@ -117,7 +164,7 @@ export default function PriceEstimator() {
                     Prix estimé
                   </span>
                   <span className="text-xl lg:text-2xl font-bold" style={{ color: 'var(--forest-green)', fontFamily: 'var(--font-playfair)' }}>
-                    {estimatedPrice}€
+                    {displayPrice}€
                   </span>
                 </div>
                 <p className="text-xs text-gray-600 mt-1.5">
@@ -130,7 +177,7 @@ export default function PriceEstimator() {
 
         {/* CTA */}
         <button
-          className="w-full py-3 lg:py-3 rounded-lg font-semibold text-sm lg:text-base text-white transition-all hover:scale-105 active:scale-95 shadow-md"
+          className="w-full py-3 lg:py-3 rounded-lg font-semibold text-sm lg:text-base text-white transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95 shadow-md"
           style={{ backgroundColor: 'var(--forest-green)' }}
         >
           Réserver cette course

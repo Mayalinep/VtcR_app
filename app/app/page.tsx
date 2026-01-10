@@ -2,6 +2,8 @@ import Navigation from './components/Navigation';
 import FadeIn from './components/FadeIn';
 import FadeInSection from './components/FadeInSection';
 import PriceEstimator from './components/PriceEstimator';
+import ScrollIndicator from './components/ScrollIndicator';
+import PulseCTA from './components/PulseCTA';
 
 export default function Home() {
   return (
@@ -48,12 +50,12 @@ export default function Home() {
 
             <FadeIn delay={1.3}>
               <div className="flex flex-col sm:flex-row gap-4 justify-center px-4 max-w-md sm:max-w-none mx-auto">
-                <button 
-                  className="w-full sm:w-auto px-10 py-4 rounded-lg font-semibold text-white text-base transition-all hover:scale-105 shadow-lg active:scale-95"
+                <PulseCTA
+                  className="w-full sm:w-auto px-10 py-4 rounded-lg font-semibold text-white text-base"
                   style={{ backgroundColor: 'var(--forest-green)' }}
                 >
                   Réserver maintenant
-                </button>
+                </PulseCTA>
                 <button 
                   className="w-full sm:w-auto px-10 py-3.5 rounded-lg font-medium transition-all hover:scale-105 border-2 active:scale-95"
                   style={{ 
@@ -67,6 +69,9 @@ export default function Home() {
               </div>
             </FadeIn>
           </div>
+
+          {/* Flèche de scroll animée */}
+          <ScrollIndicator />
         </div>
       </main>
 
