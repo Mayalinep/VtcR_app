@@ -1,4 +1,5 @@
 import Navigation from './components/Navigation';
+import FadeInSection from './components/FadeInSection';
 
 export default function Home() {
   return (
@@ -10,50 +11,58 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           {/* Hero centré */}
           <div className="max-w-4xl mx-auto text-center">
-            <div 
-              className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-10"
-              style={{ 
-                backgroundColor: 'var(--gold-light)',
-                color: 'var(--forest-green)'
-              }}
-            >
-              Service Premium Île-de-France
-            </div>
-            
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6 tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
-              Votre chauffeur
-              <br />
-              <span style={{ color: 'var(--forest-green)' }}>de confiance</span>
-            </h1>
-            
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto px-4">
-              Réservez votre course VTC en quelques clics. Service professionnel, 
-              confort premium, tarifs transparents.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center px-4 max-w-md sm:max-w-none mx-auto">
-              <button 
-                className="w-full sm:w-auto px-10 py-4 rounded-lg font-semibold text-white text-base transition-all hover:scale-105 shadow-lg active:scale-95"
-                style={{ backgroundColor: 'var(--forest-green)' }}
-              >
-                Réserver maintenant
-              </button>
-              <button 
-                className="w-full sm:w-auto px-10 py-3.5 rounded-lg font-medium transition-all hover:scale-105 border-2 active:scale-95"
+            <FadeInSection delay={0.1}>
+              <div 
+                className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-10"
                 style={{ 
-                  borderColor: 'var(--forest-green)',
-                  color: 'var(--forest-green)',
-                  backgroundColor: 'transparent'
+                  backgroundColor: 'var(--gold-light)',
+                  color: 'var(--forest-green)'
                 }}
               >
-                En savoir plus
-              </button>
-            </div>
+                Service Premium Île-de-France
+              </div>
+            </FadeInSection>
+            
+            <FadeInSection delay={0.2}>
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6 tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
+                Votre chauffeur
+                <br />
+                <span style={{ color: 'var(--forest-green)' }}>de confiance</span>
+              </h1>
+            </FadeInSection>
+            
+            <FadeInSection delay={0.3}>
+              <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto px-4">
+                Réservez votre course VTC en quelques clics. Service professionnel, 
+                confort premium, tarifs transparents.
+              </p>
+            </FadeInSection>
+
+            <FadeInSection delay={0.4}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center px-4 max-w-md sm:max-w-none mx-auto">
+                <button 
+                  className="w-full sm:w-auto px-10 py-4 rounded-lg font-semibold text-white text-base transition-all hover:scale-105 shadow-lg active:scale-95"
+                  style={{ backgroundColor: 'var(--forest-green)' }}
+                >
+                  Réserver maintenant
+                </button>
+                <button 
+                  className="w-full sm:w-auto px-10 py-3.5 rounded-lg font-medium transition-all hover:scale-105 border-2 active:scale-95"
+                  style={{ 
+                    borderColor: 'var(--forest-green)',
+                    color: 'var(--forest-green)',
+                    backgroundColor: 'transparent'
+                  }}
+                >
+                  En savoir plus
+                </button>
+              </div>
+            </FadeInSection>
           </div>
 
           {/* Comment ça marche */}
           <div className="mt-20 sm:mt-28 lg:mt-36">
-            <div className="text-center mb-12 sm:mb-16 px-4">
+            <FadeInSection className="text-center mb-12 sm:mb-16 px-4">
               <div 
                 className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-6"
                 style={{ 
@@ -69,7 +78,7 @@ export default function Home() {
               <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
                 Réservez votre course en 3 étapes simples
               </p>
-            </div>
+            </FadeInSection>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               {[
@@ -89,22 +98,23 @@ export default function Home() {
                   description: 'Validation en un clic, paiement sécurisé. Recevez votre confirmation par email.'
                 }
               ].map((step, i) => (
-                <div 
-                  key={i}
-                  className="relative p-6 sm:p-8 rounded-xl bg-white border border-gray-100"
-                >
+                <FadeInSection key={i} delay={i * 0.1}>
                   <div 
-                    className="text-5xl sm:text-6xl font-bold mb-4 opacity-10"
-                    style={{ 
-                      fontFamily: 'var(--font-playfair)',
-                      color: 'var(--forest-green)'
-                    }}
+                    className="relative p-6 sm:p-8 rounded-xl bg-white border border-gray-100 hover:shadow-md transition-shadow duration-300"
                   >
-                    {step.step}
+                    <div 
+                      className="text-5xl sm:text-6xl font-bold mb-4 opacity-10"
+                      style={{ 
+                        fontFamily: 'var(--font-playfair)',
+                        color: 'var(--forest-green)'
+                      }}
+                    >
+                      {step.step}
+                    </div>
+                    <h3 className="text-lg sm:text-xl font-semibold mb-3">{step.title}</h3>
+                    <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{step.description}</p>
                   </div>
-                  <h3 className="text-lg sm:text-xl font-semibold mb-3">{step.title}</h3>
-                  <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{step.description}</p>
-                </div>
+                </FadeInSection>
               ))}
             </div>
           </div>
@@ -125,27 +135,28 @@ export default function Home() {
                 description: 'Prix fixe, aucune surprise, paiement sécurisé'
               }
             ].map((feature, i) => (
-              <div 
-                key={i}
-                className="p-6 sm:p-8 rounded-xl border border-gray-100 hover:border-gray-200 transition-all"
-              >
+              <FadeInSection key={i} delay={i * 0.1}>
                 <div 
-                  className="w-12 h-12 rounded-lg mb-4 flex items-center justify-center"
-                  style={{ backgroundColor: 'var(--gold-light)' }}
+                  className="p-6 sm:p-8 rounded-xl border border-gray-100 hover:border-gray-200 hover:shadow-md transition-all duration-300"
                 >
                   <div 
-                    className="w-6 h-6 rounded-full"
-                    style={{ backgroundColor: 'var(--gold)' }}
-                  />
+                    className="w-12 h-12 rounded-lg mb-4 flex items-center justify-center"
+                    style={{ backgroundColor: 'var(--gold-light)' }}
+                  >
+                    <div 
+                      className="w-6 h-6 rounded-full"
+                      style={{ backgroundColor: 'var(--gold)' }}
+                    />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2">{feature.title}</h3>
+                  <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{feature.description}</p>
                 </div>
-                <h3 className="text-lg sm:text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{feature.description}</p>
-              </div>
+              </FadeInSection>
             ))}
           </div>
 
           {/* Zones desservies */}
-          <div className="mt-16 sm:mt-24 lg:mt-32 p-6 sm:p-8 lg:p-12 rounded-2xl" style={{ backgroundColor: 'var(--gold-light)' }}>
+          <FadeInSection className="mt-16 sm:mt-24 lg:mt-32 p-6 sm:p-8 lg:p-12 rounded-2xl" style={{ backgroundColor: 'var(--gold-light)' }}>
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
                 Zones desservies
@@ -176,10 +187,10 @@ export default function Home() {
                 Et bien d&apos;autres destinations en Île-de-France
               </p>
             </div>
-          </div>
+          </FadeInSection>
 
           {/* CTA Final */}
-          <div className="mt-20 sm:mt-28 lg:mt-36 text-center p-8 sm:p-12 lg:p-16 rounded-2xl" style={{ backgroundColor: 'var(--forest-green)' }}>
+          <FadeInSection className="mt-20 sm:mt-28 lg:mt-36 text-center p-8 sm:p-12 lg:p-16 rounded-2xl" style={{ backgroundColor: 'var(--forest-green)' }}>
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
               Prêt à réserver votre course ?
             </h2>
@@ -197,7 +208,7 @@ export default function Home() {
                 Réserver maintenant
               </button>
             </div>
-          </div>
+          </FadeInSection>
         </div>
       </main>
 

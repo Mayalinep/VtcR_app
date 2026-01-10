@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -44,23 +45,50 @@ export default function Navigation() {
       </div>
 
       {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 shadow-lg">
-          <div className="px-4 py-6 space-y-2">
-            <a href="#" className="block text-gray-700 hover:text-gray-900 py-3 px-4 rounded-lg hover:bg-gray-50 transition-colors">Tarifs</a>
-            <a href="#" className="block text-gray-700 hover:text-gray-900 py-3 px-4 rounded-lg hover:bg-gray-50 transition-colors">À propos</a>
-            <a href="#" className="block text-gray-700 hover:text-gray-900 py-3 px-4 rounded-lg hover:bg-gray-50 transition-colors">Contact</a>
-            <div className="pt-4">
-              <button 
-                className="w-full px-6 py-3.5 rounded-lg font-semibold text-white transition-all hover:scale-105 active:scale-95 shadow-md"
-                style={{ backgroundColor: 'var(--forest-green)' }}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="md:hidden bg-white border-t border-gray-100 shadow-lg overflow-hidden"
+          >
+            <motion.div 
+              initial={{ y: -20 }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+              className="px-4 py-6 space-y-2"
+            >
+              {['Tarifs', 'À propos', 'Contact'].map((item, i) => (
+                <motion.a
+                  key={item}
+                  href="#"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.1 + i * 0.05 }}
+                  className="block text-gray-700 hover:text-gray-900 py-3 px-4 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  {item}
+                </motion.a>
+              ))}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+                className="pt-4"
               >
-                Réserver
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+                <button 
+                  className="w-full px-6 py-3.5 rounded-lg font-semibold text-white transition-all hover:scale-105 active:scale-95 shadow-md"
+                  style={{ backgroundColor: 'var(--forest-green)' }}
+                >
+                  Réserver
+                </button>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
