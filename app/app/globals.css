@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+:root {
+  /* VTC Rachel Brand Colors */
+  --forest-green: #0F4C3A;
+  --forest-green-light: #16A34A;
+  --forest-green-dark: #0A3428;
+  
+  --gold-champagne: #D4AF37;
+  --gold-light: #F5E6D3;
+  --gold-dark: #B8941F;
+  
+  --background: #ffffff;
+  --foreground: #0F172A;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
+  
+  /* VTC Rachel Colors */
+  --color-forest-green: var(--forest-green);
+  --color-forest-green-light: var(--forest-green-light);
+  --color-forest-green-dark: var(--forest-green-dark);
+  --color-gold: var(--gold-champagne);
+  --color-gold-light: var(--gold-light);
+  --color-gold-dark: var(--gold-dark);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-feature-settings: "kern" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
