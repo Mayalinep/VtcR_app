@@ -31,26 +31,26 @@ export default function Home() {
               Service Premium Île-de-France
             </div>
             
-            <h1 className="text-7xl font-bold leading-tight mb-6 tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6 tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
               Votre chauffeur
               <br />
               <span style={{ color: 'var(--forest-green)' }}>de confiance</span>
             </h1>
             
-            <p className="text-xl text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto px-4">
               Réservez votre course VTC en quelques clics. Service professionnel, 
               confort premium, tarifs transparents.
             </p>
 
-            <div className="flex gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
               <button 
-                className="px-8 py-4 rounded-lg font-semibold text-white transition-all hover:scale-105 shadow-lg"
+                className="w-full sm:w-auto px-8 py-4 rounded-lg font-semibold text-white transition-all hover:scale-105 shadow-lg"
                 style={{ backgroundColor: 'var(--forest-green)' }}
               >
                 Réserver maintenant
               </button>
               <button 
-                className="px-8 py-4 rounded-lg font-semibold transition-all hover:scale-105 border-2"
+                className="w-full sm:w-auto px-8 py-4 rounded-lg font-semibold transition-all hover:scale-105 border-2"
                 style={{ 
                   borderColor: 'var(--forest-green)',
                   color: 'var(--forest-green)'
