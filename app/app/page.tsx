@@ -12,7 +12,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           {/* Hero centré */}
           <div className="max-w-4xl mx-auto text-center">
-            <FadeIn delay={0.3}>
+            <FadeIn delay={0.4}>
               <div 
                 className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-10"
                 style={{ 
@@ -24,7 +24,7 @@ export default function Home() {
               </div>
             </FadeIn>
             
-            <FadeIn delay={0.5}>
+            <FadeIn delay={0.7}>
               <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6 tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
                 Votre chauffeur
                 <br />
@@ -32,14 +32,14 @@ export default function Home() {
               </h1>
             </FadeIn>
             
-            <FadeIn delay={0.7}>
+            <FadeIn delay={1}>
               <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto px-4">
                 Réservez votre course VTC en quelques clics. Service professionnel, 
                 confort premium, tarifs transparents.
               </p>
             </FadeIn>
 
-            <FadeIn delay={0.9}>
+            <FadeIn delay={1.3}>
               <div className="flex flex-col sm:flex-row gap-4 justify-center px-4 max-w-md sm:max-w-none mx-auto">
                 <button 
                   className="w-full sm:w-auto px-10 py-4 rounded-lg font-semibold text-white text-base transition-all hover:scale-105 shadow-lg active:scale-95"
@@ -99,7 +99,7 @@ export default function Home() {
                   description: 'Validation en un clic, paiement sécurisé. Recevez votre confirmation par email.'
                 }
               ].map((step, i) => (
-                <FadeInSection key={i} delay={i * 0.15}>
+                <FadeInSection key={i} delay={i * 0.2}>
                   <div 
                     className="relative p-6 sm:p-8 rounded-xl bg-white border border-gray-100 hover:shadow-md transition-shadow duration-300"
                   >
@@ -136,7 +136,7 @@ export default function Home() {
                 description: 'Prix fixe, aucune surprise, paiement sécurisé'
               }
             ].map((feature, i) => (
-              <FadeInSection key={i} delay={i * 0.15}>
+              <FadeInSection key={i} delay={i * 0.2}>
                 <div 
                   className="p-6 sm:p-8 rounded-xl border border-gray-100 hover:border-gray-200 hover:shadow-md transition-all duration-300"
                 >

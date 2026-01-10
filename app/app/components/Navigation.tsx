@@ -51,22 +51,31 @@ export default function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ 
+              duration: 0.5,
+              opacity: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+              height: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
+            }}
             className="md:hidden bg-white border-t border-gray-100 shadow-lg overflow-hidden"
           >
             <motion.div 
-              initial={{ y: -20 }}
+              initial={{ y: -15 }}
               animate={{ y: 0 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
               className="px-4 py-6 space-y-2"
             >
               {['Tarifs', 'À propos', 'Contact'].map((item, i) => (
                 <motion.a
                   key={item}
                   href="#"
-                  initial={{ opacity: 0, x: -10 }}
+                  initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.1 + i * 0.05 }}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: 0.15 + i * 0.08,
+                    opacity: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+                    x: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
+                  }}
                   className="block text-gray-700 hover:text-gray-900 py-3 px-4 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   {item}
@@ -75,7 +84,11 @@ export default function Navigation() {
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: 0.3 }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: 0.4,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
                 className="pt-4"
               >
                 <button 

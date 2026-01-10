@@ -13,12 +13,13 @@ interface FadeInProps {
 export default function FadeIn({ children, delay = 0, className = '' }: FadeInProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 15 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ 
-        duration: 0.7, 
+        duration: 1.4,
         delay,
-        ease: [0.22, 1, 0.36, 1]
+        opacity: { duration: 1.6, ease: [0.16, 1, 0.3, 1] }, // Opacité encore plus lente
+        y: { duration: 1.4, ease: [0.16, 1, 0.3, 1] }
       }}
       className={className}
     >
