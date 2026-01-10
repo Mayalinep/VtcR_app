@@ -77,9 +77,9 @@ export default function Home() {
       </main>
 
       {/* Section Estimateur de prix */}
-      <FadeInSection delay={0}>
-        <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6" style={{ backgroundColor: '#FAFAF9' }}>
-          <div className="max-w-4xl mx-auto">
+      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6" style={{ backgroundColor: '#FAFAF9' }}>
+        <div className="max-w-4xl mx-auto">
+          <FadeInSection delay={0}>
             <div className="text-center mb-8">
               <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
                 Estimez votre course
@@ -88,13 +88,13 @@ export default function Home() {
                 Obtenez un tarif instantané et transparent pour votre trajet
               </p>
             </div>
-            
-            <div className="max-w-2xl mx-auto">
-              <PriceEstimator />
-            </div>
+          </FadeInSection>
+          
+          <div className="max-w-2xl mx-auto">
+            <PriceEstimator />
           </div>
-        </section>
-      </FadeInSection>
+        </div>
+      </section>
 
       {/* Pourquoi nous choisir Section */}
       <FadeInSection delay={0}>
@@ -402,10 +402,11 @@ export default function Home() {
             <div>
               <h4 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base">Navigation</h4>
               <ul className="space-y-1 sm:space-y-2 text-sm text-gray-600">
-                <li><a href="#" className="hover:text-gray-900 inline-block py-0.5">Accueil</a></li>
-                <li><a href="#" className="hover:text-gray-900 inline-block py-0.5">À propos</a></li>
-                <li><a href="#" className="hover:text-gray-900 inline-block py-0.5">Tarifs</a></li>
-                <li><a href="#" className="hover:text-gray-900 inline-block py-0.5">Contact</a></li>
+                <li><a href="/" className="hover:text-gray-900 inline-block py-0.5">Accueil</a></li>
+                <li><a href="/a-propos" className="hover:text-gray-900 inline-block py-0.5">À propos</a></li>
+                <li><a href="/tarifs" className="hover:text-gray-900 inline-block py-0.5">Tarifs</a></li>
+                <li><a href="/faq" className="hover:text-gray-900 inline-block py-0.5">FAQ</a></li>
+                <li><a href="/contact" className="hover:text-gray-900 inline-block py-0.5">Contact</a></li>
               </ul>
             </div>
             
