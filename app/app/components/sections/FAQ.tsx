@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FAQ_DATA, type FAQItem } from '../lib/data/faq';
+import { FAQ_DATA, type FAQItem } from '../../lib/data/faq';
 
 /**
  * FAQ - Composant Questions Fréquentes

@@ -1,6 +1,6 @@
 import Navigation from '../components/layout/Navigation';
 import Footer from '../components/layout/Footer';
-import FAQ from '../components/FAQ';
+import FAQ from '../components/sections/FAQ';
 import Hero from '../components/sections/Hero';
 import CTASection from '../components/sections/CTASection';
 import FadeInSection from '../components/animations/FadeInSection';

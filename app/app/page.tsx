@@ -5,7 +5,7 @@ import FadeInSection from './components/animations/FadeInSection';
 import PriceEstimator from './components/forms/PriceEstimator';
 import ScrollIndicator from './components/ui/ScrollIndicator';
 import PulseCTA from './components/ui/PulseCTA';
-import Testimonials from './components/Testimonials';
+import Testimonials from './components/sections/Testimonials';
 
 export default function Home() {
   return (
@@ -172,11 +172,9 @@ export default function Home() {
               ].map((item, i) => (
                 <FadeInSection key={i} delay={i * 0.15}>
                   <div className="text-left group">
-                    {/* Icône plus petite */}
+                    {/* Icône */}
                     <div className="mb-3">
-                      <div className="w-12 h-12">
-                        {item.icon}
-                      </div>
+                      {item.icon}
                     </div>
 
                     {/* Titre */}

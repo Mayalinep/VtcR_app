@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { TESTIMONIALS_DATA } from '../lib/data/testimonials';
+import { TESTIMONIALS_DATA } from '../../lib/data/testimonials';
 
 /**
  * Testimonials - Carrousel de témoignages clients
