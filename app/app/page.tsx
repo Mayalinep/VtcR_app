@@ -376,7 +376,7 @@ export default function Home() {
               <button 
                 className="w-full sm:w-auto max-w-md sm:max-w-none px-10 py-4 rounded-lg font-semibold transition-all hover:scale-105 shadow-xl active:scale-95"
                 style={{ 
-                  backgroundColor: 'var(--gold)',
+                  backgroundColor: 'var(--gold-champagne)',
                   color: 'var(--forest-green)'
                 }}
               >

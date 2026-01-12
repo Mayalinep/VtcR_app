@@ -1,58 +1,118 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /**
- * Navigation - Barre de navigation responsive avec menu hamburger
+ * Navigation - Barre de navigation moderne style Uber
  * 
- * Navigation fixe en haut de page avec :
- * - Desktop : Logo + liens + bouton CTA
- * - Mobile : Logo + hamburger menu (slide-down animé)
+ * Navigation premium avec fond vert semi-transparent (glassmorphism)
+ * Inspirée d'Uber mais adaptée à VTC Rachel
+ * 
+ * Features:
+ * - Fond vert foncé avec blur au scroll
+ * - Actions : Aide, Connexion, Inscription
+ * - Responsive avec menu hamburger élégant
+ * - Micro-animations au hover
  * 
  * @example
  * <Navigation />
  */
 export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Détection du scroll pour ajuster l'opacité
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-        <a href="/" className="text-xl sm:text-2xl font-semibold tracking-tight" style={{ color: 'var(--forest-green)', fontFamily: 'var(--font-playfair)' }}>
-          VTC Rachel
-        </a>
-        
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          <a href="/tarifs" className="text-gray-700 hover:text-gray-900 transition-colors">Tarifs</a>
-          <a href="/a-propos" className="text-gray-700 hover:text-gray-900 transition-colors">À propos</a>
-          <a href="/contact" className="text-gray-700 hover:text-gray-900 transition-colors">Contact</a>
+    <nav 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'bg-[#0F4C3A]/95 backdrop-blur-lg shadow-lg' 
+          : 'bg-[#0F4C3A]/90 backdrop-blur-md'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-14 lg:h-16">
+          
+          {/* Logo */}
           <a 
-            href="/"
-            className="px-6 py-2.5 rounded-lg font-medium text-white transition-all hover:scale-105 inline-block"
-            style={{ backgroundColor: 'var(--forest-green)' }}
+            href="/" 
+            className="text-lg lg:text-xl font-bold tracking-tight text-white hover:text-white/80 transition-colors duration-200"
+            style={{ fontFamily: 'var(--font-playfair)' }}
           >
-            Réserver
+            VTC Rachel
           </a>
-        </div>
+          
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-0.5">
+            {[
+              { label: 'Tarifs', href: '/tarifs' },
+              { label: 'À propos', href: '/a-propos' },
+              { label: 'Contact', href: '/contact' },
+              { label: 'FAQ', href: '/faq' }
+            ].map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="px-3 py-1.5 text-sm text-white/90 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors active:scale-95"
-          aria-label="Menu"
-        >
-          {menuOpen ? (
-            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          ) : (
-            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          )}
-        </button>
+          {/* Desktop Actions */}
+          <div className="hidden lg:flex items-center gap-2">
+            {/* Aide */}
+            <a
+              href="/faq"
+              className="px-3 py-1.5 text-sm text-white/90 hover:text-white transition-colors duration-200"
+            >
+              Aide
+            </a>
+
+            {/* Connexion */}
+            <a
+              href="#"
+              className="px-4 py-1.5 text-sm text-white border border-white/30 hover:border-white/60 rounded-md transition-all duration-200 hover:bg-white/5"
+            >
+              Connexion
+            </a>
+
+            {/* Inscription */}
+            <a
+              href="#"
+              className="px-4 py-1.5 text-sm bg-white text-[#0F4C3A] rounded-md font-medium transition-all duration-200 hover:bg-gray-100"
+            >
+              Inscription
+            </a>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="lg:hidden p-1.5 text-white hover:bg-white/10 rounded-md transition-colors active:scale-95"
+            aria-label="Menu"
+          >
+            {menuOpen ? (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -63,58 +123,74 @@ export default function Navigation() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ 
-              duration: 0.5,
-              opacity: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
-              height: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
+              duration: 0.4,
+              opacity: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+              height: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
             }}
-            className="md:hidden bg-white border-t border-gray-100 shadow-lg overflow-hidden"
+            className="lg:hidden bg-[#0F4C3A]/98 backdrop-blur-lg border-t border-white/10 overflow-hidden"
           >
-            <motion.div 
-              initial={{ y: -15 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
-              className="px-4 py-6 space-y-2"
-            >
+            <div className="px-4 py-6 space-y-1">
+              {/* Navigation Links */}
               {[
                 { label: 'Tarifs', href: '/tarifs' },
                 { label: 'À propos', href: '/a-propos' },
-                { label: 'Contact', href: '/contact' }
+                { label: 'Contact', href: '/contact' },
+                { label: 'FAQ', href: '/faq' }
               ].map((item, i) => (
                 <motion.a
                   key={item.label}
                   href={item.href}
-                  initial={{ opacity: 0, x: -8 }}
+                  initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ 
-                    duration: 0.5, 
-                    delay: 0.15 + i * 0.08,
-                    opacity: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
-                    x: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
+                    duration: 0.4, 
+                    delay: 0.1 + i * 0.05,
+                    ease: [0.16, 1, 0.3, 1]
                   }}
-                  className="block text-gray-700 hover:text-gray-900 py-3 px-4 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="block text-white py-3 px-4 rounded-lg hover:bg-white/10 transition-colors font-medium"
                 >
                   {item.label}
                 </motion.a>
               ))}
+
+              {/* Divider */}
+              <div className="h-px bg-white/10 my-4" />
+
+              {/* Aide */}
+              <motion.a
+                href="/faq"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+                className="block text-white/90 py-3 px-4 rounded-lg hover:bg-white/10 transition-colors"
+              >
+                Aide
+              </motion.a>
+
+              {/* Actions */}
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ 
-                  duration: 0.6, 
-                  delay: 0.4,
-                  ease: [0.16, 1, 0.3, 1]
-                }}
-                className="pt-4"
+                transition={{ duration: 0.5, delay: 0.35 }}
+                className="pt-4 space-y-3"
               >
+                {/* Connexion */}
                 <a 
-                  href="/"
-                  className="block w-full px-6 py-3.5 rounded-lg font-semibold text-white transition-all hover:scale-105 active:scale-95 shadow-md text-center"
-                  style={{ backgroundColor: 'var(--forest-green)' }}
+                  href="#"
+                  className="block w-full py-3 px-4 text-center text-white border-2 border-white/30 rounded-lg font-semibold hover:bg-white/5 transition-all"
                 >
-                  Réserver
+                  Connexion
+                </a>
+
+                {/* Inscription */}
+                <a 
+                  href="#"
+                  className="block w-full py-3.5 px-4 text-center bg-white text-[#0F4C3A] rounded-lg font-semibold transition-all hover:bg-gray-100 active:scale-95"
+                >
+                  Inscription
                 </a>
               </motion.div>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
