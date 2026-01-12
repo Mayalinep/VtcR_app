@@ -4,8 +4,7 @@ import Footer from './components/layout/Footer';
 import FadeIn from './components/animations/FadeIn';
 import FadeInSection from './components/animations/FadeInSection';
 import PriceEstimator from './components/forms/PriceEstimator';
-import ScrollIndicator from './components/ui/ScrollIndicator';
-import PulseCTA from './components/ui/PulseCTA';
+import HeroScrollIndicator from './components/ui/HeroScrollIndicator';
 import Badge from './components/ui/Badge';
 import Testimonials from './components/sections/Testimonials';
 import { FEATURES_DATA } from './lib/data/features';
@@ -26,6 +25,7 @@ export default function Home() {
             fill
             priority
             quality={90}
+            unoptimized
             className="object-cover object-center"
             sizes="100vw"
           />
@@ -88,24 +88,10 @@ export default function Home() {
               </div>
             </FadeIn>
           </div>
-
-          {/* Flèche de scroll animée - Version blanche pour contraste */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-            <div className="animate-bounce">
-              <svg 
-                className="w-6 h-6 text-white/70"
-                fill="none" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth="2" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
-              >
-                <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-              </svg>
-            </div>
-          </div>
         </div>
+
+        {/* Flèche de scroll animée avec texte - Version blanche pour contraste */}
+        <HeroScrollIndicator />
       </main>
 
       {/* Section Estimateur de prix - Split avec Map */}
