@@ -1,5 +1,6 @@
 import React from 'react';
 import FadeIn from '../animations/FadeIn';
+import Badge from '../ui/Badge';
 
 /**
  * Hero - Section héro réutilisable
@@ -64,15 +65,9 @@ export default function Hero({
       <div className="max-w-4xl mx-auto text-center">
         {/* Badge */}
         <FadeIn delay={0.4}>
-          <div 
-            className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-6"
-            style={{ 
-              backgroundColor: 'var(--gold-light)',
-              color: 'var(--forest-green)'
-            }}
-          >
+          <Badge className="mb-6">
             {badge}
-          </div>
+          </Badge>
         </FadeIn>
         
         {/* Titre */}

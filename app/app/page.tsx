@@ -5,7 +5,10 @@ import FadeInSection from './components/animations/FadeInSection';
 import PriceEstimator from './components/forms/PriceEstimator';
 import ScrollIndicator from './components/ui/ScrollIndicator';
 import PulseCTA from './components/ui/PulseCTA';
+import Badge from './components/ui/Badge';
 import Testimonials from './components/sections/Testimonials';
+import { FEATURES_DATA } from './lib/data/features';
+import { ZONES_DATA, ZONES_DESCRIPTION, ZONES_ADDITIONAL_TEXT } from './lib/data/zones';
 
 export default function Home() {
   return (
@@ -24,15 +27,9 @@ export default function Home() {
           {/* Hero centré */}
           <div className="max-w-4xl mx-auto text-center">
             <FadeIn delay={0.4}>
-              <div 
-                className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-10"
-                style={{ 
-                  backgroundColor: 'var(--gold-light)',
-                  color: 'var(--forest-green)'
-                }}
-              >
+              <Badge className="mb-10">
                 Service Premium Île-de-France
-              </div>
+              </Badge>
             </FadeIn>
             
             <FadeIn delay={0.7}>
@@ -138,53 +135,22 @@ export default function Home() {
 
             {/* 3 cartes style Uber */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
-              {[
-                {
-                  icon: (
-                    <svg className="w-16 h-16" viewBox="0 0 64 64" fill="none">
-                      <circle cx="32" cy="32" r="28" fill="#E8F5E9" />
-                      <path d="M32 12L36 24L48 26L40 34L42 46L32 40L22 46L24 34L16 26L28 24L32 12Z" fill="var(--forest-green)" />
-                    </svg>
-                  ),
-                  title: 'Chauffeur certifié et expérimenté',
-                  description: '5 ans d\'expérience, formation continue, connaissance parfaite de l\'Île-de-France'
-                },
-                {
-                  icon: (
-                    <svg className="w-16 h-16" viewBox="0 0 64 64" fill="none">
-                      <circle cx="32" cy="32" r="28" fill="#FFF9E6" />
-                      <path d="M32 18C25.4 18 20 23.4 20 30C20 38 32 50 32 50C32 50 44 38 44 30C44 23.4 38.6 18 32 18ZM32 34C29.8 34 28 32.2 28 30C28 27.8 29.8 26 32 26C34.2 26 36 27.8 36 30C36 32.2 34.2 34 32 34Z" fill="var(--gold-champagne)" />
-                    </svg>
-                  ),
-                  title: 'Service personnalisé',
-                  description: 'Accueil sur-mesure, préférences mémorisées, attention aux détails'
-                },
-                {
-                  icon: (
-                    <svg className="w-16 h-16" viewBox="0 0 64 64" fill="none">
-                      <circle cx="32" cy="32" r="28" fill="#E8F5E9" />
-                      <path d="M32 16L26 22V28L20 32L26 36V42L32 48L38 42V36L44 32L38 28V22L32 16ZM32 26L36 30H38V34L32 38L26 34V30H28L32 26Z" fill="var(--forest-green)" />
-                    </svg>
-                  ),
-                  title: 'Spécialiste des aéroports',
-                  description: 'Suivi des vols en temps réel, aide aux bagages, connaissance des terminaux'
-                }
-              ].map((item, i) => (
-                <FadeInSection key={i} delay={i * 0.15}>
+              {FEATURES_DATA.map((feature, i) => (
+                <FadeInSection key={feature.id} delay={i * 0.15}>
                   <div className="text-left group">
                     {/* Icône */}
                     <div className="mb-3">
-                      {item.icon}
+                      {feature.icon}
                     </div>
 
                     {/* Titre */}
                     <h3 className="text-base font-bold mb-2 text-gray-900">
-                      {item.title}
+                      {feature.title}
                     </h3>
 
                     {/* Description */}
                     <p className="text-xs text-gray-600 leading-snug mb-3">
-                      {item.description}
+                      {feature.description}
                     </p>
 
                     {/* Lien "En savoir plus" */}
@@ -206,15 +172,9 @@ export default function Home() {
           <FadeInSection delay={0}>
             <section className="mt-20 sm:mt-28 lg:mt-36">
               <div className="text-center mb-12 sm:mb-16 px-4">
-                <div 
-                  className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-6"
-                  style={{ 
-                    backgroundColor: 'var(--gold-light)',
-                    color: 'var(--forest-green)'
-                  }}
-                >
+                <Badge className="mb-6">
                   Ils nous font confiance
-                </div>
+                </Badge>
                 <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
                   Ce que disent nos clients
                 </h2>
@@ -234,20 +194,11 @@ export default function Home() {
                 Zones desservies
               </h2>
               <p className="text-base sm:text-lg text-gray-700 mb-8">
-                Nous couvrons l&apos;ensemble de l&apos;Île-de-France
+                {ZONES_DESCRIPTION}
               </p>
               
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 text-left">
-                {[
-                  'Paris intra-muros',
-                  'Aéroport CDG',
-                  'Aéroport Orly',
-                  'La Défense',
-                  'Versailles',
-                  'Saint-Denis',
-                  'Neuilly',
-                  'Boulogne'
-                ].map((zone, i) => (
+                {ZONES_DATA.map((zone, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: 'var(--forest-green)' }} />
                     <span className="text-sm sm:text-base text-gray-700">{zone}</span>
@@ -256,7 +207,7 @@ export default function Home() {
               </div>
               
               <p className="text-xs sm:text-sm text-gray-600 mt-6 sm:mt-8">
-                Et bien d&apos;autres destinations en Île-de-France
+                {ZONES_ADDITIONAL_TEXT}
               </p>
             </div>
           </FadeInSection>
