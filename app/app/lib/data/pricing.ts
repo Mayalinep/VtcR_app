@@ -1,71 +1,56 @@
 /**
- * Pricing Data - Tarifs VTC
+ * Données de tarification VTC Rachel
  * 
- * Source unique de vérité pour tous les tarifs affichés.
- * Utilisé par la page tarifs/page.tsx
+ * Structure centralisée de tous les tarifs :
+ * - Forfaits aéroports
+ * - Forfaits gares
+ * - Mise à disposition
+ * - Options supplémentaires
  */
 
-export interface AirportPrice {
+// Types
+export interface PriceCard {
   id: string;
   name: string;
-  shortName: string;
-  description: string;
-  dayPrice: number;
-  nightPrice: number;
+  subtitle: string;
+  dayPrice: string;
+  nightPrice: string;
   dayHours: string;
   nightHours: string;
-  waitTime: number; // minutes
   features: string[];
-  popular?: boolean;
+  isPopular?: boolean;
+  icon: 'airport' | 'clock' | 'sun' | 'star';
 }
 
-export interface TrainStation {
-  id: string;
+export interface StationPrice {
   name: string;
-  price: number;
-  zone: string;
+  price: string;
 }
 
-export interface DisposalOption {
+export interface Option {
   id: string;
   name: string;
+  price: string;
   description: string;
-  price: number;
-  unit: string;
-  hours?: number;
-  minHours?: number;
-  pricePerHour?: number;
-  savings?: number;
-  features: string[];
-  recommended?: boolean;
-}
-
-export interface Surcharge {
-  id: string;
-  name: string;
-  price: number | string;
-  unit: string;
-  description: string;
+  icon: 'child' | 'clock' | 'luggage' | 'passenger';
 }
 
 export interface IncludedFeature {
-  id: string;
   title: string;
   description: string;
 }
 
 // Forfaits Aéroports
-export const AIRPORT_PRICES: readonly AirportPrice[] = [
+export const AIRPORT_PACKAGES: PriceCard[] = [
   {
     id: 'cdg',
     name: 'Paris ↔ CDG',
-    shortName: 'CDG',
-    description: 'Aéroport Charles de Gaulle',
-    dayPrice: 60,
-    nightPrice: 70,
-    dayHours: '6h-22h',
-    nightHours: '22h-6h',
-    waitTime: 45,
+    subtitle: 'Aéroport Charles de Gaulle',
+    dayPrice: '60€',
+    nightPrice: '70€',
+    dayHours: 'Jour (6h-22h)',
+    nightHours: 'Nuit (22h-6h)',
+    icon: 'airport',
     features: [
       '1 à 4 passagers',
       '3 bagages cabine + 3 valises',
@@ -77,14 +62,13 @@ export const AIRPORT_PRICES: readonly AirportPrice[] = [
   {
     id: 'orly',
     name: 'Paris ↔ Orly',
-    shortName: 'Orly',
-    description: "Aéroport d'Orly",
-    dayPrice: 55,
-    nightPrice: 65,
-    dayHours: '6h-22h',
-    nightHours: '22h-6h',
-    waitTime: 45,
-    popular: true,
+    subtitle: "Aéroport d'Orly",
+    dayPrice: '55€',
+    nightPrice: '65€',
+    dayHours: 'Jour (6h-22h)',
+    nightHours: 'Nuit (22h-6h)',
+    icon: 'airport',
+    isPopular: true,
     features: [
       '1 à 4 passagers',
       '3 bagages cabine + 3 valises',
@@ -96,13 +80,12 @@ export const AIRPORT_PRICES: readonly AirportPrice[] = [
   {
     id: 'beauvais',
     name: 'Paris ↔ Beauvais',
-    shortName: 'Beauvais',
-    description: 'Aéroport de Beauvais',
-    dayPrice: 130,
-    nightPrice: 150,
-    dayHours: '6h-22h',
-    nightHours: '22h-6h',
-    waitTime: 45,
+    subtitle: 'Aéroport de Beauvais',
+    dayPrice: '130€',
+    nightPrice: '150€',
+    dayHours: 'Jour (6h-22h)',
+    nightHours: 'Nuit (22h-6h)',
+    icon: 'airport',
     features: [
       '1 à 4 passagers',
       '3 bagages cabine + 3 valises',
@@ -111,27 +94,31 @@ export const AIRPORT_PRICES: readonly AirportPrice[] = [
       'Attente gratuite : 45 min'
     ]
   }
-] as const;
+];
 
-// Forfaits Gares Parisiennes
-export const TRAIN_STATIONS: readonly TrainStation[] = [
-  { id: 'nord', name: 'Gare du Nord', price: 45, zone: 'Paris intra-muros' },
-  { id: 'lyon', name: 'Gare de Lyon', price: 45, zone: 'Paris intra-muros' },
-  { id: 'montparnasse', name: 'Gare Montparnasse', price: 45, zone: 'Paris intra-muros' },
-  { id: 'est', name: "Gare de l'Est", price: 45, zone: 'Paris intra-muros' },
-  { id: 'lazare', name: 'Gare Saint-Lazare', price: 45, zone: 'Paris intra-muros' },
-  { id: 'austerlitz', name: "Gare d'Austerlitz", price: 45, zone: 'Paris intra-muros' }
-] as const;
+// Forfaits Gares
+export const STATION_PACKAGES: StationPrice[] = [
+  { name: 'Gare du Nord', price: '45€' },
+  { name: 'Gare de Lyon', price: '45€' },
+  { name: 'Gare Montparnasse', price: '45€' },
+  { name: "Gare de l'Est", price: '45€' },
+  { name: 'Gare Saint-Lazare', price: '45€' },
+  { name: "Gare d'Austerlitz", price: '45€' }
+];
+
+export const STATION_NOTE = "Ces tarifs s'appliquent pour des trajets depuis/vers Paris intra-muros. Pour les destinations en banlieue, contactez-nous pour un devis personnalisé.";
 
 // Mise à Disposition
-export const DISPOSAL_OPTIONS: readonly DisposalOption[] = [
+export const AVAILABILITY_PACKAGES: PriceCard[] = [
   {
     id: 'hourly',
     name: "À l'heure",
-    description: 'Flexibilité maximale',
-    price: 75,
-    unit: 'par heure',
-    minHours: 3,
+    subtitle: 'Flexibilité maximale',
+    dayPrice: '75€',
+    nightPrice: '',
+    dayHours: 'par heure',
+    nightHours: '',
+    icon: 'clock',
     features: [
       'Minimum 3 heures',
       'Chauffeur à disposition',
@@ -141,13 +128,13 @@ export const DISPOSAL_OPTIONS: readonly DisposalOption[] = [
   {
     id: 'half-day',
     name: 'Demi-Journée',
-    description: '4 heures',
-    price: 240,
-    unit: '4 heures',
-    hours: 4,
-    pricePerHour: 60,
-    savings: 60,
-    recommended: true,
+    subtitle: '4 heures',
+    dayPrice: '240€',
+    nightPrice: '',
+    dayHours: '60€/heure',
+    nightHours: 'Économie de 60€',
+    icon: 'sun',
+    isPopular: true,
     features: [
       '4 heures continues',
       'Chauffeur à disposition',
@@ -157,92 +144,92 @@ export const DISPOSAL_OPTIONS: readonly DisposalOption[] = [
   {
     id: 'full-day',
     name: 'Journée',
-    description: '8 heures',
-    price: 480,
-    unit: '8 heures',
-    hours: 8,
-    pricePerHour: 60,
-    savings: 120,
+    subtitle: '8 heures',
+    dayPrice: '480€',
+    nightPrice: '',
+    dayHours: '60€/heure',
+    nightHours: 'Économie de 120€',
+    icon: 'star',
     features: [
       '8 heures continues',
       'Chauffeur à disposition',
-      'Idéal pour événements'
+      'Parfait pour événements'
     ]
   }
-] as const;
+];
 
-// Options & Suppléments
-export const SURCHARGES: readonly Surcharge[] = [
+// Options Supplémentaires
+export const ADDITIONAL_OPTIONS: Option[] = [
   {
     id: 'child-seat',
     name: 'Siège enfant',
-    price: 10,
-    unit: 'Par siège',
-    description: 'Par siège'
+    price: '10€',
+    description: 'Par siège',
+    icon: 'child'
   },
   {
-    id: 'extra-wait',
+    id: 'extra-waiting',
     name: 'Attente supplémentaire',
-    price: 15,
-    unit: 'Par tranche de 15 min',
-    description: 'Par tranche de 15 min'
+    price: '15€',
+    description: 'Par tranche de 15 min',
+    icon: 'clock'
   },
   {
-    id: 'extra-baggage',
+    id: 'extra-luggage',
     name: 'Bagage supplémentaire',
-    price: 5,
-    unit: 'Au-delà de 3 valises',
-    description: 'Au-delà de 3 valises'
+    price: '5€',
+    description: 'Au-delà de 3 valises',
+    icon: 'luggage'
   },
   {
     id: 'extra-passenger',
     name: 'Passager supplémentaire',
     price: 'Gratuit',
-    unit: "Jusqu'à 4 personnes",
-    description: "Jusqu'à 4 personnes"
+    description: "Jusqu'à 4 personnes",
+    icon: 'passenger'
   }
-] as const;
+];
 
 // Inclus dans tous nos tarifs
-export const INCLUDED_FEATURES: readonly IncludedFeature[] = [
+export const INCLUDED_FEATURES: IncludedFeature[] = [
   {
-    id: 'vehicle',
     title: 'Véhicule Premium',
     description: 'Berline récente, climatisée et entretenue'
   },
   {
-    id: 'driver',
     title: 'Chauffeur Professionnel',
     description: 'Expérimenté, courtois et discret'
   },
   {
-    id: 'amenities',
     title: 'Eau & Chargeurs',
     description: "Bouteilles d'eau et chargeurs USB/Lightning"
   },
   {
-    id: 'wifi',
     title: 'Wi-Fi à bord',
     description: 'Connexion internet haut débit'
   },
   {
-    id: 'fees',
     title: 'Tous frais inclus',
     description: 'Autoroute, stationnement, carburant'
   },
   {
-    id: 'cancellation',
     title: 'Annulation flexible',
     description: "Gratuite jusqu'à 12h avant"
   }
-] as const;
+];
 
-// Helper functions pour formatage
-export function formatPrice(price: number | string): string {
-  if (typeof price === 'string') return price;
-  return `${price}€`;
-}
-
-export function getPriceByTime(airport: AirportPrice, isNight: boolean): number {
-  return isNight ? airport.nightPrice : airport.dayPrice;
-}
+// Metadata
+export const PRICING_METADATA = {
+  title: 'Nos Tarifs | VTC Rachel',
+  description: 'Découvrez nos tarifs transparents pour vos courses VTC en Île-de-France : forfaits aéroports, mise à disposition, trajets longue distance.',
+  sectionTitles: {
+    airports: 'Forfaits Aéroports',
+    airportsSubtitle: 'Tarifs fixes depuis ou vers les aéroports parisiens, valables pour 1 à 4 passagers',
+    stations: 'Forfaits Gares Parisiennes',
+    stationsSubtitle: 'Transferts depuis ou vers les principales gares de Paris',
+    availability: 'Mise à Disposition',
+    availabilitySubtitle: "Pour vos événements, réunions d'affaires ou journées shopping",
+    options: 'Options & Suppléments',
+    included: 'Inclus dans Tous nos Tarifs'
+  }
+};
