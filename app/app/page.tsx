@@ -84,14 +84,14 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
             {/* GAUCHE : Titre + Formulaire - 40% desktop, 100% mobile */}
             <div className="w-full lg:w-2/5">
-              {/* Titre - Centré sur mobile, aligné gauche sur desktop */}
+              {/* Titre minimaliste - Style Uber (aligné à gauche sur tous écrans) */}
               <FadeInSection delay={0}>
-                <div className="text-center lg:text-left mb-8">
-                  <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
-                    Estimez votre course
+                <div className="text-left mb-6">
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>
+                    Réservez votre course
                   </h2>
-                  <p className="text-gray-600 text-base sm:text-lg">
-                    Obtenez un tarif instantané et transparent pour votre trajet
+                  <p className="text-gray-500 text-sm sm:text-base">
+                    Tarif instantané • Réservation en 2 clics
                   </p>
                 </div>
               </FadeInSection>
@@ -122,214 +122,88 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Pourquoi nous choisir Section */}
+      {/* Pourquoi nous choisir Section - Style Uber */}
       <FadeInSection delay={0}>
         <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              {/* Colonne gauche - Texte */}
-              <div>
-                <div 
-                  className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-6"
-                  style={{ 
-                    backgroundColor: 'var(--gold-light)',
-                    color: 'var(--forest-green)'
-                  }}
-                >
-                  Votre partenaire de confiance
-                </div>
-                
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6" style={{ fontFamily: 'var(--font-playfair)' }}>
-                  Pourquoi choisir
-                  <br />
-                  <span style={{ color: 'var(--forest-green)' }}>VTC Rachel</span> ?
-                </h2>
-                
-                <p className="text-gray-600 text-base sm:text-lg mb-8 leading-relaxed">
-                  Un service VTC premium qui place votre confort et votre sérénité au cœur de chaque trajet.
-                </p>
-
-                <div className="space-y-5">
-                  {[
-                    {
-                      title: 'Chauffeur certifié et expérimenté',
-                      description: '5 ans d\'expérience, formation continue, connaissance parfaite de l\'Île-de-France'
-                    },
-                    {
-                      title: 'Service personnalisé',
-                      description: 'Accueil sur-mesure, préférences mémorisées, attention aux détails'
-                    },
-                    {
-                      title: 'Spécialiste des aéroports',
-                      description: 'Suivi des vols en temps réel, aide aux bagages, connaissance des terminaux'
-                    },
-                    {
-                      title: 'Ponctualité garantie',
-                      description: 'Engagement de respect des horaires, itinéraires optimisés, marge de sécurité'
-                    }
-                  ].map((item, i) => (
-                    <div key={i} className="flex gap-4">
-                      <div className="flex-shrink-0 mt-1">
-                        <svg 
-                          className="w-6 h-6" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          viewBox="0 0 24 24"
-                          style={{ color: 'var(--forest-green)' }}
-                        >
-                          <path 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round" 
-                            strokeWidth={2.5} 
-                            d="M5 13l4 4L19 7" 
-                          />
-                        </svg>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 mb-1">{item.title}</h3>
-                        <p className="text-sm text-gray-600 leading-relaxed">{item.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Colonne droite - Visuel */}
-              <div className="relative">
-                <div 
-                  className="aspect-square rounded-2xl flex items-center justify-center"
-                  style={{ backgroundColor: 'var(--gold-light)' }}
-                >
-                  <svg 
-                    className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    style={{ color: 'var(--forest-green)', opacity: 0.3 }}
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={0.5}
-                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                    />
-                  </svg>
-                </div>
-                
-                {/* Badge flottant */}
-                <div 
-                  className="absolute -bottom-6 -right-6 px-6 py-4 rounded-xl shadow-xl"
-                  style={{ backgroundColor: 'var(--forest-green)' }}
-                >
-                  <div className="text-white text-center">
-                    <div className="text-3xl font-bold" style={{ fontFamily: 'var(--font-playfair)' }}>5+</div>
-                    <div className="text-xs font-medium">Ans d'expérience</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </FadeInSection>
-
-      {/* Comment ça marche Section */}
-      <main className="px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
-          {/* Comment ça marche */}
-          <div className="mt-20 sm:mt-28 lg:mt-36">
-            <FadeInSection delay={0} className="text-center mb-12 sm:mb-16 px-4">
-              <div 
-                className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-6"
-                style={{ 
-                  backgroundColor: 'var(--gold-light)',
-                  color: 'var(--forest-green)'
-                }}
-              >
-                Simple et Rapide
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
-                Comment ça marche ?
+            {/* Titre - Aligné à gauche sur tous écrans */}
+            <div className="text-left mb-10 sm:mb-12">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>
+                Pourquoi choisir <span style={{ color: 'var(--forest-green)' }}>VTC Rachel</span> ?
               </h2>
-              <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
-                Réservez votre course en 3 étapes simples
+              <p className="text-gray-600 text-sm sm:text-base max-w-3xl">
+                Votre confort et votre sérénité au cœur de chaque trajet
               </p>
-            </FadeInSection>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {/* 3 cartes style Uber */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
               {[
                 {
-                  step: '01',
-                  title: 'Choisissez votre trajet',
-                  description: 'Indiquez votre point de départ et votre destination. Nous calculons instantanément le prix.'
+                  icon: (
+                    <svg className="w-16 h-16" viewBox="0 0 64 64" fill="none">
+                      <circle cx="32" cy="32" r="28" fill="#E8F5E9" />
+                      <path d="M32 12L36 24L48 26L40 34L42 46L32 40L22 46L24 34L16 26L28 24L32 12Z" fill="var(--forest-green)" />
+                    </svg>
+                  ),
+                  title: 'Chauffeur certifié et expérimenté',
+                  description: '5 ans d\'expérience, formation continue, connaissance parfaite de l\'Île-de-France'
                 },
                 {
-                  step: '02',
-                  title: 'Sélectionnez la date',
-                  description: 'Choisissez quand vous souhaitez partir. Réservation immédiate ou planifiée à l\'avance.'
+                  icon: (
+                    <svg className="w-16 h-16" viewBox="0 0 64 64" fill="none">
+                      <circle cx="32" cy="32" r="28" fill="#FFF9E6" />
+                      <path d="M32 18C25.4 18 20 23.4 20 30C20 38 32 50 32 50C32 50 44 38 44 30C44 23.4 38.6 18 32 18ZM32 34C29.8 34 28 32.2 28 30C28 27.8 29.8 26 32 26C34.2 26 36 27.8 36 30C36 32.2 34.2 34 32 34Z" fill="var(--gold-champagne)" />
+                    </svg>
+                  ),
+                  title: 'Service personnalisé',
+                  description: 'Accueil sur-mesure, préférences mémorisées, attention aux détails'
                 },
                 {
-                  step: '03',
-                  title: 'Confirmez et payez',
-                  description: 'Validation en un clic, paiement sécurisé. Recevez votre confirmation par email.'
+                  icon: (
+                    <svg className="w-16 h-16" viewBox="0 0 64 64" fill="none">
+                      <circle cx="32" cy="32" r="28" fill="#E8F5E9" />
+                      <path d="M32 16L26 22V28L20 32L26 36V42L32 48L38 42V36L44 32L38 28V22L32 16ZM32 26L36 30H38V34L32 38L26 34V30H28L32 26Z" fill="var(--forest-green)" />
+                    </svg>
+                  ),
+                  title: 'Spécialiste des aéroports',
+                  description: 'Suivi des vols en temps réel, aide aux bagages, connaissance des terminaux'
                 }
-              ].map((step, i) => (
-                <FadeInSection key={i} delay={i * 0.2}>
-                  <div 
-                    className="relative p-6 sm:p-8 rounded-xl bg-white border border-gray-100 hover:shadow-md transition-shadow duration-300"
-                  >
-                    <div 
-                      className="text-5xl sm:text-6xl font-bold mb-4 opacity-10"
-                      style={{ 
-                        fontFamily: 'var(--font-playfair)',
-                        color: 'var(--forest-green)'
-                      }}
-                    >
-                      {step.step}
+              ].map((item, i) => (
+                <FadeInSection key={i} delay={i * 0.15}>
+                  <div className="text-left group">
+                    {/* Icône plus petite */}
+                    <div className="mb-3">
+                      <div className="w-12 h-12">
+                        {item.icon}
+                      </div>
                     </div>
-                    <h3 className="text-lg sm:text-xl font-semibold mb-3">{step.title}</h3>
-                    <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{step.description}</p>
+
+                    {/* Titre */}
+                    <h3 className="text-base font-bold mb-2 text-gray-900">
+                      {item.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-xs text-gray-600 leading-snug mb-3">
+                      {item.description}
+                    </p>
+
+                    {/* Lien "En savoir plus" */}
+                    <button className="text-xs font-medium text-gray-700 hover:text-gray-900 underline decoration-1 underline-offset-2 transition-colors">
+                      En savoir plus
+                    </button>
                   </div>
                 </FadeInSection>
               ))}
             </div>
           </div>
+        </section>
+      </FadeInSection>
 
-          {/* Features */}
-          <div className="mt-16 sm:mt-24 lg:mt-32 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {[
-              {
-                title: 'Service Premium',
-                description: 'Véhicule haut de gamme, chauffeur professionnel'
-              },
-              {
-                title: 'Disponible 24/7',
-                description: 'Réservation en ligne à toute heure, même le weekend'
-              },
-              {
-                title: 'Tarifs Transparents',
-                description: 'Prix fixe, aucune surprise, paiement sécurisé'
-              }
-            ].map((feature, i) => (
-              <FadeInSection key={i} delay={i * 0.2}>
-                <div 
-                  className="p-6 sm:p-8 rounded-xl border border-gray-100 hover:border-gray-200 hover:shadow-md transition-all duration-300"
-                >
-                  <div 
-                    className="w-12 h-12 rounded-lg mb-4 flex items-center justify-center"
-                    style={{ backgroundColor: 'var(--gold-light)' }}
-                  >
-                    <div 
-                      className="w-6 h-6 rounded-full"
-                      style={{ backgroundColor: 'var(--gold)' }}
-                    />
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-semibold mb-2">{feature.title}</h3>
-                  <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{feature.description}</p>
-                </div>
-              </FadeInSection>
-            ))}
-          </div>
-
+      {/* Témoignages */}
+      <main className="px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">
           {/* Témoignages */}
           <FadeInSection delay={0}>
             <section className="mt-20 sm:mt-28 lg:mt-36">
