@@ -1,8 +1,10 @@
+import Image from 'next/image';
 import Navigation from '../components/layout/Navigation';
 import Footer from '../components/layout/Footer';
 import Hero from '../components/sections/Hero';
 import CTASection from '../components/sections/CTASection';
 import FadeInSection from '../components/animations/FadeInSection';
+import PricingCarousel from '../components/ui/PricingCarousel';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -23,8 +25,22 @@ export default function TarifsPage() {
       />
 
       {/* Forfaits Aéroports */}
-      <section className="py-16 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
+      <section className="relative py-16 px-4 sm:px-6 overflow-hidden">
+        {/* Image Background Aéroport */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/tarif/aeroport.png"
+            alt="Aéroport - Transferts VTC"
+            fill
+            unoptimized
+            className="object-cover"
+            quality={85}
+          />
+          {/* Overlay pour lisibilité */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/75 via-white/70 to-white/80" />
+        </div>
+
+        <div className="relative z-10 max-w-6xl mx-auto">
           <FadeInSection delay={0}>
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
@@ -36,10 +52,9 @@ export default function TarifsPage() {
             </div>
           </FadeInSection>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <PricingCarousel autoplayDelay={4000}>
             {/* CDG */}
-            <FadeInSection delay={0}>
-              <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 hover:border-forest-green transition-colors h-full flex flex-col">
+            <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 hover:border-forest-green transition-colors h-full flex flex-col">
                 <div className="text-center mb-6">
                   <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: 'var(--gold-light)' }}>
                     <svg className="w-8 h-8" style={{ color: 'var(--forest-green)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,12 +115,10 @@ export default function TarifsPage() {
                 >
                   Réserver
                 </a>
-              </div>
-            </FadeInSection>
+            </div>
 
             {/* Orly */}
-            <FadeInSection delay={0.1}>
-              <div className="bg-white border-2 rounded-2xl p-8 hover:border-forest-green transition-colors h-full flex flex-col" style={{ borderColor: 'var(--forest-green)' }}>
+            <div className="bg-white border-2 rounded-2xl p-8 hover:border-forest-green transition-colors h-full flex flex-col" style={{ borderColor: 'var(--forest-green)' }}>
                 <div className="absolute -mt-12 left-1/2 transform -translate-x-1/2">
                   <div className="px-4 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: 'var(--gold-champagne)' }}>
                     POPULAIRE
@@ -172,12 +185,10 @@ export default function TarifsPage() {
                 >
                   Réserver
                 </a>
-              </div>
-            </FadeInSection>
+            </div>
 
             {/* Beauvais */}
-            <FadeInSection delay={0.2}>
-              <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 hover:border-forest-green transition-colors h-full flex flex-col">
+            <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 hover:border-forest-green transition-colors h-full flex flex-col">
                 <div className="text-center mb-6">
                   <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: 'var(--gold-light)' }}>
                     <svg className="w-8 h-8" style={{ color: 'var(--forest-green)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -238,9 +249,8 @@ export default function TarifsPage() {
                 >
                   Réserver
                 </a>
-              </div>
-            </FadeInSection>
-          </div>
+            </div>
+          </PricingCarousel>
         </div>
       </section>
 
@@ -313,9 +323,8 @@ export default function TarifsPage() {
             </div>
           </FadeInSection>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <FadeInSection delay={0}>
-              <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 hover:border-forest-green transition-colors h-full flex flex-col">
+          <PricingCarousel autoplayDelay={4000}>
+            <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 hover:border-forest-green transition-colors h-full flex flex-col">
                 <div className="text-center mb-6">
                   <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: 'var(--gold-light)' }}>
                     <svg className="w-8 h-8" style={{ color: 'var(--forest-green)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -351,11 +360,9 @@ export default function TarifsPage() {
                     <span>Trajets multiples possibles</span>
                   </li>
                 </ul>
-              </div>
-            </FadeInSection>
+            </div>
 
-            <FadeInSection delay={0.1}>
-              <div className="bg-white border-2 rounded-2xl p-8 hover:border-forest-green transition-colors h-full flex flex-col" style={{ borderColor: 'var(--forest-green)' }}>
+            <div className="bg-white border-2 rounded-2xl p-8 hover:border-forest-green transition-colors h-full flex flex-col" style={{ borderColor: 'var(--forest-green)' }}>
                 <div className="absolute -mt-12 left-1/2 transform -translate-x-1/2">
                   <div className="px-4 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: 'var(--gold-champagne)' }}>
                     MEILLEURE VALEUR
@@ -400,11 +407,9 @@ export default function TarifsPage() {
                     <span>Idéal pour réunions</span>
                   </li>
                 </ul>
-              </div>
-            </FadeInSection>
+            </div>
 
-            <FadeInSection delay={0.2}>
-              <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 hover:border-forest-green transition-colors h-full flex flex-col">
+            <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 hover:border-forest-green transition-colors h-full flex flex-col">
                 <div className="text-center mb-6">
                   <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: 'var(--gold-light)' }}>
                     <svg className="w-8 h-8" style={{ color: 'var(--forest-green)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -443,9 +448,8 @@ export default function TarifsPage() {
                     <span>Parfait pour événements</span>
                   </li>
                 </ul>
-              </div>
-            </FadeInSection>
-          </div>
+            </div>
+          </PricingCarousel>
         </div>
       </section>
 

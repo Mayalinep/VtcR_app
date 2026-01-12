@@ -35,12 +35,12 @@ export default function Navigation() {
     <nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled 
-          ? 'bg-[#0F4C3A]/95 backdrop-blur-lg shadow-lg' 
-          : 'bg-[#0F4C3A]/90 backdrop-blur-md'
+          ? 'bg-[#0F4C3A]/80 backdrop-blur-xl shadow-lg' 
+          : 'bg-[#0F4C3A]/70 backdrop-blur-lg'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14 lg:h-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 lg:h-16">
           
           {/* Logo */}
           <a 
@@ -70,7 +70,31 @@ export default function Navigation() {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-3">
+            {/* Téléphone */}
+            <a
+              href="tel:+33661590290"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-white/90 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
+            >
+              <svg 
+                className="w-4 h-4" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" 
+                />
+              </svg>
+              <span>+33 6 61 59 02 90</span>
+            </a>
+
+            {/* Divider */}
+            <div className="w-px h-5 bg-white/20" />
+
             {/* Aide */}
             <a
               href="/faq"
@@ -155,6 +179,30 @@ export default function Navigation() {
 
               {/* Divider */}
               <div className="h-px bg-white/10 my-4" />
+
+              {/* Contact Info Mobile */}
+              <motion.a
+                href="tel:+33661590290"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 0.25 }}
+                className="flex items-center gap-3 text-white/90 py-3 px-4 rounded-lg hover:bg-white/10 transition-colors"
+              >
+                <svg 
+                  className="w-5 h-5" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" 
+                  />
+                </svg>
+                <span>+33 6 61 59 02 90</span>
+              </motion.a>
 
               {/* Aide */}
               <motion.a
