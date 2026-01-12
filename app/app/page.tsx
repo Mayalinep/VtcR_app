@@ -77,22 +77,47 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Section Estimateur de prix */}
+      {/* Section Estimateur de prix - Split avec Map */}
       <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6" style={{ backgroundColor: '#FAFAF9' }}>
-        <div className="max-w-4xl mx-auto">
-          <FadeInSection delay={0}>
-            <div className="text-center mb-8">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
-                Estimez votre course
-              </h2>
-              <p className="text-gray-600 text-base sm:text-lg">
-                Obtenez un tarif instantané et transparent pour votre trajet
-              </p>
+        <div className="max-w-7xl mx-auto">
+          {/* Layout Split : Titre + Formulaire | Map */}
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+            {/* GAUCHE : Titre + Formulaire - 40% desktop, 100% mobile */}
+            <div className="w-full lg:w-2/5">
+              {/* Titre - Centré sur mobile, aligné gauche sur desktop */}
+              <FadeInSection delay={0}>
+                <div className="text-center lg:text-left mb-8">
+                  <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
+                    Estimez votre course
+                  </h2>
+                  <p className="text-gray-600 text-base sm:text-lg">
+                    Obtenez un tarif instantané et transparent pour votre trajet
+                  </p>
+                </div>
+              </FadeInSection>
+
+              {/* Formulaire */}
+              <PriceEstimator />
             </div>
-          </FadeInSection>
-          
-          <div className="max-w-2xl mx-auto">
-            <PriceEstimator />
+
+            {/* DROITE : Map Google - Desktop uniquement (hidden mobile) */}
+            <div className="hidden lg:block lg:w-3/5">
+              <FadeInSection delay={0.2}>
+                <div className="sticky top-24 h-[600px] rounded-2xl overflow-hidden shadow-lg border border-gray-200">
+                  {/* Map Google statique - Centrée sur Île-de-France */}
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d335994.89219464146!2d2.2646348!3d48.8589465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b005%3A0x40b82c3688c9460!2sParis%2C%20France!5e0!3m2!1sfr!2sfr!4v1704902400000!5m2!1sfr!2sfr"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen={false}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Zones desservies - Île-de-France"
+                  />
+                </div>
+              </FadeInSection>
+            </div>
           </div>
         </div>
       </section>
