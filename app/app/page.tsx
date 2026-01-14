@@ -24,8 +24,7 @@ export default function Home() {
             alt="Voiture VTC Rachel - Berline premium Île-de-France"
             fill
             priority
-            quality={90}
-            unoptimized
+            quality={85}
             className="object-cover object-center"
             sizes="100vw"
           />
