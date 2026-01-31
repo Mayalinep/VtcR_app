@@ -1,0 +1,216 @@
+import { NextRequest, NextResponse } from 'next/server';
+
+/**
+ * API Route : /api/send-reservation
+ *
+ * Envoie les détails d'une réservation à Rachel par :
+ * - Email (via Resend)
+ * - SMS (via Twilio)
+ *
+ * @param request - Contient toutes les informations de réservation
+ * @returns { success: true } si envoyé avec succès
+ */
+
+interface ReservationData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  date: string;
+  time: string;
+  passengers: number;
+  luggage: number;
+  comment: string;
+  departure: string;
+  arrival: string;
+  price: number;
+  distance: string;
+  duration: string;
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    // 1. Récupérer les données de la réservation
+    const data: ReservationData = await request.json();
+
+    // 2. Valider les données obligatoires
+    if (!data.firstName || !data.lastName || !data.email || !data.phone || !data.date || !data.time) {
+      return NextResponse.json(
+        { error: 'Données manquantes' },
+        { status: 400 }
+      );
+    }
+
+    // 3. Formater la date et l'heure en français
+    const formattedDate = new Date(data.date).toLocaleDateString('fr-FR', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+
+    // 4. Créer le contenu du message
+    const messageText = `
+🚖 NOUVELLE RÉSERVATION VTC
+
+👤 CLIENT
+Nom : ${data.firstName} ${data.lastName}
+Email : ${data.email}
+Téléphone : ${data.phone}
+
+📍 TRAJET
+Départ : ${data.departure}
+Arrivée : ${data.arrival}
+Distance : ${data.distance}
+Durée : ${data.duration}
+
+📅 DATE & HEURE
+${formattedDate} à ${data.time}
+
+👥 DÉTAILS
+Passagers : ${data.passengers}
+Bagages : ${data.luggage}
+${data.comment ? `Commentaire : ${data.comment}` : ''}
+
+💰 PRIX ESTIMÉ : ${data.price}€
+    `.trim();
+
+    // 5. Préparer les résultats
+    const results: { email?: any; sms?: any } = {};
+
+    // 6. Envoyer l'email via Resend (si configuré)
+    const resendApiKey = process.env.RESEND_API_KEY;
+    const rachelEmail = process.env.RACHEL_EMAIL;
+
+    if (resendApiKey && rachelEmail && resendApiKey !== 'YOUR_RESEND_API_KEY_HERE') {
+      try {
+        const emailResponse = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${resendApiKey}`,
+          },
+          body: JSON.stringify({
+            from: 'VTC Rachel <reservations@vtcrachel.fr>',
+            to: [rachelEmail],
+            reply_to: data.email,
+            subject: `🚖 Nouvelle réservation : ${data.firstName} ${data.lastName}`,
+            text: messageText,
+            html: `
+              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #0F4C3A;">🚖 Nouvelle réservation VTC</h2>
+                
+                <div style="background: #F5F5F5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                  <h3 style="margin-top: 0;">👤 Client</h3>
+                  <p><strong>Nom :</strong> ${data.firstName} ${data.lastName}</p>
+                  <p><strong>Email :</strong> <a href="mailto:${data.email}">${data.email}</a></p>
+                  <p><strong>Téléphone :</strong> <a href="tel:${data.phone}">${data.phone}</a></p>
+                </div>
+
+                <div style="background: #F5F5F5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                  <h3 style="margin-top: 0;">📍 Trajet</h3>
+                  <p><strong>Départ :</strong> ${data.departure}</p>
+                  <p><strong>Arrivée :</strong> ${data.arrival}</p>
+                  <p><strong>Distance :</strong> ${data.distance}</p>
+                  <p><strong>Durée estimée :</strong> ${data.duration}</p>
+                </div>
+
+                <div style="background: #F5F5F5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                  <h3 style="margin-top: 0;">📅 Date & Heure</h3>
+                  <p><strong>${formattedDate}</strong> à <strong>${data.time}</strong></p>
+                </div>
+
+                <div style="background: #F5F5F5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                  <h3 style="margin-top: 0;">👥 Détails</h3>
+                  <p><strong>Passagers :</strong> ${data.passengers}</p>
+                  <p><strong>Bagages :</strong> ${data.luggage}</p>
+                  ${data.comment ? `<p><strong>Commentaire :</strong> ${data.comment}</p>` : ''}
+                </div>
+
+                <div style="background: #0F4C3A; color: white; padding: 20px; border-radius: 8px; text-align: center; margin: 20px 0;">
+                  <h3 style="margin: 0;">💰 Prix estimé : ${data.price}€</h3>
+                </div>
+
+                <p style="color: #666; font-size: 12px; margin-top: 30px;">
+                  Cette réservation a été envoyée depuis le site vtcrachel.fr
+                </p>
+              </div>
+            `,
+          }),
+        });
+
+        if (!emailResponse.ok) {
+          throw new Error('Erreur lors de l\'envoi de l\'email');
+        }
+
+        results.email = await emailResponse.json();
+        console.log('✅ Email envoyé avec succès', results.email);
+      } catch (emailError) {
+        console.error('❌ Erreur email:', emailError);
+        // On continue même si l'email échoue
+      }
+    } else {
+      console.log('⚠️ Email non envoyé : Resend non configuré');
+    }
+
+    // 7. Envoyer le SMS via Twilio (si configuré)
+    const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
+    const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
+    const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
+    const rachelPhone = process.env.RACHEL_PHONE_NUMBER;
+
+    if (
+      twilioAccountSid && 
+      twilioAuthToken && 
+      twilioPhoneNumber && 
+      rachelPhone &&
+      twilioAccountSid !== 'YOUR_TWILIO_ACCOUNT_SID_HERE'
+    ) {
+      try {
+        const smsBody = `🚖 NOUVELLE RÉSERVATION\n${data.firstName} ${data.lastName}\n${formattedDate} à ${data.time}\n${data.departure} → ${data.arrival}\n${data.price}€ | Tel: ${data.phone}`;
+
+        const smsResponse = await fetch(
+          `https://api.twilio.com/2010-04-01/Accounts/${twilioAccountSid}/Messages.json`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Authorization': 'Basic ' + Buffer.from(`${twilioAccountSid}:${twilioAuthToken}`).toString('base64'),
+            },
+            body: new URLSearchParams({
+              From: twilioPhoneNumber,
+              To: rachelPhone,
+              Body: smsBody,
+            }),
+          }
+        );
+
+        if (!smsResponse.ok) {
+          throw new Error('Erreur lors de l\'envoi du SMS');
+        }
+
+        results.sms = await smsResponse.json();
+        console.log('✅ SMS envoyé avec succès', results.sms);
+      } catch (smsError) {
+        console.error('❌ Erreur SMS:', smsError);
+        // On continue même si le SMS échoue
+      }
+    } else {
+      console.log('⚠️ SMS non envoyé : Twilio non configuré');
+    }
+
+    // 8. Retourner le succès
+    return NextResponse.json({
+      success: true,
+      message: 'Réservation envoyée avec succès',
+      details: results,
+    });
+
+  } catch (error) {
+    console.error('❌ Erreur lors de l\'envoi de la réservation:', error);
+    return NextResponse.json(
+      { error: 'Erreur lors de l\'envoi de la réservation' },
+      { status: 500 }
+    );
+  }
+}

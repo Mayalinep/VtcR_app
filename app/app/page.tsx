@@ -78,6 +78,10 @@ export default function Home() {
             <FadeIn delay={0.9}>
               <div className="flex flex-col sm:flex-row gap-4 max-w-md sm:max-w-none">
                 <button 
+                  onClick={() => {
+                    const section = document.querySelector('[data-section="price-estimator"]');
+                    section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}
                   className="px-10 py-4 rounded-lg font-semibold transition-all hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl text-base"
                   style={{ 
                     backgroundColor: 'var(--gold-champagne)',
@@ -87,6 +91,10 @@ export default function Home() {
                   Réserver maintenant
                 </button>
                 <button 
+                  onClick={() => {
+                    const section = document.querySelector('[data-section="features"]');
+                    section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}
                   className="px-10 py-3.5 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 backdrop-blur-sm border-2 border-white text-white hover:bg-white/10 text-base"
                 >
                   En savoir plus
@@ -101,7 +109,7 @@ export default function Home() {
       </main>
 
       {/* Section Estimateur de prix - Split avec Map */}
-      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6" style={{ backgroundColor: '#FAFAF9' }}>
+      <section data-section="price-estimator" className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6" style={{ backgroundColor: '#FAFAF9' }}>
         <div className="max-w-7xl mx-auto">
           {/* Layout Split : Titre + Formulaire | Map */}
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
@@ -145,7 +153,7 @@ export default function Home() {
 
       {/* Pourquoi nous choisir Section - Style Uber */}
       <FadeInSection delay={0}>
-        <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6">
+        <section data-section="features" className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
             {/* Titre - Aligné à gauche sur tous écrans */}
             <div className="text-left mb-10 sm:mb-12">
@@ -246,6 +254,10 @@ export default function Home() {
             </p>
             <div className="flex justify-center px-4">
               <button 
+                onClick={() => {
+                  const section = document.querySelector('[data-section="price-estimator"]');
+                  section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
                 className="w-full sm:w-auto max-w-md sm:max-w-none px-10 py-4 rounded-lg font-semibold transition-all hover:scale-105 shadow-xl active:scale-95"
                 style={{ 
                   backgroundColor: 'var(--gold-champagne)',

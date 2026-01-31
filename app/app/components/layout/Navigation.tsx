@@ -11,7 +11,8 @@ import { motion, AnimatePresence } from 'framer-motion';
  * 
  * Features:
  * - Fond vert foncé avec blur au scroll
- * - Actions : Aide, Connexion, Inscription
+ * - Liens : Tarifs, À propos, Contact, FAQ
+ * - Bouton téléphone cliquable
  * - Responsive avec menu hamburger élégant
  * - Micro-animations au hover
  * 
@@ -92,32 +93,6 @@ export default function Navigation() {
               <span>+33 6 61 59 02 90</span>
             </a>
 
-            {/* Divider */}
-            <div className="w-px h-5 bg-white/20" />
-
-            {/* Aide */}
-            <a
-              href="/faq"
-              className="px-3 py-1.5 text-sm text-white/90 hover:text-white transition-colors duration-200"
-            >
-              Aide
-            </a>
-
-            {/* Connexion */}
-            <a
-              href="#"
-              className="px-4 py-1.5 text-sm text-white border border-white/30 hover:border-white/60 rounded-md transition-all duration-200 hover:bg-white/5"
-            >
-              Connexion
-            </a>
-
-            {/* Inscription */}
-            <a
-              href="#"
-              className="px-4 py-1.5 text-sm bg-white text-[#0F4C3A] rounded-md font-medium transition-all duration-200 hover:bg-gray-100"
-            >
-              Inscription
-            </a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -204,40 +179,6 @@ export default function Navigation() {
                 <span>+33 6 61 59 02 90</span>
               </motion.a>
 
-              {/* Aide */}
-              <motion.a
-                href="/faq"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: 0.3 }}
-                className="block text-white/90 py-3 px-4 rounded-lg hover:bg-white/10 transition-colors"
-              >
-                Aide
-              </motion.a>
-
-              {/* Actions */}
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.35 }}
-                className="pt-4 space-y-3"
-              >
-                {/* Connexion */}
-                <a 
-                  href="#"
-                  className="block w-full py-3 px-4 text-center text-white border-2 border-white/30 rounded-lg font-semibold hover:bg-white/5 transition-all"
-                >
-                  Connexion
-                </a>
-
-                {/* Inscription */}
-                <a 
-                  href="#"
-                  className="block w-full py-3.5 px-4 text-center bg-white text-[#0F4C3A] rounded-lg font-semibold transition-all hover:bg-gray-100 active:scale-95"
-                >
-                  Inscription
-                </a>
-              </motion.div>
             </div>
           </motion.div>
         )}

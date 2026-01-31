@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion';
 import AddressAutocomplete from '@/app/components/AddressAutocomplete';
 
@@ -29,6 +30,8 @@ export default function PriceEstimator({
   onDepartureChange,
   onArrivalChange,
 }: PriceEstimatorProps = {}) {
+  const router = useRouter();
+  
   // États pour les lieux sélectionnés (pas juste des strings)
   const [departurePlace, setDeparturePlace] = useState<google.maps.places.PlaceResult | null>(null);
   const [arrivalPlace, setArrivalPlace] = useState<google.maps.places.PlaceResult | null>(null);
@@ -100,6 +103,21 @@ export default function PriceEstimator({
   };
 
   const isFormValid = departurePlace !== null && arrivalPlace !== null;
+
+  // Fonction pour rediriger vers la page de réservation
+  const handleReservation = () => {
+    if (!departurePlace || !arrivalPlace || !estimatedPrice || !distance || !duration) return;
+
+    const params = new URLSearchParams({
+      departure: departurePlace.formatted_address || '',
+      arrival: arrivalPlace.formatted_address || '',
+      price: estimatedPrice.toString(),
+      distance: distance,
+      duration: duration,
+    });
+
+    router.push(`/reserver?${params.toString()}`);
+  };
 
   return (
     <div className="relative">
@@ -263,6 +281,7 @@ export default function PriceEstimator({
           // État 2 : Bouton "Réserver" + Lien modifier
           <div className="space-y-3">
             <button
+              onClick={handleReservation}
               className="w-full py-3.5 rounded-lg font-semibold text-sm text-white transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-md"
               style={{ backgroundColor: 'var(--forest-green)' }}
             >
