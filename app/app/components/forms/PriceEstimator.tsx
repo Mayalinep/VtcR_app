@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion';
+import AddressAutocomplete from '@/app/components/AddressAutocomplete';
 
 /**
  * PriceEstimator - Estimateur de prix de course VTC (Version Uber-like)
@@ -10,14 +11,21 @@ import { motion, AnimatePresence, useMotionValue, useTransform, animate } from '
  * - État 1 : Formulaire + bouton "Voir les prix"
  * - État 2 : Prix affiché + bouton "Réserver maintenant"
  * 
- * Note : Utilise actuellement un calcul fictif (45-85€).
- * À remplacer par Google Distance Matrix API en production.
+ * Features :
+ * - Autocomplétion Google Places API pour adresses
+ * - Calcul de prix réel via Google Distance Matrix API
+ * - Animation fluide du prix
+ * - Design Uber-like minimaliste
  */
 export default function PriceEstimator() {
-  const [departure, setDeparture] = useState('');
-  const [arrival, setArrival] = useState('');
+  // États pour les lieux sélectionnés (pas juste des strings)
+  const [departurePlace, setDeparturePlace] = useState<google.maps.places.PlaceResult | null>(null);
+  const [arrivalPlace, setArrivalPlace] = useState<google.maps.places.PlaceResult | null>(null);
   const [estimatedPrice, setEstimatedPrice] = useState<number | null>(null);
+  const [distance, setDistance] = useState<string | null>(null);
+  const [duration, setDuration] = useState<string | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   
   // Animation du compteur de prix
   const count = useMotionValue(0);
@@ -31,31 +39,56 @@ export default function PriceEstimator() {
     return () => unsubscribe();
   }, [rounded]);
 
-  // Calcul fictif du prix
-  const calculatePrice = () => {
-    if (departure && arrival) {
-      setIsCalculating(true);
+  // Calcul RÉEL du prix via Google Distance Matrix API
+  const calculatePrice = async () => {
+    if (!departurePlace || !arrivalPlace) return;
+    
+    setIsCalculating(true);
+    setError(null);
+    
+    try {
+      const response = await fetch('/api/calculate-price', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          origin: departurePlace.formatted_address,
+          destination: arrivalPlace.formatted_address,
+        }),
+      });
       
-      setTimeout(() => {
-        const basePrice = Math.floor(Math.random() * 40) + 45;
-        setEstimatedPrice(basePrice);
-        setIsCalculating(false);
-        
-        animate(count, basePrice, {
-          duration: 1,
-          ease: "easeOut"
-        });
-      }, 500);
+      if (!response.ok) {
+        throw new Error('Erreur lors du calcul du prix');
+      }
+      
+      const data = await response.json();
+      
+      setEstimatedPrice(data.price);
+      setDistance(data.distanceText);
+      setDuration(data.durationText);
+      setIsCalculating(false);
+      
+      // Animation du compteur
+      animate(count, data.price, {
+        duration: 1,
+        ease: "easeOut"
+      });
+    } catch (err) {
+      setError('Impossible de calculer le prix. Veuillez réessayer.');
+      setIsCalculating(false);
+      console.error('Prix calculation error:', err);
     }
   };
 
   // Reset pour modifier le trajet
   const resetEstimation = () => {
     setEstimatedPrice(null);
+    setDistance(null);
+    setDuration(null);
     setDisplayPrice(0);
+    setError(null);
   };
 
-  const isFormValid = departure.trim() !== '' && arrival.trim() !== '';
+  const isFormValid = departurePlace !== null && arrivalPlace !== null;
 
   return (
     <div className="relative">
@@ -65,25 +98,23 @@ export default function PriceEstimator() {
         transition={{ duration: 0.8, delay: 0.5 }}
         className="bg-white rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100"
       >
-        {/* Inputs - Style Uber minimaliste */}
+        {/* Inputs - Style Uber minimaliste avec autocomplétion Google */}
         <div className="space-y-3 mb-6">
           {/* Départ */}
           <div className="relative">
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 z-10 pointer-events-none">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="3" />
               </svg>
             </div>
-            <input
-              type="text"
-              value={departure}
-              onChange={(e) => {
-                setDeparture(e.target.value);
+            <AddressAutocomplete
+              placeholder="Adresse de départ"
+              onPlaceSelect={(place) => {
+                setDeparturePlace(place);
                 if (estimatedPrice) resetEstimation();
               }}
-              placeholder="Adresse de départ"
-              disabled={estimatedPrice !== null}
-              className="w-full pl-12 pr-4 py-3.5 text-sm text-gray-900 bg-gray-100 rounded-lg border-0 focus:bg-white focus:ring-2 focus:ring-gray-300 transition-all duration-200 outline-none placeholder:text-gray-500 disabled:opacity-60"
+              className="pl-12 bg-gray-100 focus:bg-white disabled:opacity-60"
+              id="departure-input"
             />
           </div>
 
@@ -94,25 +125,30 @@ export default function PriceEstimator() {
 
           {/* Arrivée */}
           <div className="relative">
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 z-10 pointer-events-none">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </div>
-            <input
-              type="text"
-              value={arrival}
-              onChange={(e) => {
-                setArrival(e.target.value);
+            <AddressAutocomplete
+              placeholder="Destination"
+              onPlaceSelect={(place) => {
+                setArrivalPlace(place);
                 if (estimatedPrice) resetEstimation();
               }}
-              placeholder="Destination"
-              disabled={estimatedPrice !== null}
-              className="w-full pl-12 pr-4 py-3.5 text-sm text-gray-900 bg-gray-100 rounded-lg border-0 focus:bg-white focus:ring-2 focus:ring-gray-300 transition-all duration-200 outline-none placeholder:text-gray-500 disabled:opacity-60"
+              className="pl-12 bg-gray-100 focus:bg-white disabled:opacity-60"
+              id="arrival-input"
             />
           </div>
         </div>
+
+        {/* Message d'erreur */}
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-sm text-red-800">{error}</p>
+          </div>
+        )}
 
         {/* Calcul en cours */}
         <AnimatePresence>
@@ -151,7 +187,7 @@ export default function PriceEstimator() {
               className="mb-6"
             >
               <div className="bg-gray-50 rounded-xl p-5">
-                <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium text-gray-600">
                     Tarif estimé
                   </span>
@@ -165,6 +201,25 @@ export default function PriceEstimator() {
                     {displayPrice}€
                   </span>
                 </div>
+                
+                {/* Détails du trajet */}
+                {distance && duration && (
+                  <div className="flex items-center gap-4 mb-2 pb-3 border-b border-gray-200">
+                    <div className="flex items-center gap-1.5 text-xs text-gray-600">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                      </svg>
+                      <span>{distance}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs text-gray-600">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>{duration}</span>
+                    </div>
+                  </div>
+                )}
+                
                 <p className="text-xs text-gray-500">
                   Prix indicatif toutes taxes comprises
                 </p>
