@@ -80,7 +80,9 @@ function DirectionsRenderer({
 
     // Nettoyage quand le composant est démonté
     return () => {
-      directionsRenderer.setDirections({ routes: [] } as google.maps.DirectionsResult);
+      if (directionsRenderer) {
+        directionsRenderer.setMap(null);
+      }
     };
   }, [directionsService, directionsRenderer, origin, destination]);
 
