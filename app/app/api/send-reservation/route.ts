@@ -285,7 +285,9 @@ ${data.comment ? `Commentaire : ${data.comment}` : ''}
         });
 
         if (!clientEmailResponse.ok) {
-          throw new Error('Erreur lors de l\'envoi de l\'email client');
+          const errorData = await clientEmailResponse.json();
+          console.error('❌ Resend API error (client email):', errorData);
+          throw new Error(`Erreur Resend: ${JSON.stringify(errorData)}`);
         }
 
         const clientEmailResult = await clientEmailResponse.json();
