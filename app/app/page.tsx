@@ -1,9 +1,13 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
 import Navigation from './components/layout/Navigation';
 import Footer from './components/layout/Footer';
 import FadeIn from './components/animations/FadeIn';
 import FadeInSection from './components/animations/FadeInSection';
 import PriceEstimator from './components/forms/PriceEstimator';
+import RouteMap from './components/RouteMap';
 import HeroScrollIndicator from './components/ui/HeroScrollIndicator';
 import Badge from './components/ui/Badge';
 import Testimonials from './components/sections/Testimonials';
@@ -11,6 +15,9 @@ import { FEATURES_DATA } from './lib/data/features';
 import { ZONES_DATA, ZONES_DESCRIPTION, ZONES_ADDITIONAL_TEXT } from './lib/data/zones';
 
 export default function Home() {
+  // État partagé entre PriceEstimator et RouteMap
+  const [departurePlace, setDeparturePlace] = useState<google.maps.places.PlaceResult | null>(null);
+  const [arrivalPlace, setArrivalPlace] = useState<google.maps.places.PlaceResult | null>(null);
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -113,23 +120,21 @@ export default function Home() {
               </FadeInSection>
 
               {/* Formulaire */}
-              <PriceEstimator />
+              <PriceEstimator 
+                onDepartureChange={setDeparturePlace}
+                onArrivalChange={setArrivalPlace}
+              />
             </div>
 
-            {/* DROITE : Map Google - Desktop uniquement (hidden mobile) */}
+            {/* DROITE : Map Google Interactive - Desktop uniquement (hidden mobile) */}
             <div className="hidden lg:block lg:w-3/5">
               <FadeInSection delay={0.2}>
-                <div className="sticky top-24 h-[600px] rounded-2xl overflow-hidden shadow-lg border border-gray-200">
-                  {/* Map Google statique - Centrée sur Île-de-France */}
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d335994.89219464146!2d2.2646348!3d48.8589465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b005%3A0x40b82c3688c9460!2sParis%2C%20France!5e0!3m2!1sfr!2sfr!4v1704902400000!5m2!1sfr!2sfr"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen={false}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="Zones desservies - Île-de-France"
+                <div className="sticky top-24">
+                  <RouteMap 
+                    origin={departurePlace}
+                    destination={arrivalPlace}
+                    height={600}
+                    className="shadow-lg border border-gray-200"
                   />
                 </div>
               </FadeInSection>

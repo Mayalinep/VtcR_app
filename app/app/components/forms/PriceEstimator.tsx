@@ -17,7 +17,18 @@ import AddressAutocomplete from '@/app/components/AddressAutocomplete';
  * - Animation fluide du prix
  * - Design Uber-like minimaliste
  */
-export default function PriceEstimator() {
+
+interface PriceEstimatorProps {
+  /** Callback appelé quand le départ change (pour mettre à jour la carte) */
+  onDepartureChange?: (place: google.maps.places.PlaceResult | null) => void;
+  /** Callback appelé quand l'arrivée change (pour mettre à jour la carte) */
+  onArrivalChange?: (place: google.maps.places.PlaceResult | null) => void;
+}
+
+export default function PriceEstimator({
+  onDepartureChange,
+  onArrivalChange,
+}: PriceEstimatorProps = {}) {
   // États pour les lieux sélectionnés (pas juste des strings)
   const [departurePlace, setDeparturePlace] = useState<google.maps.places.PlaceResult | null>(null);
   const [arrivalPlace, setArrivalPlace] = useState<google.maps.places.PlaceResult | null>(null);
@@ -111,6 +122,7 @@ export default function PriceEstimator() {
               placeholder="Adresse de départ"
               onPlaceSelect={(place) => {
                 setDeparturePlace(place);
+                onDepartureChange?.(place); // Notifier la page parent
                 if (estimatedPrice) resetEstimation();
               }}
               className="pl-12 bg-gray-100 focus:bg-white disabled:opacity-60"
@@ -135,6 +147,7 @@ export default function PriceEstimator() {
               placeholder="Destination"
               onPlaceSelect={(place) => {
                 setArrivalPlace(place);
+                onArrivalChange?.(place); // Notifier la page parent
                 if (estimatedPrice) resetEstimation();
               }}
               className="pl-12 bg-gray-100 focus:bg-white disabled:opacity-60"
