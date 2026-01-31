@@ -13,6 +13,7 @@
 
 import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import Navigation from '@/app/components/layout/Navigation';
 import Footer from '@/app/components/layout/Footer';
 import AddressAutocomplete from '@/app/components/AddressAutocomplete';
@@ -21,6 +22,7 @@ import { motion } from 'framer-motion';
 function ReservationContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   // Récupérer les données du trajet depuis l'URL
   const [departure, setDeparture] = useState(searchParams.get('departure') || '');
@@ -66,6 +68,18 @@ function ReservationContent() {
     setError(null);
 
     try {
+      // Générer le token reCAPTCHA
+      let recaptchaToken = undefined;
+      
+      if (executeRecaptcha) {
+        try {
+          recaptchaToken = await executeRecaptcha('submit_reservation');
+          console.log('✅ Token reCAPTCHA généré');
+        } catch (error) {
+          console.warn('⚠️ reCAPTCHA error (on continue quand même):', error);
+        }
+      }
+
       const response = await fetch('/api/send-reservation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -76,6 +90,7 @@ function ReservationContent() {
           price,
           distance,
           duration,
+          recaptchaToken,
         }),
       });
 
@@ -518,9 +533,18 @@ function ReservationContent() {
 }
 
 export default function ReserverPage() {
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+
+  if (!recaptchaSiteKey) {
+    console.error('NEXT_PUBLIC_RECAPTCHA_SITE_KEY manquant');
+    return <div>Erreur de configuration reCAPTCHA</div>;
+  }
+
   return (
-    <Suspense fallback={<div>Chargement...</div>}>
-      <ReservationContent />
-    </Suspense>
+    <GoogleReCaptchaProvider reCaptchaKey={recaptchaSiteKey}>
+      <Suspense fallback={<div>Chargement...</div>}>
+        <ReservationContent />
+      </Suspense>
+    </GoogleReCaptchaProvider>
   );
 }

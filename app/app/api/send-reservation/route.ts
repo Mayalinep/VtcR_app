@@ -26,6 +26,7 @@ interface ReservationData {
   price: number;
   distance: string;
   duration: string;
+  recaptchaToken?: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -33,7 +34,47 @@ export async function POST(request: NextRequest) {
     // 1. Récupérer les données de la réservation
     const data: ReservationData = await request.json();
 
-    // 2. Valider les données obligatoires
+    // 2. Vérifier le token reCAPTCHA
+    if (data.recaptchaToken) {
+      const recaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
+
+      if (recaptchaSecretKey && recaptchaSecretKey !== 'YOUR_RECAPTCHA_SECRET_KEY_HERE') {
+        try {
+          const recaptchaResponse = await fetch(
+            `https://www.google.com/recaptcha/api/siteverify`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: new URLSearchParams({
+                secret: recaptchaSecretKey,
+                response: data.recaptchaToken,
+              }),
+            }
+          );
+
+          const recaptchaData = await recaptchaResponse.json();
+
+          // Vérifier le score (minimum 0.5 pour accepter)
+          if (!recaptchaData.success) {
+            console.warn('⚠️ reCAPTCHA failed (mode dégradé - on continue quand même):', recaptchaData);
+            // On continue quand même en mode dégradé pour le développement
+          } else if (recaptchaData.score < 0.5) {
+            console.warn('⚠️ reCAPTCHA score trop faible:', recaptchaData.score, '(mode dégradé - on continue)');
+            // TODO: En production, décommenter la ligne ci-dessous pour bloquer les bots
+            // return NextResponse.json({ error: 'Échec de la vérification anti-spam.' }, { status: 403 });
+          } else {
+            console.log('✅ reCAPTCHA validé avec score:', recaptchaData.score);
+          }
+        } catch (recaptchaError) {
+          console.error('❌ Erreur lors de la vérification reCAPTCHA:', recaptchaError);
+          // On continue même si la vérification échoue (mode dégradé)
+        }
+      } else {
+        console.log('⚠️ reCAPTCHA non configuré, vérification ignorée');
+      }
+    }
+
+    // 3. Valider les données obligatoires
     if (!data.firstName || !data.lastName || !data.email || !data.phone || !data.date || !data.time) {
       return NextResponse.json(
         { error: 'Données manquantes' },
@@ -41,7 +82,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 3. Formater la date et l'heure en français
+    // 4. Formater la date et l'heure en français
     const formattedDate = new Date(data.date).toLocaleDateString('fr-FR', {
       weekday: 'long',
       year: 'numeric',
@@ -49,7 +90,7 @@ export async function POST(request: NextRequest) {
       day: 'numeric',
     });
 
-    // 4. Créer le contenu du message
+    // 5. Créer le contenu du message
     const messageText = `
 🚖 NOUVELLE RÉSERVATION VTC
 
@@ -75,10 +116,10 @@ ${data.comment ? `Commentaire : ${data.comment}` : ''}
 💰 PRIX ESTIMÉ : ${data.price}€
     `.trim();
 
-    // 5. Préparer les résultats
+    // 6. Préparer les résultats
     const results: { email?: any; sms?: any } = {};
 
-    // 6. Envoyer l'email via Resend (si configuré)
+    // 7. Envoyer l'email via Resend (si configuré)
     const resendApiKey = process.env.RESEND_API_KEY;
     const rachelEmail = process.env.RACHEL_EMAIL;
 
@@ -153,7 +194,7 @@ ${data.comment ? `Commentaire : ${data.comment}` : ''}
       console.log('⚠️ Email non envoyé : Resend non configuré');
     }
 
-    // 7. Envoyer le SMS via Twilio (si configuré)
+    // 8. Envoyer le SMS via Twilio (si configuré)
     const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
     const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
     const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
@@ -199,7 +240,7 @@ ${data.comment ? `Commentaire : ${data.comment}` : ''}
       console.log('⚠️ SMS non envoyé : Twilio non configuré');
     }
 
-    // 8. Retourner le succès
+    // 9. Retourner le succès
     return NextResponse.json({
       success: true,
       message: 'Réservation envoyée avec succès',
