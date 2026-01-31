@@ -258,11 +258,557 @@ Email envoyé → Notification client immédiate ✅
 
 ## Technical Assumptions
 
-_(Section en cours - sera complétée après validation)_
+### Repository Structure
+
+**Type : Monorepo Next.js**
+
+Structure actuelle (maintenue) :
+```
+VtcR_app/
+├── app/                    # Application Next.js
+│   ├── app/               # Code Next.js (pages, composants)
+│   ├── public/            # Images, assets
+│   ├── package.json
+│   └── [configs]
+├── docs/                   # Documentation
+└── .bmad-core/            # Méthodologie B-MAD
+```
+
+---
+
+### Service Architecture
+
+**Type : Monolithe Next.js serverless**
+
+**Frontend :**
+- Next.js 16 (App Router) avec Server Components
+- React 19 pour interactivité
+
+**Backend :**
+- Next.js API Routes (serverless functions)
+- Pas de base de données au MVP
+- Services externes via API
+
+**Services externes :**
+- **Google Maps Platform** : Places API + Distance Matrix API (calcul prix)
+- **Resend** : Envoi emails (gratuit jusqu'à 3000/mois)
+- **Twilio** : Envoi SMS à Rachel (~0.05€/SMS)
+- **Google reCAPTCHA v3** : Protection anti-spam (gratuit)
+
+**Architecture simplifiée vs PRD v1 :**
+- ❌ Pas de Supabase (pas de base de données)
+- ❌ Pas de Stripe (pas de paiement en ligne au MVP)
+- ❌ Pas d'authentification
+- ✅ Services email/SMS uniquement
+
+---
+
+### Testing Requirements
+
+**Niveau testing (MVP simplifié) :**
+- **Unit tests** : Critique (calcul prix, validations, formatage)
+- **Component tests** : Important (formulaires)
+- **E2E tests** : Optionnel (post-MVP)
+
+**Outils :**
+- **Vitest** : Tests unitaires (déjà configuré ✅)
+- **React Testing Library** : Tests composants (déjà installé ✅)
+
+**Coverage cible :**
+- Logique métier (calcul prix) : > 90%
+- Composants UI : > 50%
+- Overall : > 70%
+
+---
+
+### Additional Technical Assumptions
+
+**Stack technique complète :**
+
+```
+Frontend :
+- Next.js 16.1.1 (App Router)
+- React 19
+- TypeScript 5 (strict mode)
+- Tailwind CSS 4
+- Framer Motion 12 (animations)
+- ShadCN UI (composants)
+
+Backend :
+- Next.js API Routes
+- Zod (validation)
+
+Services externes :
+- Google Maps Platform (Places + Distance Matrix)
+- Resend (emails transactionnels)
+- Twilio (SMS)
+- Google reCAPTCHA v3 (anti-spam)
+
+Hébergement :
+- Vercel (plan Hobby gratuit)
+- Domaine : vtc-rachel.fr (~10€/an)
+
+Monitoring :
+- Vercel Analytics (inclus)
+- Console logs structurés
+```
+
+**Environment Variables (.env.local) :**
+
+```bash
+# Google Maps
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=
+
+# Resend (email)
+RESEND_API_KEY=
+
+# Twilio (SMS)
+TWILIO_ACCOUNT_SID=
+TWILIO_AUTH_TOKEN=
+TWILIO_PHONE_NUMBER=
+RACHEL_PHONE_NUMBER=
+
+# reCAPTCHA
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=
+RECAPTCHA_SECRET_KEY=
+
+# App
+NEXT_PUBLIC_APP_URL=https://vtc-rachel.fr
+RACHEL_EMAIL=
+```
+
+**Coûts estimés :**
+
+```
+Développement : 0€ (échange de services)
+Domaine : 10€/an
+Vercel : 0€/mois (plan Hobby)
+Google Maps : 0€/mois (sous 28k requêtes)
+Resend : 0€/mois (sous 3000 emails)
+Twilio SMS : ~15€/mois (5 SMS/jour × 30 = 150 SMS × 0.10€)
+reCAPTCHA : 0€ (gratuit)
+
+Total : ~25€/mois (principalement SMS)
+```
+
+**Évolution possible (Phase 2) :**
+- Ajouter Supabase (stockage réservations) : 0€ (plan gratuit)
+- Ajouter Stripe (acompte en ligne) : commission 1.4% + 0.25€ par transaction
+
+**Rationale (pourquoi ces choix) :**
+
+**Simplifications vs PRD v1 :**
+- ❌ Supabase retiré → Pas besoin de database pour MVP
+- ❌ Stripe retiré → Pas de paiement en ligne au démarrage
+- ✅ Resend ajouté → Emails gratuits
+- ✅ Twilio ajouté → SMS critique pour Rachel
+- ✅ reCAPTCHA v3 ajouté → Protection spam essentielle
+
+**Architecture serverless :**
+- Next.js API Routes = serverless (scale automatique)
+- Pas de serveur à gérer
+- Coûts = 0€ jusqu'à gros trafic
+
+**Services externes uniquement :**
+- Pas de gestion de serveurs
+- Pas de maintenance complexe
+- APIs fiables (Google, Twilio, Resend)
+
+**Évolutivité préservée (NFR18-20) :**
+- Si succès → Ajouter Supabase facilement
+- Si besoin acompte → Ajouter Stripe facilement
+- Architecture ne change pas, on ajoute des briques
+
+---
+
+## Epic List
+
+### Overview
+
+Le MVP VTC Rachel est structuré en **5 épics** qui couvrent l'ensemble des fonctionnalités nécessaires pour un lancement réussi. L'approche est **itérative** : chaque epic délivre de la valeur fonctionnelle et peut être testé indépendamment.
+
+**Stratégie de développement :**
+- Epic 1 & 2 : Fondations (pages existantes + estimation prix)
+- Epic 3 : Réservation (page dédiée + formulaire complet)
+- Epic 4 : Notifications (email + SMS)
+- Epic 5 : Polish & Déploiement
+
+**Durée estimée totale :** 3-4 semaines (développement à temps partiel)
+
+---
+
+### Epic 1 : Landing Page & Estimation de Prix
+
+**Objectif :** Créer une landing page professionnelle avec estimation de prix instantanée intégrée via Google Maps API.
+
+**User Story principale :**
+> En tant que client potentiel, je veux voir une présentation claire du service VTC Rachel et pouvoir estimer instantanément le prix d'une course pour décider si je souhaite réserver.
+
+**Stories :**
+
+1. **Story 1.1 : Améliorer la landing page existante**
+   - Vérifier et améliorer les sections Hero, À propos, Tarifs, FAQ
+   - Ajouter des témoignages clients (si disponibles)
+   - Optimiser les images (AVIF/WebP)
+   - Vérifier la navigation et le footer
+   - **AC :** Landing page affichée correctement sur mobile/desktop
+
+2. **Story 1.2 : Intégrer Google Maps Places API (autocomplétion)**
+   - Créer un composant `AddressAutocomplete` réutilisable
+   - Intégrer Google Places API avec restriction France/IDF
+   - Gérer les états (loading, error, selected)
+   - **AC :** L'utilisateur peut saisir une adresse avec suggestions en temps réel
+
+3. **Story 1.3 : Intégrer Google Distance Matrix API (calcul distance)**
+   - Créer une API route `/api/calculate-price`
+   - Appeler Distance Matrix API avec origine + destination
+   - Retourner distance (km) et durée (minutes)
+   - **AC :** L'API retourne distance et durée correctes pour un trajet donné
+
+4. **Story 1.4 : Créer le formulaire d'estimation de prix**
+   - Ajouter 2 champs `AddressAutocomplete` (départ, arrivée)
+   - Ajouter bouton "Voir le prix" avec validation
+   - Afficher loader pendant calcul (1-2s)
+   - Afficher prix estimé + distance + durée
+   - **AC :** Prix affiché instantanément après sélection des adresses
+
+5. **Story 1.5 : Implémenter la logique de calcul tarifaire**
+   - Définir la grille tarifaire de Rachel (forfaits + tarif au km)
+   - Créer fonction `calculatePrice(distance, origin, destination)`
+   - Gérer les cas spéciaux (aéroports CDG/Orly = forfaits)
+   - **AC :** Prix calculé correspond à la grille tarifaire de Rachel
+
+6. **Story 1.6 : Ajouter le CTA "Réserver maintenant"**
+   - Afficher bouton après calcul prix
+   - Pré-remplir les données de trajet dans l'URL
+   - Rediriger vers `/reserver?from=...&to=...&price=...`
+   - **AC :** Redirection vers page réservation avec données pré-remplies
+
+**Dépendances :**
+- Compte Google Maps Platform configuré
+- API Keys créées et restreintes
+- Grille tarifaire validée par Rachel
+
+**Risques :**
+- Dépassement quotas gratuits Google Maps (200$/mois)
+- Temps de réponse API > 2 secondes
+- Cas edge : adresses hors IDF
+
+---
+
+### Epic 2 : Page de Réservation (Formulaire)
+
+**Objectif :** Créer une page dédiée `/reserver` avec formulaire complet et layout split screen (formulaire + contact Rachel).
+
+**User Story principale :**
+> En tant que client ayant vu le prix estimé, je veux remplir un formulaire simple pour envoyer ma demande de réservation à Rachel avec tous les détails nécessaires.
+
+**Stories :**
+
+1. **Story 2.1 : Créer la page `/reserver` avec layout split screen**
+   - Créer `app/reserver/page.tsx`
+   - Implémenter layout split (formulaire gauche, contact droite)
+   - Rendre responsive (stack vertical sur mobile)
+   - **AC :** Page affichée correctement sur mobile/desktop
+
+2. **Story 2.2 : Créer le bloc contact Rachel (sticky)**
+   - Afficher photo Rachel (optionnel)
+   - Afficher téléphone avec lien `tel:`
+   - Message "Une question ? N'hésitez pas à m'appeler !"
+   - Style sticky sur desktop
+   - **AC :** Bloc contact visible en permanence pendant scroll (desktop)
+
+3. **Story 2.3 : Créer le formulaire de réservation (partie 1 : infos client)**
+   - Champs : nom, prénom, téléphone, email
+   - Validation Zod (email valide, téléphone FR)
+   - Messages d'erreur clairs
+   - **AC :** Validation fonctionne, erreurs affichées
+
+4. **Story 2.4 : Créer le formulaire de réservation (partie 2 : détails course)**
+   - Champs : date, heure, nombre passagers
+   - Récupérer trajet depuis URL (pré-rempli depuis Epic 1)
+   - Validation : date future uniquement
+   - **AC :** Tous les champs trajet fonctionnent
+
+5. **Story 2.5 : Ajouter les options supplémentaires**
+   - Checkboxes : siège enfant, bagages volumineux
+   - Textarea : notes spéciales
+   - Choix paiement : "En voiture" (par défaut) / "En ligne" (désactivé)
+   - **AC :** Options sélectionnables, notes libres
+
+6. **Story 2.6 : Créer le récapitulatif automatique**
+   - Bloc récapitulatif mis à jour en temps réel
+   - Afficher : trajet, date/heure, passagers, prix, options
+   - Style "card" distinct du formulaire
+   - **AC :** Récapitulatif synchronisé avec formulaire
+
+7. **Story 2.7 : Intégrer Google reCAPTCHA v3**
+   - Ajouter reCAPTCHA invisible au formulaire
+   - Obtenir token avant envoi
+   - Valider token côté serveur
+   - **AC :** Formulaire protégé contre spam/bots
+
+8. **Story 2.8 : Gérer la soumission du formulaire**
+   - Créer API route `/api/submit-booking`
+   - Valider données côté serveur (Zod)
+   - Vérifier reCAPTCHA score (> 0.5)
+   - Retourner succès ou erreur
+   - **AC :** API valide et retourne réponse structurée
+
+**Dépendances :**
+- Epic 1 terminé (pour pré-remplissage)
+- Compte Google reCAPTCHA configuré
+- Schémas Zod définis
+
+**Risques :**
+- Complexité validation formulaire
+- UX mobile pour formulaire long
+- reCAPTCHA bloque vrais utilisateurs
+
+---
+
+### Epic 3 : Notifications Email & SMS
+
+**Objectif :** Envoyer des notifications email (client + Rachel) et SMS (Rachel uniquement) après soumission d'une demande de réservation.
+
+**User Story principale :**
+> En tant que Rachel, je veux recevoir un email ET un SMS instantanément quand un client envoie une demande de réservation, pour pouvoir le contacter rapidement.
+
+**Stories :**
+
+1. **Story 3.1 : Configurer Resend (emails)**
+   - Créer compte Resend
+   - Vérifier domaine vtc-rachel.fr (ou utiliser domaine test)
+   - Tester envoi email basique
+   - **AC :** Email de test envoyé et reçu
+
+2. **Story 3.2 : Créer le template email pour Rachel**
+   - Design HTML professionnel (branding VTC Rachel)
+   - Inclure tous les détails réservation (trajet, client, date/heure, prix, options)
+   - Ajouter lien "Appeler le client" avec `tel:`
+   - **AC :** Email Rachel visuellement correct et complet
+
+3. **Story 3.3 : Créer le template email pour le client**
+   - Design HTML rassurant
+   - Message "Rachel vous contactera sous 2h"
+   - Récapitulatif complet de la demande
+   - Téléphone de Rachel si urgent
+   - **AC :** Email client rassurant et professionnel
+
+4. **Story 3.4 : Configurer Twilio (SMS)**
+   - Créer compte Twilio
+   - Acheter numéro FR ou utiliser numéro test
+   - Tester envoi SMS basique
+   - **AC :** SMS de test envoyé et reçu
+
+5. **Story 3.5 : Implémenter l'envoi SMS à Rachel**
+   - Message court : "Nouvelle demande VTC de [Nom] - [Trajet] - [Prix] - Voir email"
+   - Gérer erreurs Twilio
+   - Logger succès/échecs
+   - **AC :** SMS envoyé à Rachel après soumission formulaire
+
+6. **Story 3.6 : Intégrer les notifications dans l'API `/api/submit-booking`**
+   - Après validation, envoyer email Rachel
+   - Envoyer SMS Rachel
+   - Envoyer email client
+   - Gérer erreurs gracefully (retry 3x)
+   - **AC :** Tous les emails/SMS envoyés après soumission
+
+7. **Story 3.7 : Gérer les erreurs et retry**
+   - Si email échoue → retry 3x avec délai exponentiel
+   - Si SMS échoue → logger erreur mais ne pas bloquer
+   - Retourner statut succès même si SMS échoue (email prioritaire)
+   - **AC :** Système résilient aux erreurs temporaires
+
+**Dépendances :**
+- Epic 2 terminé (formulaire fonctionnel)
+- Comptes Resend + Twilio configurés
+- Domaine email vérifié
+
+**Risques :**
+- Coûts SMS si spam
+- Emails marqués spam
+- Délais d'envoi > 5 secondes
+
+---
+
+### Epic 4 : Page de Confirmation & Contenu
+
+**Objectif :** Créer une page de confirmation après envoi réussi et compléter les pages de contenu (tarifs, FAQ, légales).
+
+**User Story principale :**
+> En tant que client ayant envoyé une demande, je veux voir une page de confirmation rassurante qui me confirme que Rachel a bien reçu ma demande et qu'elle va me contacter.
+
+**Stories :**
+
+1. **Story 4.1 : Créer la page `/confirmation`**
+   - Créer `app/confirmation/page.tsx`
+   - Afficher animation de succès (Framer Motion)
+   - Message "Demande envoyée avec succès !"
+   - **AC :** Page affichée après soumission formulaire
+
+2. **Story 4.2 : Afficher le récapitulatif de la demande**
+   - Récupérer données depuis state/URL
+   - Afficher trajet, date/heure, prix, options
+   - Style "card" professionnel
+   - **AC :** Récapitulatif complet et lisible
+
+3. **Story 4.3 : Ajouter les prochaines étapes**
+   - Message "Rachel vous contactera sous 2h"
+   - Message "Un email de confirmation vous a été envoyé"
+   - CTA "Appeler Rachel maintenant" (si urgent)
+   - Bouton "Retour à l'accueil"
+   - **AC :** Client sait quoi attendre
+
+4. **Story 4.4 : Compléter la page Tarifs**
+   - Afficher grille tarifaire complète
+   - Forfaits aéroports (CDG, Orly)
+   - Tarif au km (Paris, IDF)
+   - Majorations (nuit, dimanche, bagages)
+   - **AC :** Tous les tarifs affichés clairement
+
+5. **Story 4.5 : Compléter la page FAQ**
+   - Questions courantes avec réponses (10-15 Q&A)
+   - Accordion pour navigation
+   - Thèmes : réservation, paiement, annulation, zones
+   - **AC :** FAQ complète et utile
+
+6. **Story 4.6 : Créer les pages légales**
+   - CGV (Conditions Générales de Vente)
+   - Mentions légales (SIRET, contact)
+   - Politique de confidentialité (RGPD)
+   - **AC :** Pages légales complètes et conformes
+
+**Dépendances :**
+- Epic 3 terminé (pour afficher statut envoi)
+- Informations légales fournies par Rachel
+
+**Risques :**
+- Contenu légal incomplet
+- FAQ pas assez détaillée
+
+---
+
+### Epic 5 : Polish, Performance & Déploiement
+
+**Objectif :** Finaliser le MVP avec optimisations, tests, et déploiement sur Vercel avec domaine custom.
+
+**User Story principale :**
+> En tant que Rachel, je veux un site en production, rapide, sécurisé, et accessible à mes clients avec un domaine professionnel.
+
+**Stories :**
+
+1. **Story 5.1 : Optimisations performance**
+   - Vérifier images optimisées (AVIF/WebP)
+   - Analyser bundle size
+   - Lazy loading composants lourds
+   - Précharger Google Maps script
+   - **AC :** Lighthouse score > 90 (Performance)
+
+2. **Story 5.2 : SEO & Meta tags**
+   - Configurer meta tags (title, description, OG)
+   - Créer sitemap.xml
+   - Ajouter structured data (LocalBusiness schema)
+   - Configurer robots.txt
+   - **AC :** Site indexable par Google
+
+3. **Story 5.3 : Accessibilité (A11y)**
+   - Vérifier contrastes couleurs (WCAG AA)
+   - Tester navigation clavier
+   - Ajouter aria-labels manquants
+   - Tester avec lecteur d'écran
+   - **AC :** Lighthouse score > 90 (Accessibility)
+
+4. **Story 5.4 : Tests end-to-end critiques**
+   - Test : Estimation prix fonctionne
+   - Test : Formulaire réservation fonctionne
+   - Test : Emails/SMS envoyés
+   - **AC :** Tous les flows critiques testés
+
+5. **Story 5.5 : Configurer les variables d'environnement**
+   - Créer `.env.local` avec toutes les clés API
+   - Documenter chaque variable dans README
+   - Ajouter `.env.example`
+   - **AC :** `.env.local` configuré et `.env.example` créé
+
+6. **Story 5.6 : Déploiement sur Vercel**
+   - Créer projet Vercel
+   - Connecter repo GitHub
+   - Configurer variables d'environnement
+   - Tester déploiement sur URL temporaire
+   - **AC :** Site accessible sur URL Vercel (*.vercel.app)
+
+7. **Story 5.7 : Configurer le domaine custom**
+   - Acheter domaine vtc-rachel.fr (ou autre)
+   - Configurer DNS (A, CNAME)
+   - Activer HTTPS automatique
+   - **AC :** Site accessible sur vtc-rachel.fr avec HTTPS
+
+8. **Story 5.8 : Monitoring & Logging**
+   - Activer Vercel Analytics
+   - Configurer logs structurés
+   - Créer dashboard simple (Stats Vercel)
+   - **AC :** Monitoring actif et fonctionnel
+
+9. **Story 5.9 : Documentation utilisateur pour Rachel**
+   - Guide : Comment voir les réservations (email)
+   - Guide : Comment modifier les tarifs
+   - Guide : Qui contacter en cas de problème
+   - **AC :** Documentation claire pour Rachel
+
+10. **Story 5.10 : Handoff & Formation**
+    - Session formation avec Rachel (1h)
+    - Tester le site ensemble
+    - Répondre aux questions
+    - **AC :** Rachel sait utiliser le site et comprend le flow
+
+**Dépendances :**
+- Epic 1-4 terminés
+- Toutes les API configurées
+- Contenu finalisé
+
+**Risques :**
+- Bugs découverts en production
+- Configuration DNS complexe
+- Rachel ne comprend pas le fonctionnement
+
+---
+
+### Epic Dependencies
+
+```mermaid
+graph TD
+    E1[Epic 1: Landing & Estimation] --> E2[Epic 2: Réservation]
+    E2 --> E3[Epic 3: Notifications]
+    E3 --> E4[Epic 4: Confirmation & Contenu]
+    E4 --> E5[Epic 5: Polish & Déploiement]
+```
+
+**Ordre d'exécution recommandé :**
+1. Epic 1 (fondations + estimation prix)
+2. Epic 2 (formulaire réservation)
+3. Epic 3 (notifications email/SMS)
+4. Epic 4 (pages contenu)
+5. Epic 5 (polish + déploiement)
+
+---
+
+### Success Metrics
+
+**Critères de succès MVP :**
+- ✅ Utilisateur peut estimer prix en < 10 secondes
+- ✅ Utilisateur peut envoyer demande en < 2 minutes
+- ✅ Rachel reçoit email ET SMS instantanément (< 5 secondes)
+- ✅ Client reçoit email confirmation (< 5 secondes)
+- ✅ Site charge en < 2 secondes (mobile)
+- ✅ Lighthouse score > 90 (Performance, A11y, SEO)
+- ✅ 0 bugs bloquants en production
+- ✅ Coûts < 30€/mois
 
 ---
 
 *Document créé le : 2026-01-13*  
+*Mis à jour le : 2026-01-31*  
 *Version : 2.0 (MVP Simplifié)*  
 *Auteur : Équipe VTC Rachel*  
-*Statut : Draft en cours*
+*Statut : Complet - Prêt pour validation*
