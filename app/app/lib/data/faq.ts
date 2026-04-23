@@ -22,19 +22,19 @@ export const FAQ_DATA: readonly FAQItem[] = [
   {
     id: 2,
     question: "Quels sont les moyens de paiement acceptés ?",
-    answer: "Nous acceptons les cartes bancaires (Visa, Mastercard, American Express), Apple Pay, Google Pay, ainsi que le paiement en espèces ou par carte à bord du véhicule. Le paiement en ligne est sécurisé via Stripe.",
+    answer: "Nous acceptons la carte bancaire (Visa, Mastercard) à bord du véhicule, les espèces, ainsi que le virement bancaire pour les réservations à l'avance ou les entreprises. Le paiement en ligne n'est actuellement pas disponible.",
     category: 'paiement'
   },
   {
     id: 3,
     question: "Puis-je modifier ou annuler ma réservation ?",
-    answer: "Oui, vous pouvez modifier votre réservation gratuitement jusqu'à 4h avant l'heure prévue. L'annulation est gratuite jusqu'à 12h avant, au-delà des frais d'annulation de 20% s'appliquent.",
+    answer: "Oui. La modification est gratuite jusqu'à 24h avant la prise en charge. L'annulation est progressive : gratuite au-delà de 24h, puis 25% (12h-24h), 50% (6h-12h), 75% (2h-6h) et 100% à moins de 2h ou en cas de no-show.",
     category: 'annulation'
   },
   {
     id: 4,
     question: "Proposez-vous des sièges enfants ?",
-    answer: "Oui, nous disposons de sièges enfants homologués (siège bébé, rehausseur). Pensez à le mentionner lors de votre réservation. Un supplément de 10€ s'applique par trajet.",
+    answer: "Oui, nous proposons des sièges auto enfants homologués (siège bébé, rehausseur). Pensez à le mentionner lors de votre réservation. Un supplément de 5€ s'applique.",
     category: 'service'
   },
   {
@@ -64,13 +64,13 @@ export const FAQ_DATA: readonly FAQItem[] = [
   {
     id: 9,
     question: "Puis-je demander un arrêt en cours de route ?",
-    answer: "Oui, vous pouvez demander un ou plusieurs arrêts lors de votre réservation. Un temps d'attente de 15 minutes est inclus gratuitement. Au-delà, un supplément de 15€ par tranche de 15 minutes s'applique.",
+    answer: "Oui, vous pouvez demander un ou plusieurs arrêts lors de votre réservation. Les 10 premières minutes d'attente sont incluses, puis un supplément de 15€ par tranche de 20 minutes s'applique.",
     category: 'service'
   },
   {
     id: 10,
     question: "Comment obtenir une facture ?",
-    answer: "Une facture détaillée est générée automatiquement après chaque course et envoyée par email. Vous pouvez également télécharger vos factures depuis votre espace client à tout moment.",
+    answer: "Une facture est délivrée sur demande par email au format PDF. Elle est obligatoire pour les courses professionnelles et mentionne les détails de la prestation (prix TTC, TVA incluse).",
     category: 'service'
   }
 ] as const;

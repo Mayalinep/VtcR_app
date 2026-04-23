@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import Navigation from '../components/layout/Navigation';
 import Footer from '../components/layout/Footer';
 import Hero from '../components/sections/Hero';
@@ -47,7 +48,7 @@ export default function TarifsPage() {
                 Forfaits Aéroports
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                Tarifs fixes depuis ou vers les aéroports parisiens, valables pour 1 à 4 passagers
+                Tarifs fixes depuis ou vers les aéroports parisiens, valables pour 1 à 3 passagers
               </p>
             </div>
           </FadeInSection>
@@ -80,13 +81,13 @@ export default function TarifsPage() {
                     <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span>1 à 4 passagers</span>
+                    <span>1 à 3 passagers</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span>3 bagages cabine + 3 valises</span>
+                    <span>2 valises de taille standard</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -108,13 +109,13 @@ export default function TarifsPage() {
                   </li>
                 </ul>
 
-                <a
+                <Link
                   href="/"
                   className="mt-auto block text-center px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105"
                   style={{ backgroundColor: 'var(--forest-green)', color: 'white' }}
                 >
                   Réserver
-                </a>
+                </Link>
             </div>
 
             {/* Orly */}
@@ -150,13 +151,13 @@ export default function TarifsPage() {
                     <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span>1 à 4 passagers</span>
+                    <span>1 à 3 passagers</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span>3 bagages cabine + 3 valises</span>
+                    <span>2 valises de taille standard</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -178,13 +179,13 @@ export default function TarifsPage() {
                   </li>
                 </ul>
 
-                <a
+                <Link
                   href="/"
                   className="mt-auto block text-center px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105"
                   style={{ backgroundColor: 'var(--forest-green)', color: 'white' }}
                 >
                   Réserver
-                </a>
+                </Link>
             </div>
 
             {/* Beauvais */}
@@ -214,13 +215,13 @@ export default function TarifsPage() {
                     <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span>1 à 4 passagers</span>
+                    <span>1 à 3 passagers</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span>3 bagages cabine + 3 valises</span>
+                    <span>2 valises de taille standard</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -242,13 +243,13 @@ export default function TarifsPage() {
                   </li>
                 </ul>
 
-                <a
+                <Link
                   href="/"
                   className="mt-auto block text-center px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105"
                   style={{ backgroundColor: 'var(--forest-green)', color: 'white' }}
                 >
                   Réserver
-                </a>
+                </Link>
             </div>
           </PricingCarousel>
         </div>
@@ -336,8 +337,8 @@ export default function TarifsPage() {
                 </div>
                 
                 <div className="text-center mb-6 pb-6 border-b border-gray-200">
-                  <div className="text-4xl font-bold" style={{ color: 'var(--forest-green)' }}>75€</div>
-                  <div className="text-sm text-gray-500 mt-1">par heure</div>
+                  <div className="text-4xl font-bold" style={{ color: 'var(--forest-green)' }}>45€</div>
+                  <div className="text-sm text-gray-500 mt-1">minimum 1h</div>
                 </div>
 
                 <ul className="space-y-3 text-sm text-gray-600 mb-6">
@@ -345,7 +346,7 @@ export default function TarifsPage() {
                     <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span>Minimum 3 heures</span>
+                    <span>20 km/heure inclus</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -380,10 +381,10 @@ export default function TarifsPage() {
                 </div>
                 
                 <div className="text-center mb-6 pb-6 border-b border-gray-200">
-                  <div className="text-4xl font-bold" style={{ color: 'var(--forest-green)' }}>240€</div>
-                  <div className="text-sm text-gray-500 mt-1">60€/heure</div>
+                  <div className="text-4xl font-bold" style={{ color: 'var(--forest-green)' }}>160€</div>
+                  <div className="text-sm text-gray-500 mt-1">4 heures</div>
                   <div className="inline-block mt-2 px-3 py-1 rounded-full text-xs font-semibold" style={{ backgroundColor: 'var(--gold-light)', color: 'var(--forest-green)' }}>
-                    Économie de 60€
+                    80 km inclus
                   </div>
                 </div>
 
@@ -421,10 +422,10 @@ export default function TarifsPage() {
                 </div>
                 
                 <div className="text-center mb-6 pb-6 border-b border-gray-200">
-                  <div className="text-4xl font-bold" style={{ color: 'var(--forest-green)' }}>480€</div>
-                  <div className="text-sm text-gray-500 mt-1">60€/heure</div>
+                  <div className="text-4xl font-bold" style={{ color: 'var(--forest-green)' }}>280€</div>
+                  <div className="text-sm text-gray-500 mt-1">8 heures</div>
                   <div className="inline-block mt-2 px-3 py-1 rounded-full text-xs font-semibold" style={{ backgroundColor: 'var(--gold-light)', color: 'var(--forest-green)' }}>
-                    Économie de 120€
+                    Km à définir
                   </div>
                 </div>
 
@@ -473,7 +474,7 @@ export default function TarifsPage() {
                   </svg>
                 </div>
                 <h3 className="font-bold mb-2" style={{ color: 'var(--forest-green)' }}>Siège enfant</h3>
-                <p className="text-2xl font-bold text-gray-900 mb-2">10€</p>
+                <p className="text-2xl font-bold text-gray-900 mb-2">5€</p>
                 <p className="text-sm text-gray-600">Par siège</p>
               </div>
             </FadeInSection>
@@ -487,7 +488,7 @@ export default function TarifsPage() {
                 </div>
                 <h3 className="font-bold mb-2" style={{ color: 'var(--forest-green)' }}>Attente supplémentaire</h3>
                 <p className="text-2xl font-bold text-gray-900 mb-2">15€</p>
-                <p className="text-sm text-gray-600">Par tranche de 15 min</p>
+                <p className="text-sm text-gray-600">Par tranche de 20 min (après 10 min)</p>
               </div>
             </FadeInSection>
 
@@ -498,9 +499,9 @@ export default function TarifsPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                   </svg>
                 </div>
-                <h3 className="font-bold mb-2" style={{ color: 'var(--forest-green)' }}>Bagage supplémentaire</h3>
-                <p className="text-2xl font-bold text-gray-900 mb-2">5€</p>
-                <p className="text-sm text-gray-600">Au-delà de 3 valises</p>
+                <h3 className="font-bold mb-2" style={{ color: 'var(--forest-green)' }}>Bagages</h3>
+                <p className="text-2xl font-bold text-gray-900 mb-2">Inclus</p>
+                <p className="text-sm text-gray-600">2 valises de taille standard</p>
               </div>
             </FadeInSection>
 
@@ -511,9 +512,9 @@ export default function TarifsPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                 </div>
-                <h3 className="font-bold mb-2" style={{ color: 'var(--forest-green)' }}>Passager supplémentaire</h3>
-                <p className="text-2xl font-bold text-gray-900 mb-2">Gratuit</p>
-                <p className="text-sm text-gray-600">Jusqu&apos;à 4 personnes</p>
+                <h3 className="font-bold mb-2" style={{ color: 'var(--forest-green)' }}>Passagers</h3>
+                <p className="text-2xl font-bold text-gray-900 mb-2">Inclus</p>
+                <p className="text-sm text-gray-600">Maximum 3 personnes</p>
               </div>
             </FadeInSection>
           </div>
@@ -586,7 +587,7 @@ export default function TarifsPage() {
                   </svg>
                   <div>
                     <h3 className="font-semibold mb-1">Annulation flexible</h3>
-                    <p className="text-sm text-white/80">Gratuite jusqu&apos;à 12h avant</p>
+                    <p className="text-sm text-white/80">Gratuite jusqu&apos;à 24h avant</p>
                   </div>
                 </div>
               </div>
