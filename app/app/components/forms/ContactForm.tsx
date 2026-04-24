@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useSearchParams } from 'next/navigation';
 
 /**
  * ContactForm - Formulaire de contact avec validation
@@ -30,6 +31,8 @@ interface FormErrors {
 }
 
 export default function ContactForm() {
+  const searchParams = useSearchParams();
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -41,6 +44,28 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  // Pré-remplissage depuis les URL params (venant de l'estimateur)
+  useEffect(() => {
+    const from = searchParams?.get('from');
+    const to = searchParams?.get('to');
+    const price = searchParams?.get('price');
+
+    if (from || to || price) {
+      const lines: string[] = ['Bonjour,', ''];
+      lines.push("Je souhaite réserver une course avec les informations suivantes :");
+      if (from) lines.push(`• Départ : ${from}`);
+      if (to) lines.push(`• Arrivée : ${to}`);
+      if (price) lines.push(`• Tarif estimé : ${price}€`);
+      lines.push('', 'Merci de me confirmer la disponibilité.');
+
+      setFormData((prev) => ({
+        ...prev,
+        subject: prev.subject || 'reservation',
+        message: prev.message || lines.join('\n'),
+      }));
+    }
+  }, [searchParams]);
 
   // Validation
   const validateForm = (): boolean => {

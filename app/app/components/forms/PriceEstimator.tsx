@@ -2,6 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion';
+import { useRouter, usePathname } from 'next/navigation';
+import AddressAutocomplete from '../AddressAutocomplete';
+import {
+  getLocaleFromPath,
+  localizeHref,
+  PRICE_ESTIMATOR_TRANSLATIONS,
+  COMMON_TRANSLATIONS,
+} from '../../lib/i18n';
 
 /**
  * PriceEstimator - Estimateur de prix de course VTC (Version Uber-like)
@@ -14,9 +22,29 @@ import { motion, AnimatePresence, useMotionValue, useTransform, animate } from '
  * À remplacer par Google Distance Matrix API en production.
  */
 export default function PriceEstimator() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const locale = getLocaleFromPath(pathname || '/');
+  const t = PRICE_ESTIMATOR_TRANSLATIONS[locale];
+  const tc = COMMON_TRANSLATIONS[locale];
+
+  const handleBookNow = () => {
+    const params = new URLSearchParams();
+    if (departure) params.set('from', departure);
+    if (arrival) params.set('to', arrival);
+    if (estimatedPrice) params.set('price', String(estimatedPrice));
+    const target = `${localizeHref('/contact', locale)}?${params.toString()}`;
+    router.push(target);
+  };
+
   const [departure, setDeparture] = useState('');
   const [arrival, setArrival] = useState('');
+  const [departurePlace, setDeparturePlace] = useState<google.maps.places.PlaceResult | null>(null);
+  const [arrivalPlace, setArrivalPlace] = useState<google.maps.places.PlaceResult | null>(null);
   const [estimatedPrice, setEstimatedPrice] = useState<number | null>(null);
+  const [distance, setDistance] = useState<string | null>(null);
+  const [duration, setDuration] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
   
   // Animation du compteur de prix
@@ -31,21 +59,44 @@ export default function PriceEstimator() {
     return () => unsubscribe();
   }, [rounded]);
 
-  // Calcul fictif du prix
-  const calculatePrice = () => {
-    if (departure && arrival) {
-      setIsCalculating(true);
-      
-      setTimeout(() => {
-        const basePrice = Math.floor(Math.random() * 40) + 45;
-        setEstimatedPrice(basePrice);
-        setIsCalculating(false);
-        
-        animate(count, basePrice, {
-          duration: 1,
-          ease: "easeOut"
-        });
-      }, 500);
+  // Calcul du prix via API serveur (Distance Matrix)
+  const calculatePrice = async () => {
+    if (!departurePlace || !arrivalPlace) return;
+    setIsCalculating(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/calculate-price', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          origin: departurePlace.formatted_address || departure,
+          destination: arrivalPlace.formatted_address || arrival,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Calculation failed');
+      }
+
+      const data = await response.json();
+      const basePrice = Number(data.price);
+
+      setEstimatedPrice(basePrice);
+      setDistance(data.distanceText ?? null);
+      setDuration(data.durationText ?? null);
+      animate(count, basePrice, {
+        duration: 1,
+        ease: 'easeOut',
+      });
+    } catch (e) {
+      console.error(e);
+      setError(t.calculationError);
+      setEstimatedPrice(null);
+      setDistance(null);
+      setDuration(null);
+    } finally {
+      setIsCalculating(false);
     }
   };
 
@@ -53,9 +104,12 @@ export default function PriceEstimator() {
   const resetEstimation = () => {
     setEstimatedPrice(null);
     setDisplayPrice(0);
+    setDistance(null);
+    setDuration(null);
+    setError(null);
   };
 
-  const isFormValid = departure.trim() !== '' && arrival.trim() !== '';
+  const isFormValid = departurePlace !== null && arrivalPlace !== null;
 
   return (
     <div className="relative">
@@ -74,16 +128,16 @@ export default function PriceEstimator() {
                 <circle cx="12" cy="12" r="3" />
               </svg>
             </div>
-            <input
-              type="text"
-              value={departure}
-              onChange={(e) => {
-                setDeparture(e.target.value);
+            <AddressAutocomplete
+              placeholder={t.departurePlaceholder}
+              onPlaceSelect={(place) => {
+                setDeparturePlace(place);
+                setDeparture(place?.formatted_address || place?.name || '');
                 if (estimatedPrice) resetEstimation();
               }}
-              placeholder="Adresse de départ"
+              id="departure-input"
               disabled={estimatedPrice !== null}
-              className="w-full pl-12 pr-4 py-3.5 text-sm text-gray-900 bg-gray-100 rounded-lg border-0 focus:bg-white focus:ring-2 focus:ring-gray-300 transition-all duration-200 outline-none placeholder:text-gray-500 disabled:opacity-60"
+              className="pl-12"
             />
           </div>
 
@@ -100,19 +154,25 @@ export default function PriceEstimator() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </div>
-            <input
-              type="text"
-              value={arrival}
-              onChange={(e) => {
-                setArrival(e.target.value);
+            <AddressAutocomplete
+              placeholder={t.destinationPlaceholder}
+              onPlaceSelect={(place) => {
+                setArrivalPlace(place);
+                setArrival(place?.formatted_address || place?.name || '');
                 if (estimatedPrice) resetEstimation();
               }}
-              placeholder="Destination"
+              id="arrival-input"
               disabled={estimatedPrice !== null}
-              className="w-full pl-12 pr-4 py-3.5 text-sm text-gray-900 bg-gray-100 rounded-lg border-0 focus:bg-white focus:ring-2 focus:ring-gray-300 transition-all duration-200 outline-none placeholder:text-gray-500 disabled:opacity-60"
+              className="pl-12"
             />
           </div>
         </div>
+
+        {error && (
+          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3">
+            <p className="text-sm text-red-800">{error}</p>
+          </div>
+        )}
 
         {/* Calcul en cours */}
         <AnimatePresence>
@@ -134,7 +194,7 @@ export default function PriceEstimator() {
                     borderTopColor: 'transparent'
                   }}
                 />
-                <span className="text-sm text-gray-600">Calcul en cours...</span>
+                <span className="text-sm text-gray-600">{t.calculating}</span>
               </div>
             </motion.div>
           )}
@@ -153,7 +213,7 @@ export default function PriceEstimator() {
               <div className="bg-gray-50 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm font-medium text-gray-600">
-                    Tarif estimé
+                    {t.estimatedLabel}
                   </span>
                   <span 
                     className="text-3xl font-bold"
@@ -165,8 +225,24 @@ export default function PriceEstimator() {
                     {displayPrice}€
                   </span>
                 </div>
+                {distance && duration && (
+                  <div className="mb-2 flex items-center gap-4 border-b border-gray-200 pb-3">
+                    <div className="flex items-center gap-1.5 text-xs text-gray-600">
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                      </svg>
+                      <span>{distance}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs text-gray-600">
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>{duration}</span>
+                    </div>
+                  </div>
+                )}
                 <p className="text-xs text-gray-500">
-                  Prix indicatif toutes taxes comprises
+                  {t.priceNotice}
                 </p>
               </div>
             </motion.div>
@@ -189,23 +265,24 @@ export default function PriceEstimator() {
             `}
             style={{ backgroundColor: 'var(--forest-green)' }}
           >
-            Voir les prix
+            {t.seePrices}
           </button>
         ) : (
           // État 2 : Bouton "Réserver" + Lien modifier
           <div className="space-y-3">
             <button
-              className="w-full py-3.5 rounded-lg font-semibold text-sm text-white transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-md"
+              onClick={handleBookNow}
+              className="w-full py-3.5 rounded-lg font-semibold text-sm text-white transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-md cursor-pointer"
               style={{ backgroundColor: 'var(--forest-green)' }}
             >
-              Réserver maintenant
+              {tc.bookNow}
             </button>
             
             <button
               onClick={resetEstimation}
               className="w-full text-sm text-gray-600 hover:text-gray-900 font-medium transition-colors"
             >
-              Modifier le trajet
+              {t.editRoute}
             </button>
           </div>
         )}
@@ -213,7 +290,7 @@ export default function PriceEstimator() {
         {/* Info discrète */}
         {!estimatedPrice && (
           <p className="text-xs text-gray-400 text-center mt-4">
-            Sans engagement • Annulation gratuite jusqu'à 2h avant
+            {t.disclaimer}
           </p>
         )}
       </motion.div>

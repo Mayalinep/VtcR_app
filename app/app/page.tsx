@@ -8,16 +8,29 @@ import HeroScrollIndicator from './components/ui/HeroScrollIndicator';
 import Badge from './components/ui/Badge';
 import Testimonials from './components/sections/Testimonials';
 import { FEATURES_DATA } from './lib/data/features';
-import { ZONES_DATA, ZONES_DESCRIPTION, ZONES_ADDITIONAL_TEXT } from './lib/data/zones';
+import {
+  HOME_TRANSLATIONS,
+  COMMON_TRANSLATIONS,
+  type AppLocale,
+  DEFAULT_LOCALE,
+} from './lib/i18n';
 
-export default function Home() {
+interface HomeProps {
+  locale?: AppLocale;
+}
+
+export default function Home({ locale = DEFAULT_LOCALE }: HomeProps) {
+  const t = HOME_TRANSLATIONS[locale];
+  const tc = COMMON_TRANSLATIONS[locale];
+  // On garde les icônes SVG depuis FEATURES_DATA, et on prend les textes depuis les traductions.
+  const featuresIcons = Object.fromEntries(FEATURES_DATA.map((f) => [f.id, f.icon]));
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
 
-      {/* Hero Section - Full-screen avec image VTC Rachel */}
+      {/* Hero Section */}
       <main className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Image Background - Voiture VTC Rachel */}
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/vtc-rachel-car.png"
@@ -29,99 +42,92 @@ export default function Home() {
             className="object-cover object-center"
             sizes="100vw"
           />
-          {/* Overlay gradient vert forêt - Style premium */}
-          <div 
+          <div
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(to right, rgba(15, 76, 58, 0.85) 0%, rgba(15, 76, 58, 0.7) 40%, rgba(15, 76, 58, 0.4) 70%, transparent 100%)'
+              background:
+                'linear-gradient(to right, rgba(15, 76, 58, 0.85) 0%, rgba(15, 76, 58, 0.7) 40%, rgba(15, 76, 58, 0.4) 70%, transparent 100%)',
             }}
           />
         </div>
 
-        {/* Contenu Hero par-dessus l'image */}
         <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6">
-          {/* Hero aligné à gauche - Style Uber */}
           <div className="max-w-2xl text-left">
             <FadeIn delay={0.3}>
-              <div className="inline-block px-4 py-2 rounded-full text-sm font-medium mb-8 backdrop-blur-sm"
-                style={{ 
+              <div
+                className="inline-block px-4 py-2 rounded-full text-sm font-medium mb-8 backdrop-blur-sm"
+                style={{
                   backgroundColor: 'rgba(212, 175, 55, 0.15)',
                   color: '#D4AF37',
-                  border: '1px solid rgba(212, 175, 55, 0.3)'
+                  border: '1px solid rgba(212, 175, 55, 0.3)',
                 }}
               >
-                🏆 Service Premium Île-de-France
+                {t.heroBadge}
               </div>
             </FadeIn>
-            
+
             <FadeIn delay={0.5}>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6 tracking-tight text-white" style={{ fontFamily: 'var(--font-playfair)' }}>
-                Votre chauffeur
+              <h1
+                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6 tracking-tight text-white"
+                style={{ fontFamily: 'var(--font-playfair)' }}
+              >
+                {t.heroTitleLine1}
                 <br />
-                de confiance
+                {t.heroTitleLine2}
               </h1>
             </FadeIn>
-            
+
             <FadeIn delay={0.7}>
               <p className="text-base sm:text-lg lg:text-xl text-white/90 mb-10 leading-relaxed max-w-xl">
-                Réservez votre course VTC en quelques clics. Service professionnel, 
-                confort premium, tarifs transparents.
+                {t.heroDescription}
               </p>
             </FadeIn>
 
             <FadeIn delay={0.9}>
               <div className="flex flex-col sm:flex-row gap-4 max-w-md sm:max-w-none">
-                <button 
+                <button
                   className="px-10 py-4 rounded-lg font-semibold transition-all hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl text-base"
-                  style={{ 
+                  style={{
                     backgroundColor: 'var(--gold-champagne)',
-                    color: 'var(--forest-green)'
+                    color: 'var(--forest-green)',
                   }}
                 >
-                  Réserver maintenant
+                  {tc.bookNow}
                 </button>
-                <button 
-                  className="px-10 py-3.5 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 backdrop-blur-sm border-2 border-white text-white hover:bg-white/10 text-base"
-                >
-                  En savoir plus
+                <button className="px-10 py-3.5 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 backdrop-blur-sm border-2 border-white text-white hover:bg-white/10 text-base">
+                  {tc.learnMore}
                 </button>
               </div>
             </FadeIn>
           </div>
         </div>
 
-        {/* Flèche de scroll animée avec texte - Version blanche pour contraste */}
         <HeroScrollIndicator />
       </main>
 
-      {/* Section Estimateur de prix - Split avec Map */}
+      {/* Section Estimateur */}
       <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6" style={{ backgroundColor: '#FAFAF9' }}>
         <div className="max-w-7xl mx-auto">
-          {/* Layout Split : Titre + Formulaire | Map */}
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-            {/* GAUCHE : Titre + Formulaire - 40% desktop, 100% mobile */}
             <div className="w-full lg:w-2/5">
-              {/* Titre minimaliste - Style Uber (aligné à gauche sur tous écrans) */}
               <FadeInSection delay={0}>
                 <div className="text-left mb-6">
-                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>
-                    Réservez votre course
+                  <h2
+                    className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3"
+                    style={{ fontFamily: 'var(--font-playfair)' }}
+                  >
+                    {t.bookingTitle}
                   </h2>
-                  <p className="text-gray-500 text-sm sm:text-base">
-                    Tarif instantané • Réservation en 2 clics
-                  </p>
+                  <p className="text-gray-500 text-sm sm:text-base">{t.bookingSubtitle}</p>
                 </div>
               </FadeInSection>
 
-              {/* Formulaire */}
               <PriceEstimator />
             </div>
 
-            {/* DROITE : Map Google - Desktop uniquement (hidden mobile) */}
             <div className="hidden lg:block lg:w-3/5">
               <FadeInSection delay={0.2}>
                 <div className="sticky top-24 h-[600px] rounded-2xl overflow-hidden shadow-lg border border-gray-200">
-                  {/* Map Google statique - Centrée sur Île-de-France */}
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d335994.89219464146!2d2.2646348!3d48.8589465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b005%3A0x40b82c3688c9460!2sParis%2C%20France!5e0!3m2!1sfr!2sfr!4v1704902400000!5m2!1sfr!2sfr"
                     width="100%"
@@ -130,7 +136,7 @@ export default function Home() {
                     allowFullScreen={false}
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="Zones desservies - Île-de-France"
+                    title={t.zonesTitle}
                   />
                 </div>
               </FadeInSection>
@@ -139,43 +145,37 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Pourquoi nous choisir Section - Style Uber */}
+      {/* Pourquoi nous choisir */}
       <FadeInSection delay={0}>
         <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
-            {/* Titre - Aligné à gauche sur tous écrans */}
             <div className="text-left mb-10 sm:mb-12">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>
-                Pourquoi choisir <span style={{ color: 'var(--forest-green)' }}>VTC Rachel</span> ?
+              <h2
+                className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3"
+                style={{ fontFamily: 'var(--font-playfair)' }}
+              >
+                {t.whyChooseTitle}{' '}
+                <span style={{ color: 'var(--forest-green)' }}>{t.whyChooseHighlight}</span> ?
               </h2>
               <p className="text-gray-600 text-sm sm:text-base max-w-3xl">
-                Votre confort et votre sérénité au cœur de chaque trajet
+                {t.whyChooseSubtitle}
               </p>
             </div>
 
-            {/* 3 cartes style Uber */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
-              {FEATURES_DATA.map((feature, i) => (
+              {t.features.map((feature, i) => (
                 <FadeInSection key={feature.id} delay={i * 0.15}>
                   <div className="text-left group">
-                    {/* Icône */}
-                    <div className="mb-3">
-                      {feature.icon}
-                    </div>
+                    <div className="mb-3">{featuresIcons[feature.id]}</div>
 
-                    {/* Titre */}
-                    <h3 className="text-base font-bold mb-2 text-gray-900">
-                      {feature.title}
-                    </h3>
+                    <h3 className="text-base font-bold mb-2 text-gray-900">{feature.title}</h3>
 
-                    {/* Description */}
                     <p className="text-xs text-gray-600 leading-snug mb-3">
                       {feature.description}
                     </p>
 
-                    {/* Lien "En savoir plus" */}
                     <button className="text-xs font-medium text-gray-700 hover:text-gray-900 underline decoration-1 underline-offset-2 transition-colors">
-                      En savoir plus
+                      {tc.readMore}
                     </button>
                   </div>
                 </FadeInSection>
@@ -188,67 +188,81 @@ export default function Home() {
       {/* Témoignages */}
       <main className="px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          {/* Témoignages */}
           <FadeInSection delay={0}>
             <section className="mt-20 sm:mt-28 lg:mt-36">
               <div className="text-center mb-12 sm:mb-16 px-4">
-                <Badge className="mb-6">
-                  Ils nous font confiance
-                </Badge>
-                <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
-                  Ce que disent nos clients
+                <Badge className="mb-6">{t.testimonialsBadge}</Badge>
+                <h2
+                  className="text-3xl sm:text-4xl font-bold mb-4"
+                  style={{ fontFamily: 'var(--font-playfair)' }}
+                >
+                  {t.testimonialsTitle}
                 </h2>
                 <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
-                  Plus de 500 clients satisfaits en Île-de-France
+                  {t.testimonialsSubtitle}
                 </p>
               </div>
-              
+
               <Testimonials />
             </section>
           </FadeInSection>
 
           {/* Zones desservies */}
-          <FadeInSection className="mt-16 sm:mt-24 lg:mt-32 p-6 sm:p-8 lg:p-12 rounded-2xl" style={{ backgroundColor: 'var(--gold-light)' }}>
+          <FadeInSection
+            className="mt-16 sm:mt-24 lg:mt-32 p-6 sm:p-8 lg:p-12 rounded-2xl"
+            style={{ backgroundColor: 'var(--gold-light)' }}
+          >
             <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
-                Zones desservies
+              <h2
+                className="text-3xl sm:text-4xl font-bold mb-4"
+                style={{
+                  fontFamily: 'var(--font-playfair)',
+                  color: 'var(--forest-green)',
+                }}
+              >
+                {t.zonesTitle}
               </h2>
-              <p className="text-base sm:text-lg text-gray-700 mb-8">
-                {ZONES_DESCRIPTION}
-              </p>
-              
+              <p className="text-base sm:text-lg text-gray-700 mb-8">{t.zonesDescription}</p>
+
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 text-left">
-                {ZONES_DATA.map((zone, i) => (
+                {t.zones.map((zone, i) => (
                   <div key={i} className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: 'var(--forest-green)' }} />
+                    <div
+                      className="w-2 h-2 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: 'var(--forest-green)' }}
+                    />
                     <span className="text-sm sm:text-base text-gray-700">{zone}</span>
                   </div>
                 ))}
               </div>
-              
-              <p className="text-xs sm:text-sm text-gray-600 mt-6 sm:mt-8">
-                {ZONES_ADDITIONAL_TEXT}
-              </p>
+
+              <p className="text-xs sm:text-sm text-gray-600 mt-6 sm:mt-8">{t.zonesAdditional}</p>
             </div>
           </FadeInSection>
 
           {/* CTA Final */}
-          <FadeInSection className="mt-20 sm:mt-28 lg:mt-36 text-center p-8 sm:p-12 lg:p-16 rounded-2xl" style={{ backgroundColor: 'var(--forest-green)' }}>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
-              Prêt à réserver votre course ?
+          <FadeInSection
+            className="mt-20 sm:mt-28 lg:mt-36 text-center p-8 sm:p-12 lg:p-16 rounded-2xl"
+            style={{ backgroundColor: 'var(--forest-green)' }}
+          >
+            <h2
+              className="text-3xl sm:text-4xl font-bold text-white mb-4"
+              style={{ fontFamily: 'var(--font-playfair)' }}
+            >
+              {t.ctaTitle}
             </h2>
             <p className="text-base sm:text-lg lg:text-xl text-white/80 mb-8 max-w-2xl mx-auto px-4">
-              Profitez d&apos;un service de qualité avec un chauffeur professionnel
+              {t.ctaDescription}
             </p>
             <div className="flex justify-center px-4">
-              <button 
+              <button
                 className="w-full sm:w-auto max-w-md sm:max-w-none px-10 py-4 rounded-lg font-semibold transition-all hover:scale-105 shadow-xl active:scale-95"
-                style={{ 
+                style={{
                   backgroundColor: 'var(--gold-champagne)',
-                  color: 'var(--forest-green)'
+                  color: 'var(--forest-green)',
                 }}
               >
-                Réserver maintenant
+                {tc.bookNow}
               </button>
             </div>
           </FadeInSection>

@@ -1,4 +1,8 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { getLocaleFromPath, localizeHref } from '../../lib/i18n';
 
 /**
  * Footer - Pied de page réutilisable
@@ -10,6 +14,8 @@ import Link from 'next/link';
  * <Footer />
  */
 export default function Footer() {
+  const locale = getLocaleFromPath(usePathname() || '/');
+
   return (
     <footer className="border-t border-gray-100 py-12 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
@@ -26,21 +32,21 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-3 text-sm sm:text-base">Navigation</h4>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li><Link href="/" className="hover:text-gray-900 inline-block py-0.5">Accueil</Link></li>
-              <li><a href="/a-propos" className="hover:text-gray-900 inline-block py-0.5">À propos</a></li>
-              <li><a href="/prestations" className="hover:text-gray-900 inline-block py-0.5">Nos prestations</a></li>
-              <li><a href="/tarifs" className="hover:text-gray-900 inline-block py-0.5">Tarifs</a></li>
-              <li><a href="/faq" className="hover:text-gray-900 inline-block py-0.5">FAQ</a></li>
-              <li><a href="/contact" className="hover:text-gray-900 inline-block py-0.5">Contact</a></li>
+              <li><Link href={localizeHref('/', locale)} className="hover:text-gray-900 inline-block py-0.5">Accueil</Link></li>
+              <li><a href={localizeHref('/a-propos', locale)} className="hover:text-gray-900 inline-block py-0.5">À propos</a></li>
+              <li><a href={localizeHref('/prestations', locale)} className="hover:text-gray-900 inline-block py-0.5">Nos prestations</a></li>
+              <li><a href={localizeHref('/tarifs', locale)} className="hover:text-gray-900 inline-block py-0.5">Tarifs</a></li>
+              <li><a href={localizeHref('/faq', locale)} className="hover:text-gray-900 inline-block py-0.5">FAQ</a></li>
+              <li><a href={localizeHref('/contact', locale)} className="hover:text-gray-900 inline-block py-0.5">Contact</a></li>
             </ul>
           </div>
           
           <div>
             <h4 className="font-semibold mb-3 text-sm sm:text-base">Légal</h4>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li><a href="/cgv" className="hover:text-gray-900 inline-block py-0.5">CGV</a></li>
-              <li><a href="/mentions-legales" className="hover:text-gray-900 inline-block py-0.5">Mentions légales</a></li>
-              <li><a href="/confidentialite" className="hover:text-gray-900 inline-block py-0.5">Confidentialité</a></li>
+              <li><a href={localizeHref('/cgv', locale)} className="hover:text-gray-900 inline-block py-0.5">CGV</a></li>
+              <li><a href={localizeHref('/mentions-legales', locale)} className="hover:text-gray-900 inline-block py-0.5">Mentions légales</a></li>
+              <li><a href={localizeHref('/confidentialite', locale)} className="hover:text-gray-900 inline-block py-0.5">Confidentialité</a></li>
             </ul>
           </div>
           
