@@ -5,6 +5,7 @@ import Hero from '../components/sections/Hero';
 import CTASection from '../components/sections/CTASection';
 import FadeInSection from '../components/animations/FadeInSection';
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: "Contact - Nous contacter | VTC Rachel",
@@ -45,7 +46,9 @@ export default function ContactPage() {
                     Remplissez ce formulaire et nous vous répondrons dans les plus brefs délais
                   </p>
                   
-                  <ContactForm />
+                  <Suspense fallback={<div className="text-sm text-gray-500">Chargement du formulaire...</div>}>
+                    <ContactForm />
+                  </Suspense>
                 </div>
               </FadeInSection>
             </div>
