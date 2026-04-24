@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 /**
  * Footer - Pied de page réutilisable
  * 
@@ -24,8 +26,9 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-3 text-sm sm:text-base">Navigation</h4>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li><a href="/" className="hover:text-gray-900 inline-block py-0.5">Accueil</a></li>
+              <li><Link href="/" className="hover:text-gray-900 inline-block py-0.5">Accueil</Link></li>
               <li><a href="/a-propos" className="hover:text-gray-900 inline-block py-0.5">À propos</a></li>
+              <li><a href="/prestations" className="hover:text-gray-900 inline-block py-0.5">Nos prestations</a></li>
               <li><a href="/tarifs" className="hover:text-gray-900 inline-block py-0.5">Tarifs</a></li>
               <li><a href="/faq" className="hover:text-gray-900 inline-block py-0.5">FAQ</a></li>
               <li><a href="/contact" className="hover:text-gray-900 inline-block py-0.5">Contact</a></li>
@@ -45,7 +48,7 @@ export default function Footer() {
             <h4 className="font-semibold mb-3 text-sm sm:text-base">Contact</h4>
             <ul className="space-y-2 text-sm text-gray-600">
               <li className="py-0.5">contact@vtc-rachel.fr</li>
-              <li className="py-0.5">+33 6 XX XX XX XX</li>
+              <li className="py-0.5">+33 6 61 59 02 90</li>
             </ul>
           </div>
         </div>

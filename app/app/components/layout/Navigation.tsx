@@ -56,6 +56,7 @@ export default function Navigation() {
             {[
               { label: 'Tarifs', href: '/tarifs' },
               { label: 'À propos', href: '/a-propos' },
+              { label: 'Nos prestations', href: '/prestations' },
               { label: 'Contact', href: '/contact' },
               { label: 'FAQ', href: '/faq' }
             ].map((item) => (
@@ -158,6 +159,7 @@ export default function Navigation() {
               {[
                 { label: 'Tarifs', href: '/tarifs' },
                 { label: 'À propos', href: '/a-propos' },
+                { label: 'Nos prestations', href: '/prestations' },
                 { label: 'Contact', href: '/contact' },
                 { label: 'FAQ', href: '/faq' }
               ].map((item, i) => (

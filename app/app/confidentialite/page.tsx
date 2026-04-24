@@ -49,7 +49,7 @@ export default function ConfidentialitePage() {
                 <div className="space-y-2 text-gray-700 leading-relaxed">
                   <p><strong>Responsable :</strong> VTC Rachel - Rachel [Nom]</p>
                   <p><strong>Email :</strong> <a href="mailto:contact@vtc-rachel.fr" className="text-forest-green hover:underline">contact@vtc-rachel.fr</a></p>
-                  <p><strong>Téléphone :</strong> +33 6 XX XX XX XX</p>
+                  <p><strong>Téléphone :</strong> +33 6 61 59 02 90</p>
                 </div>
               </div>
 

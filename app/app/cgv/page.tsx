@@ -64,7 +64,7 @@ export default function CGVPage() {
                 </p>
                 <ul className="list-disc list-inside text-gray-700 space-y-2 ml-4">
                   <li>En ligne via le site web www.vtc-rachel.fr</li>
-                  <li>Par téléphone au +33 6 XX XX XX XX</li>
+                  <li>Par téléphone au +33 6 61 59 02 90</li>
                   <li>Par email à contact@vtc-rachel.fr</li>
                 </ul>
 

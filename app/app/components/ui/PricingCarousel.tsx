@@ -75,7 +75,7 @@ export default function PricingCarousel({
       {/* MOBILE: Carousel */}
       <div className={`md:hidden ${className}`}>
         <div 
-          className="relative overflow-hidden px-4"
+          className="relative overflow-x-hidden overflow-y-visible px-4 pt-6"
           onTouchStart={() => setIsPaused(true)}
           onTouchEnd={() => setIsPaused(false)}
           onMouseEnter={() => setIsPaused(true)}

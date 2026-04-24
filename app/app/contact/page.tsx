@@ -11,6 +11,12 @@ export const metadata: Metadata = {
   description: "Contactez VTC Rachel pour toute question sur nos services de chauffeur privé. Réponse rapide garantie par téléphone, email ou formulaire de contact.",
 };
 
+const mapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+const mapsQuery = encodeURIComponent("Paris, Ile-de-France");
+const mapsEmbedUrl = mapsApiKey
+  ? `https://www.google.com/maps/embed/v1/place?key=${mapsApiKey}&q=${mapsQuery}&zoom=10`
+  : null;
+
 export default function ContactPage() {
   return (
     <div className="min-h-screen bg-white">
@@ -66,10 +72,10 @@ export default function ContactPage() {
                   </div>
                   <h3 className="font-semibold text-lg mb-2">Téléphone</h3>
                   <a 
-                    href="tel:+33612345678" 
+                    href="tel:+33661590290" 
                     className="text-gray-600 hover:text-forest-green transition-colors"
                   >
-                    +33 6 12 34 56 78
+                    +33 6 61 59 02 90
                   </a>
                   <p className="text-sm text-gray-500 mt-2">
                     Disponible 7j/7, 24h/24
@@ -180,24 +186,37 @@ export default function ContactPage() {
               </p>
             </div>
             
-            {/* Placeholder pour Google Maps */}
-            <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-200 h-96 bg-gray-200 flex items-center justify-center">
-              <div className="text-center">
-                <svg 
-                  className="w-16 h-16 mx-auto mb-4 text-gray-400" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                </svg>
-                <p className="text-gray-500 font-medium">
-                  Google Maps à intégrer
-                </p>
-                <p className="text-sm text-gray-400 mt-2">
-                  Paris et Île-de-France
-                </p>
-              </div>
+            <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-200 h-96 bg-gray-200">
+              {mapsEmbedUrl ? (
+                <iframe
+                  title="Carte Google Maps - Zone de service VTC Rachel"
+                  src={mapsEmbedUrl}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              ) : (
+                <div className="h-full flex items-center justify-center px-6">
+                  <div className="text-center">
+                    <svg
+                      className="w-16 h-16 mx-auto mb-4 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                    </svg>
+                    <p className="text-gray-600 font-medium">
+                      Carte indisponible en local
+                    </p>
+                    <p className="text-sm text-gray-500 mt-2">
+                      Ajoutez `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` dans votre fichier `.env.local`.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -210,7 +229,7 @@ export default function ContactPage() {
           description="Appelez-nous directement pour une réservation rapide"
           primaryButton={{
             text: "Appeler maintenant",
-            href: "tel:+33612345678"
+            href: "tel:+33661590290"
           }}
           secondaryButton={{
             text: "Réserver en ligne",

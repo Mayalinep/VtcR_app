@@ -38,7 +38,7 @@ export default function MentionsLegalesPage() {
                   <p><strong>SIRET :</strong> [À compléter]</p>
                   <p><strong>Adresse :</strong> [Adresse à compléter]</p>
                   <p><strong>Email :</strong> contact@vtc-rachel.fr</p>
-                  <p><strong>Téléphone :</strong> +33 6 XX XX XX XX</p>
+                  <p><strong>Téléphone :</strong> +33 6 61 59 02 90</p>
                   <p><strong>Licence VTC :</strong> [Numéro à compléter]</p>
                 </div>
               </div>

@@ -46,10 +46,10 @@ export const AIRPORT_PACKAGES: PriceCard[] = [
     id: 'cdg',
     name: 'Paris ↔ CDG',
     subtitle: 'Aéroport Charles de Gaulle',
-    dayPrice: '60€',
-    nightPrice: '70€',
-    dayHours: 'Jour (6h-22h)',
-    nightHours: 'Nuit (22h-6h)',
+    dayPrice: 'À partir de 35€',
+    nightPrice: '',
+    dayHours: 'Prix indicatif',
+    nightHours: '',
     icon: 'airport',
     features: [
       '1 à 3 passagers',
@@ -63,10 +63,10 @@ export const AIRPORT_PACKAGES: PriceCard[] = [
     id: 'orly',
     name: 'Paris ↔ Orly',
     subtitle: "Aéroport d'Orly",
-    dayPrice: '55€',
-    nightPrice: '65€',
-    dayHours: 'Jour (6h-22h)',
-    nightHours: 'Nuit (22h-6h)',
+    dayPrice: 'À partir de 30€',
+    nightPrice: '',
+    dayHours: 'Prix indicatif',
+    nightHours: '',
     icon: 'airport',
     isPopular: true,
     features: [
@@ -113,14 +113,14 @@ export const AVAILABILITY_PACKAGES: PriceCard[] = [
   {
     id: 'hourly',
     name: "À l'heure",
-    subtitle: 'Flexibilité maximale',
+    subtitle: '1 heure',
     dayPrice: '45€',
     nightPrice: '',
-    dayHours: 'Minimum 1h',
+    dayHours: 'Par heure',
     nightHours: '',
     icon: 'clock',
     features: [
-      '20 km/heure inclus',
+      'Max 20 km par heure',
       'Chauffeur à disposition',
       'Trajets multiples possibles'
     ]
@@ -131,8 +131,8 @@ export const AVAILABILITY_PACKAGES: PriceCard[] = [
     subtitle: '4 heures',
     dayPrice: '160€',
     nightPrice: '',
-    dayHours: '4 heures',
-    nightHours: '80 km inclus',
+    dayHours: '40€/heure',
+    nightHours: '80 km max (4h)',
     icon: 'sun',
     isPopular: true,
     features: [

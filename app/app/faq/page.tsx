@@ -41,7 +41,7 @@ export default function FAQPage() {
           }}
           secondaryButton={{
             text: "Appeler maintenant",
-            href: "tel:+33612345678"
+            href: "tel:+33661590290"
           }}
         />
       </FadeInSection>

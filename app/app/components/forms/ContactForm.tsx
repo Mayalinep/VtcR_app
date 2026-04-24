@@ -189,7 +189,7 @@ export default function ContactForm() {
             className={`w-full px-4 py-3 rounded-lg border ${
               errors.phone ? 'border-red-500' : 'border-gray-200'
             } focus:border-forest-green focus:ring-2 focus:ring-forest-green/20 transition-all outline-none`}
-            placeholder="+33 6 12 34 56 78"
+            placeholder="+33 6 61 59 02 90"
           />
           {errors.phone && (
             <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
