@@ -62,7 +62,7 @@ Ce projet suit la **BMAD Method** (Build-Measure-Analyze-Deploy) :
 
 ## 👥 Équipe
 
-- **Développeur:** Étudiante École 42 (fullstack)
+- **Développeuse:** Maya (fullstack)
 - **Product Owner:** Rachel (propriétaire VTC)
 - **Méthodologie:** BMAD Method
 
@@ -110,4 +110,4 @@ Ce projet suit la **BMAD Method** (Build-Measure-Analyze-Deploy) :
 ---
 
 **Version:** 0.1.0 (Planning Phase)  
-**Dernière mise à jour:** 2026-01-09
+**Dernière mise à jour:** 2026-04-26
