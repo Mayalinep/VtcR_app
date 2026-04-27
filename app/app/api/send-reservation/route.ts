@@ -117,7 +117,11 @@ ${data.comment ? `Commentaire : ${data.comment}` : ''}
     `.trim();
 
     // 6. Préparer les résultats
-    const results: { email?: any; clientEmail?: any; sms?: any } = {};
+    const results: {
+      email?: unknown;
+      clientEmail?: unknown;
+      sms?: unknown;
+    } = {};
 
     // 7. Envoyer l'email via Resend (si configuré)
     const resendApiKey = process.env.RESEND_API_KEY;

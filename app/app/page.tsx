@@ -85,7 +85,8 @@ export default function Home({ locale = DEFAULT_LOCALE }: HomeProps) {
 
             <FadeIn delay={0.9}>
               <div className="flex flex-col sm:flex-row gap-4 max-w-md sm:max-w-none">
-                <button
+                <a
+                  href="#booking-estimator"
                   className="px-10 py-4 rounded-lg font-semibold transition-all hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl text-base"
                   style={{
                     backgroundColor: 'var(--gold-champagne)',
@@ -93,10 +94,13 @@ export default function Home({ locale = DEFAULT_LOCALE }: HomeProps) {
                   }}
                 >
                   {tc.bookNow}
-                </button>
-                <button className="px-10 py-3.5 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 backdrop-blur-sm border-2 border-white text-white hover:bg-white/10 text-base">
+                </a>
+                <a
+                  href="#why-choose"
+                  className="px-10 py-3.5 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 backdrop-blur-sm border-2 border-white text-white hover:bg-white/10 text-base"
+                >
                   {tc.learnMore}
-                </button>
+                </a>
               </div>
             </FadeIn>
           </div>
@@ -106,7 +110,7 @@ export default function Home({ locale = DEFAULT_LOCALE }: HomeProps) {
       </main>
 
       {/* Section Estimateur */}
-      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6" style={{ backgroundColor: '#FAFAF9' }}>
+      <section id="booking-estimator" className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6" style={{ backgroundColor: '#FAFAF9' }}>
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
             <div className="w-full lg:w-2/5">
@@ -147,7 +151,7 @@ export default function Home({ locale = DEFAULT_LOCALE }: HomeProps) {
 
       {/* Pourquoi nous choisir */}
       <FadeInSection delay={0}>
-        <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6">
+        <section id="why-choose" className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
             <div className="text-left mb-10 sm:mb-12">
               <h2
@@ -255,7 +259,8 @@ export default function Home({ locale = DEFAULT_LOCALE }: HomeProps) {
               {t.ctaDescription}
             </p>
             <div className="flex justify-center px-4">
-              <button
+              <a
+                href="#booking-estimator"
                 className="w-full sm:w-auto max-w-md sm:max-w-none px-10 py-4 rounded-lg font-semibold transition-all hover:scale-105 shadow-xl active:scale-95"
                 style={{
                   backgroundColor: 'var(--gold-champagne)',
@@ -263,7 +268,7 @@ export default function Home({ locale = DEFAULT_LOCALE }: HomeProps) {
                 }}
               >
                 {tc.bookNow}
-              </button>
+              </a>
             </div>
           </FadeInSection>
         </div>

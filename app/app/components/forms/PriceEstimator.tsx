@@ -6,7 +6,6 @@ import { useRouter, usePathname } from 'next/navigation';
 import AddressAutocomplete from '../AddressAutocomplete';
 import {
   getLocaleFromPath,
-  localizeHref,
   PRICE_ESTIMATOR_TRANSLATIONS,
   COMMON_TRANSLATIONS,
 } from '../../lib/i18n';
@@ -30,10 +29,12 @@ export default function PriceEstimator() {
 
   const handleBookNow = () => {
     const params = new URLSearchParams();
-    if (departure) params.set('from', departure);
-    if (arrival) params.set('to', arrival);
+    if (departure) params.set('departure', departure);
+    if (arrival) params.set('arrival', arrival);
     if (estimatedPrice) params.set('price', String(estimatedPrice));
-    const target = `${localizeHref('/contact', locale)}?${params.toString()}`;
+    if (distance) params.set('distance', distance);
+    if (duration) params.set('duration', duration);
+    const target = `/reserver?${params.toString()}`;
     router.push(target);
   };
 
@@ -241,7 +242,7 @@ export default function PriceEstimator() {
                     </div>
                   </div>
                 )}
-                <p className="text-xs text-gray-500">
+                <p className="text-[10px] text-gray-500">
                   {t.priceNotice}
                 </p>
               </div>

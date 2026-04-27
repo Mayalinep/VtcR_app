@@ -55,10 +55,14 @@ export default function Navigation() {
           {/* Logo */}
           <a
             href={localizeHref('/', locale)}
-            className="shrink-0 text-lg lg:text-xl font-bold tracking-tight text-white hover:text-white/80 transition-colors duration-200"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            className="shrink-0 inline-flex items-center"
+            aria-label="VTC Rachel"
           >
-            VTC Rachel
+            <img
+              src="/images/branding/LOGO%20PAGE%20%281%29.svg"
+              alt="VTC Rachel"
+              className="h-11 lg:h-12 w-auto object-contain"
+            />
           </a>
 
           {/* Desktop Navigation */}

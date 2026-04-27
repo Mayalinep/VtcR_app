@@ -30,6 +30,8 @@ function ReservationContent() {
   const [price, setPrice] = useState(Number(searchParams.get('price')) || 0);
   const [distance, setDistance] = useState(searchParams.get('distance') || '');
   const [duration, setDuration] = useState(searchParams.get('duration') || '');
+  const [departurePlace, setDeparturePlace] = useState<google.maps.places.PlaceResult | null>(null);
+  const [arrivalPlace, setArrivalPlace] = useState<google.maps.places.PlaceResult | null>(null);
 
   // État du formulaire client
   const [formData, setFormData] = useState({
@@ -45,6 +47,7 @@ function ReservationContent() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRecalculating, setIsRecalculating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -54,6 +57,37 @@ function ReservationContent() {
       router.push('/');
     }
   }, [departure, arrival, price, router]);
+
+  const recalculatePrice = async () => {
+    if (!departure || !arrival) return;
+
+    setIsRecalculating(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/calculate-price', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          origin: departurePlace?.formatted_address || departure,
+          destination: arrivalPlace?.formatted_address || arrival,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Impossible de recalculer le trajet');
+      }
+
+      const data = await response.json();
+      setPrice(Number(data.price) || 0);
+      setDistance(data.distanceText || '');
+      setDuration(data.durationText || '');
+    } catch (recalcError) {
+      console.error(recalcError);
+      setError('Impossible de recalculer le prix pour ce trajet.');
+    } finally {
+      setIsRecalculating(false);
+    }
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -146,7 +180,7 @@ function ReservationContent() {
               className="px-8 py-3 rounded-lg font-semibold text-white transition-all hover:scale-105"
               style={{ backgroundColor: 'var(--forest-green)' }}
             >
-              Retour à l'accueil
+              Retour à l&apos;accueil
             </button>
           </motion.div>
         </div>
@@ -159,7 +193,7 @@ function ReservationContent() {
     <div className="min-h-screen bg-white">
       <Navigation />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-12">
         {/* Titre */}
         <div className="text-center mb-10">
           <h1 className="text-3xl sm:text-4xl font-bold mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>
@@ -193,11 +227,12 @@ function ReservationContent() {
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Départ
                     </label>
-                    <input
-                      type="text"
-                      value={departure}
-                      onChange={(e) => setDeparture(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                    <AddressAutocomplete
+                      placeholder="Adresse de départ"
+                      initialValue={departure}
+                      onInputChange={setDeparture}
+                      onPlaceSelect={setDeparturePlace}
+                      className="px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-white"
                     />
                   </div>
 
@@ -206,12 +241,24 @@ function ReservationContent() {
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Arrivée
                     </label>
-                    <input
-                      type="text"
-                      value={arrival}
-                      onChange={(e) => setArrival(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                    <AddressAutocomplete
+                      placeholder="Adresse d'arrivée"
+                      initialValue={arrival}
+                      onInputChange={setArrival}
+                      onPlaceSelect={setArrivalPlace}
+                      className="px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-white"
                     />
+                  </div>
+
+                  <div className="pt-1">
+                    <button
+                      type="button"
+                      onClick={recalculatePrice}
+                      disabled={isRecalculating || !departure || !arrival}
+                      className="text-xs font-medium text-forest-green hover:underline disabled:opacity-50 disabled:no-underline"
+                    >
+                      {isRecalculating ? 'Recalcul en cours...' : 'Recalculer avec Google Maps'}
+                    </button>
                   </div>
 
                   {/* Infos du trajet */}
@@ -458,7 +505,7 @@ function ReservationContent() {
                   Une question ?
                 </h3>
                 <p className="text-gray-600 text-sm mb-6">
-                  Vous avez un doute ou une demande particulière ? N'hésitez pas à contacter Rachel directement !
+                  Vous avez un doute ou une demande particulière ? N&apos;hésitez pas à contacter Rachel directement !
                 </p>
                 
                 {/* Téléphone */}

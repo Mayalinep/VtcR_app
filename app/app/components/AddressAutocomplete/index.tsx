@@ -6,6 +6,8 @@ import { APIProvider, useMapsLibrary } from '@vis.gl/react-google-maps';
 interface AddressAutocompleteProps {
   placeholder?: string;
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
+  onInputChange?: (value: string) => void;
+  initialValue?: string;
   className?: string;
   id?: string;
   disabled?: boolean;
@@ -14,13 +16,19 @@ interface AddressAutocompleteProps {
 function AutocompleteInput({
   placeholder = 'Entrez une adresse',
   onPlaceSelect,
+  onInputChange,
+  initialValue = '',
   className = '',
   id,
   disabled = false,
 }: AddressAutocompleteProps) {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(initialValue);
   const inputRef = useRef<HTMLInputElement>(null);
   const places = useMapsLibrary('places');
+
+  useEffect(() => {
+    setInputValue(initialValue);
+  }, [initialValue]);
 
   useEffect(() => {
     if (!places || !inputRef.current) return;
@@ -33,7 +41,9 @@ function AutocompleteInput({
     const listener = autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
       if (place.geometry) {
-        setInputValue(place.formatted_address || place.name || '');
+        const nextValue = place.formatted_address || place.name || '';
+        setInputValue(nextValue);
+        onInputChange?.(nextValue);
         onPlaceSelect(place);
       } else {
         onPlaceSelect(null);
@@ -43,7 +53,7 @@ function AutocompleteInput({
     return () => {
       listener.remove();
     };
-  }, [places, onPlaceSelect]);
+  }, [places, onPlaceSelect, onInputChange]);
 
   return (
     <input
@@ -53,6 +63,7 @@ function AutocompleteInput({
       value={inputValue}
       onChange={(e) => {
         setInputValue(e.target.value);
+        onInputChange?.(e.target.value);
         // Si l'utilisateur tape manuellement, la sélection Google n'est plus fiable.
         onPlaceSelect(null);
       }}
