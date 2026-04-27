@@ -3,6 +3,7 @@ import Footer from '../components/layout/Footer';
 import Hero from '../components/sections/Hero';
 import CTASection from '../components/sections/CTASection';
 import FadeInSection from '../components/animations/FadeInSection';
+import { PRESTATIONS_TRANSLATIONS, type AppLocale, DEFAULT_LOCALE, localizeHref } from '../lib/i18n';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,62 +12,25 @@ export const metadata: Metadata = {
     'Decouvrez les prestations VTC Rachel : transferts aeroports et gares, trajets inter-cites dans toute la France, mise a disposition et transport adolescent.',
 };
 
-const SERVICES = [
-  {
-    title: 'Aeroports et gares',
-    description:
-      "Nous assurons vos transferts depuis et vers les aeroports et gares avec une prise en charge ponctuelle, un suivi en temps reel et une communication claire avant l'arrivee du chauffeur.",
-    points: [
-      'Transferts CDG, Orly et principales gares parisiennes',
-      'Accueil personnalise et aide aux bagages',
-      'Ideal pour trajets professionnels, vacances et retours tardifs',
-    ],
-  },
-  {
-    title: 'Trajets inter-cites - Toute la France',
-    description:
-      "Au-dela de l'Ile-de-France, nous realisons vos deplacements vers d'autres villes de France dans un cadre confortable et serein.",
-    points: [
-      'Longues distances sur reservation',
-      'Itineraires adaptes a vos contraintes horaires',
-      'Solution fiable pour deplacements personnels ou business',
-    ],
-  },
-  {
-    title: 'Mise a disposition',
-    description:
-      "Un chauffeur dedie reste disponible sur la duree de votre choix pour vous accompagner sur plusieurs etapes de la journee ou de la soiree.",
-    points: [
-      "Formules a l'heure, demi-journee et journee",
-      'Parfait pour evenements, reunions, shopping ou ceremonies',
-      'Souplesse des arrets et des horaires selon votre programme',
-    ],
-  },
-  {
-    title: 'Transport adolescent',
-    description:
-      'Nous proposons un transport encadre pour les adolescents, avec des regles claires de securite et une coordination avec les parents.',
-    points: [
-      'Trajets ecole, activites et deplacements ponctuels',
-      'Confirmation des horaires de prise en charge et depose',
-      'Reservation avec informations parentales obligatoires',
-    ],
-  },
-];
+interface PrestationsProps {
+  locale?: AppLocale;
+}
 
-export default function PrestationsPage() {
+export default function PrestationsPage({ locale = DEFAULT_LOCALE }: PrestationsProps) {
+  const t = PRESTATIONS_TRANSLATIONS[locale];
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
 
       <Hero
-        badge="Services premium"
+        badge={t.heroBadge}
         title={
           <>
-            Nos <span style={{ color: 'var(--forest-green)' }}>prestations</span>
+            {t.heroTitleLine1} <span style={{ color: 'var(--forest-green)' }}>{t.heroTitleLine2}</span>
           </>
         }
-        description="Des solutions de transport fiables, elegantes et adaptees a chaque besoin."
+        description={t.heroDescription}
       />
 
       <section className="py-16 px-4 sm:px-6">
@@ -77,17 +41,14 @@ export default function PrestationsPage() {
                 className="text-3xl sm:text-4xl font-bold mb-4"
                 style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}
               >
-                Un accompagnement sur mesure
+                {t.sectionTitle}
               </h2>
-              <p className="text-gray-600 max-w-3xl mx-auto">
-                Chaque prestation est pensee pour allier ponctualite, confort et discretion.
-                Vous beneficiez d&apos;un service humain, organise et adapte a votre contexte.
-              </p>
+              <p className="text-gray-600 max-w-3xl mx-auto">{t.sectionSubtitle}</p>
             </div>
           </FadeInSection>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {SERVICES.map((service, index) => (
+            {t.services.map((service, index) => (
               <FadeInSection key={service.title} delay={index * 0.08}>
                 <article className="h-full rounded-2xl border border-gray-200 p-6 sm:p-8 bg-white shadow-sm">
                   <h3
@@ -115,8 +76,7 @@ export default function PrestationsPage() {
 
           <FadeInSection delay={0.25}>
             <div className="mt-10 rounded-xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
-              Pour les prestations longues distances et le transport adolescent, une reservation
-              anticipee est recommandee afin de garantir les meilleures conditions de prise en charge.
+              {t.notice}
             </div>
           </FadeInSection>
         </div>
@@ -124,16 +84,10 @@ export default function PrestationsPage() {
 
       <FadeInSection delay={0}>
         <CTASection
-          title="Besoin d'une prestation specifique ?"
-          description="Contactez-nous pour organiser votre trajet avec une proposition adaptee."
-          primaryButton={{
-            text: 'Demander un devis',
-            href: '/contact',
-          }}
-          secondaryButton={{
-            text: 'Voir les tarifs',
-            href: '/tarifs',
-          }}
+          title={t.ctaTitle}
+          description={t.ctaDescription}
+          primaryButton={{ text: t.ctaPrimary, href: localizeHref('/contact', locale) }}
+          secondaryButton={{ text: t.ctaSecondary, href: localizeHref('/tarifs', locale) }}
         />
       </FadeInSection>
 
