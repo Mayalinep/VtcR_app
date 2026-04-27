@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Navigation from '../components/layout/Navigation';
 import Footer from '../components/layout/Footer';
 import Hero from '../components/sections/Hero';
@@ -304,8 +305,8 @@ export default function CGVPage() {
                   Article 11 - Protection des données personnelles
                 </h2>
                 <p className="text-gray-700 leading-relaxed">
-                  Les données personnelles collectées sont traitées conformément au RGPD et à notre 
-                  <a href="/confidentialite" className="text-forest-green hover:underline font-medium"> Politique de confidentialité</a>.
+                  Les données personnelles collectées sont traitées conformément au RGPD et à notre
+                  <Link href="/confidentialite" className="text-forest-green hover:underline font-medium"> Politique de confidentialité</Link>.
                 </p>
               </div>
 
