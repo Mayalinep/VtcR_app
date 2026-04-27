@@ -15,8 +15,8 @@ export const BRAND = {
 // Coordonnées de contact
 export const CONTACT = {
   email: 'contact@vtc-rachel.fr',
-  phone: '+33 6 XX XX XX XX',
-  phoneDisplay: '06 XX XX XX XX',
+  phone: '+33 6 61 59 02 90',
+  phoneDisplay: '06 61 59 02 90',
   address: 'Île-de-France',
   availability: '24h/24, 7j/7',
 } as const;

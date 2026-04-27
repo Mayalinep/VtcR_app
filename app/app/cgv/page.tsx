@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Navigation from '../components/layout/Navigation';
 import Footer from '../components/layout/Footer';
 import Hero from '../components/sections/Hero';
@@ -64,7 +65,7 @@ export default function CGVPage() {
                 </p>
                 <ul className="list-disc list-inside text-gray-700 space-y-2 ml-4">
                   <li>En ligne via le site web www.vtc-rachel.fr</li>
-                  <li>Par téléphone au +33 6 XX XX XX XX</li>
+                  <li>Par téléphone au +33 6 61 59 02 90</li>
                   <li>Par email à contact@vtc-rachel.fr</li>
                 </ul>
 
@@ -86,30 +87,58 @@ export default function CGVPage() {
                 <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
                   Article 3 - Tarifs
                 </h2>
-                
-                <h3 className="text-lg font-semibold mt-4 mb-2">3.1 Calcul du tarif</h3>
+
+                <h3 className="text-lg font-semibold mt-4 mb-2">3.1 Courses simples (Point A → Point B)</h3>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Le tarif est calculé sur la base de :
+                  Le tarif est calculé sur la base de la distance du trajet. Le prix affiché est <strong>&quot;À partir de X€&quot;</strong>
+                  et constitue une estimation indicative.
                 </p>
-                <ul className="list-disc list-inside text-gray-700 space-y-2 ml-4">
-                  <li>La distance du trajet</li>
-                  <li>Le temps de trajet estimé</li>
-                  <li>Les options supplémentaires (siège enfant, bagages, etc.)</li>
-                  <li>Les majorations éventuelles (nuit, jours fériés)</li>
-                </ul>
-
-                <h3 className="text-lg font-semibold mt-6 mb-2">3.2 Tarif indicatif</h3>
                 <p className="text-gray-700 leading-relaxed">
-                  Le tarif affiché lors de la réservation est <strong>indicatif</strong>. Le prix définitif peut varier en fonction 
-                  du trajet réellement effectué (détours, embouteillages). Le Client en sera informé et devra accepter avant le départ.
+                  Le prix final peut varier en fonction des conditions réelles de circulation (embouteillages, déviations, travaux).
+                  Le tarif définitif sera confirmé par le chauffeur avant le départ et <strong>ne pourra excéder +20% du tarif estimé</strong>,
+                  sauf accord express du Client.
                 </p>
 
-                <h3 className="text-lg font-semibold mt-6 mb-2">3.3 Majorations</h3>
+                <h3 className="text-lg font-semibold mt-6 mb-2">3.2 Mise à disposition</h3>
+                <div className="overflow-x-auto mt-4 mb-6">
+                  <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Formule</th>
+                        <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Tarif</th>
+                        <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Durée</th>
+                        <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Km max</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      <tr>
+                        <td className="px-4 py-3 text-gray-700">À l&apos;heure</td>
+                        <td className="px-4 py-3 font-semibold text-gray-900">45€/heure</td>
+                        <td className="px-4 py-3 text-gray-700">Minimum 1h</td>
+                        <td className="px-4 py-3 text-gray-700">20 km/h</td>
+                      </tr>
+                      <tr>
+                        <td className="px-4 py-3 text-gray-700">Demi-Journée</td>
+                        <td className="px-4 py-3 font-semibold text-gray-900">160€</td>
+                        <td className="px-4 py-3 text-gray-700">4 heures</td>
+                        <td className="px-4 py-3 text-gray-700">80 km</td>
+                      </tr>
+                      <tr>
+                        <td className="px-4 py-3 text-gray-700">Journée</td>
+                        <td className="px-4 py-3 font-semibold text-gray-900">280€</td>
+                        <td className="px-4 py-3 text-gray-700">8 heures</td>
+                        <td className="px-4 py-3 text-gray-700">À définir</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h3 className="text-lg font-semibold mt-6 mb-2">3.3 Options et suppléments</h3>
                 <div className="space-y-2 text-gray-700 mt-2">
-                  <p><strong>Nuit (22h-6h) :</strong> +20%</p>
-                  <p><strong>Dimanches et jours fériés :</strong> +15%</p>
-                  <p><strong>Temps d&apos;attente (au-delà de 15 min) :</strong> 15€ par tranche de 15 minutes</p>
-                  <p><strong>Siège enfant :</strong> +10€</p>
+                  <p><strong>Siège auto enfant :</strong> 5€</p>
+                  <p><strong>Temps d&apos;attente (au-delà de 10 min) :</strong> 15€ par tranche de 20 minutes</p>
+                  <p><strong>Passagers :</strong> Maximum 3 personnes inclus</p>
+                  <p><strong>Bagages :</strong> 2 valises de taille standard incluses</p>
                 </div>
               </div>
 
@@ -118,27 +147,31 @@ export default function CGVPage() {
                 <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
                   Article 4 - Paiement
                 </h2>
-                
+
                 <h3 className="text-lg font-semibold mt-4 mb-2">4.1 Moyens de paiement acceptés</h3>
                 <ul className="list-disc list-inside text-gray-700 space-y-2 ml-4">
-                  <li>Carte bancaire (Visa, Mastercard, American Express)</li>
-                  <li>Apple Pay et Google Pay</li>
-                  <li>Espèces</li>
+                  <li><strong>Carte bancaire</strong> : sur place, dans le véhicule (Visa, Mastercard)</li>
+                  <li><strong>Espèces</strong></li>
+                  <li><strong>Virement bancaire</strong> : pour réservations à l&apos;avance ou entreprises</li>
                 </ul>
 
                 <h3 className="text-lg font-semibold mt-6 mb-2">4.2 Modalités de paiement</h3>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Le paiement peut s&apos;effectuer :
+                  <strong>Courses simples :</strong> Le paiement s&apos;effectue <strong>à l&apos;issue de la course</strong> par carte bancaire ou espèces.
                 </p>
-                <ul className="list-disc list-inside text-gray-700 space-y-2 ml-4">
-                  <li><strong>En ligne</strong> : au moment de la réservation (paiement sécurisé via Stripe)</li>
-                  <li><strong>À bord</strong> : à la fin de la course (espèces ou carte bancaire)</li>
-                </ul>
-
-                <h3 className="text-lg font-semibold mt-6 mb-2">4.3 Facture</h3>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  <strong>Mise à disposition :</strong> Un acompte de 30% peut être demandé lors de la réservation (par virement bancaire).
+                  Le solde est payable à l&apos;issue de la prestation.
+                </p>
                 <p className="text-gray-700 leading-relaxed">
-                  Une facture est automatiquement générée et envoyée par email après chaque course. 
-                  Elle est également accessible depuis l&apos;espace client.
+                  <strong>Virement bancaire :</strong> L&apos;IBAN sera fourni sur demande ou sur la confirmation de réservation.
+                  La référence de paiement (numéro de réservation) doit être mentionnée obligatoirement.
+                </p>
+
+                <h3 className="text-lg font-semibold mt-6 mb-2">4.3 Facturation</h3>
+                <p className="text-gray-700 leading-relaxed">
+                  Une facture est délivrée sur demande par email au format PDF. Elle est obligatoire pour les courses professionnelles
+                  et mentionne les détails de la course, options et TVA (prix TTC, TVA à 20% incluse).
                 </p>
               </div>
 
@@ -147,40 +180,50 @@ export default function CGVPage() {
                 <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
                   Article 5 - Modification et Annulation
                 </h2>
-                
+
                 <h3 className="text-lg font-semibold mt-4 mb-2">5.1 Modification par le Client</h3>
                 <p className="text-gray-700 leading-relaxed">
-                  <strong>Gratuite jusqu&apos;à 4 heures avant</strong> l&apos;heure de prise en charge prévue. 
-                  Au-delà, modification soumise à validation et frais éventuels.
+                  Le Client peut modifier sa réservation (date, heure, adresse) <strong>gratuitement jusqu&apos;à 24 heures avant</strong> l&apos;heure de prise en charge prévue.
+                  Au-delà, la modification est soumise aux mêmes conditions tarifaires que l&apos;annulation.
                 </p>
 
-                <h3 className="text-lg font-semibold mt-6 mb-2">5.2 Annulation par le Client</h3>
+                <h3 className="text-lg font-semibold mt-6 mb-2">5.2 Annulation par le Client - Grille progressive</h3>
                 <div className="space-y-3 mt-4">
                   <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <p className="font-semibold text-green-900 mb-1">Plus de 12h avant : Gratuit</p>
-                    <p className="text-sm text-green-700">Remboursement intégral</p>
+                    <p className="font-semibold text-green-900 mb-1">Plus de 24h avant : Gratuit</p>
+                    <p className="text-sm text-green-700">Remboursement intégral (0% de frais)</p>
                   </div>
-                  
+
+                  <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <p className="font-semibold text-yellow-900 mb-1">Entre 12h et 24h avant : 25% du montant</p>
+                    <p className="text-sm text-yellow-700">Frais d&apos;annulation modérés</p>
+                  </div>
+
                   <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg">
-                    <p className="font-semibold text-orange-900 mb-1">Entre 4h et 12h avant : 20% du montant</p>
-                    <p className="text-sm text-orange-700">Frais d&apos;annulation appliqués</p>
+                    <p className="font-semibold text-orange-900 mb-1">Entre 6h et 12h avant : 50% du montant</p>
+                    <p className="text-sm text-orange-700">Frais d&apos;annulation importants</p>
                   </div>
-                  
+
                   <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                    <p className="font-semibold text-red-900 mb-1">Moins de 4h avant : 50% du montant</p>
-                    <p className="text-sm text-red-700">Frais d&apos;annulation importants</p>
+                    <p className="font-semibold text-red-900 mb-1">Entre 2h et 6h avant : 75% du montant</p>
+                    <p className="text-sm text-red-700">Frais d&apos;annulation élevés</p>
                   </div>
-                  
+
                   <div className="p-4 bg-red-100 border border-red-300 rounded-lg">
-                    <p className="font-semibold text-red-900 mb-1">No-show : 100% du montant</p>
+                    <p className="font-semibold text-red-900 mb-1">Moins de 2h ou No-show : 100% du montant</p>
                     <p className="text-sm text-red-800">Aucun remboursement</p>
                   </div>
                 </div>
 
+                <p className="text-sm text-gray-600 mt-4 italic">
+                  <strong>No-show :</strong> Si le client est absent à l&apos;heure et au lieu de rendez-vous sans avoir prévenu,
+                  le chauffeur attendra 15 minutes. Passé ce délai, la course sera considérée comme annulée avec facturation à 100%.
+                </p>
+
                 <h3 className="text-lg font-semibold mt-6 mb-2">5.3 Annulation par le Prestataire</h3>
                 <p className="text-gray-700 leading-relaxed">
-                  En cas d&apos;annulation par VTC Rachel (indisponibilité, cas de force majeure), le Client est informé dans les plus brefs délais 
-                  et intégralement remboursé.
+                  En cas d&apos;annulation par VTC Rachel (indisponibilité, cas de force majeure), le Client est informé dans les plus brefs délais
+                  et intégralement remboursé. Un véhicule de remplacement sera proposé si possible.
                 </p>
               </div>
 
@@ -195,7 +238,8 @@ export default function CGVPage() {
                   <li>Respecter le véhicule et le chauffeur</li>
                   <li>Signaler tout bagage volumineux ou siège enfant lors de la réservation</li>
                   <li>Ne pas fumer, boire ou manger dans le véhicule</li>
-                  <li>Respecter le nombre de passagers maximum (4 personnes)</li>
+                  <li>Respecter le nombre de passagers maximum (3 personnes)</li>
+                  <li>Limiter les bagages à 2 valises de taille standard</li>
                 </ul>
               </div>
 
@@ -261,8 +305,8 @@ export default function CGVPage() {
                   Article 11 - Protection des données personnelles
                 </h2>
                 <p className="text-gray-700 leading-relaxed">
-                  Les données personnelles collectées sont traitées conformément au RGPD et à notre 
-                  <a href="/confidentialite" className="text-forest-green hover:underline font-medium"> Politique de confidentialité</a>.
+                  Les données personnelles collectées sont traitées conformément au RGPD et à notre
+                  <Link href="/confidentialite" className="text-forest-green hover:underline font-medium"> Politique de confidentialité</Link>.
                 </p>
               </div>
 

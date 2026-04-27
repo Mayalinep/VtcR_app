@@ -343,4 +343,4 @@ Pour changer :
 ---
 
 **Maintenu par** : VTC Rachel Team  
-**Dernière mise à jour** : Janvier 2026
+**Statut de mise à jour** : En cours

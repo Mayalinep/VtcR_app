@@ -19,9 +19,9 @@ export const ZONES_DATA: string[] = [
 /**
  * Texte de description des zones
  */
-export const ZONES_DESCRIPTION = 'Nous couvrons l\'ensemble de l\'Île-de-France';
+export const ZONES_DESCRIPTION = 'Nous couvrons l\'ensemble de l\'Île-de-France et proposons aussi des trajets vers d\'autres villes en France';
 
 /**
  * Texte additionnel affiché sous la liste
  */
-export const ZONES_ADDITIONAL_TEXT = 'Et bien d\'autres destinations en Île-de-France';
+export const ZONES_ADDITIONAL_TEXT = 'Et bien d\'autres destinations en France, sur demande';

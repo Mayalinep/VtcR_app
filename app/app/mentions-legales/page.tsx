@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Navigation from '../components/layout/Navigation';
 import Footer from '../components/layout/Footer';
 import Hero from '../components/sections/Hero';
@@ -38,7 +39,7 @@ export default function MentionsLegalesPage() {
                   <p><strong>SIRET :</strong> [À compléter]</p>
                   <p><strong>Adresse :</strong> [Adresse à compléter]</p>
                   <p><strong>Email :</strong> contact@vtc-rachel.fr</p>
-                  <p><strong>Téléphone :</strong> +33 6 XX XX XX XX</p>
+                  <p><strong>Téléphone :</strong> +33 6 61 59 02 90</p>
                   <p><strong>Licence VTC :</strong> [Numéro à compléter]</p>
                 </div>
               </div>
@@ -93,7 +94,7 @@ export default function MentionsLegalesPage() {
                   Pour exercer ces droits, vous pouvez nous contacter à l&apos;adresse : <a href="mailto:contact@vtc-rachel.fr" className="text-forest-green hover:underline">contact@vtc-rachel.fr</a>
                 </p>
                 <p className="text-gray-700 leading-relaxed mt-4">
-                  Pour plus d&apos;informations, consultez notre <a href="/confidentialite" className="text-forest-green hover:underline font-medium">Politique de confidentialité</a>.
+                  Pour plus d&apos;informations, consultez notre <Link href="/confidentialite" className="text-forest-green hover:underline font-medium">Politique de confidentialité</Link>.
                 </p>
               </div>
 

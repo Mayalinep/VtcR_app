@@ -46,14 +46,14 @@ export const AIRPORT_PACKAGES: PriceCard[] = [
     id: 'cdg',
     name: 'Paris ↔ CDG',
     subtitle: 'Aéroport Charles de Gaulle',
-    dayPrice: '60€',
-    nightPrice: '70€',
-    dayHours: 'Jour (6h-22h)',
-    nightHours: 'Nuit (22h-6h)',
+    dayPrice: 'À partir de 35€',
+    nightPrice: '',
+    dayHours: 'Prix indicatif',
+    nightHours: '',
     icon: 'airport',
     features: [
-      '1 à 4 passagers',
-      '3 bagages cabine + 3 valises',
+      '1 à 3 passagers',
+      '2 valises de taille standard',
       'Accueil personnalisé avec pancarte',
       'Suivi du vol en temps réel',
       'Attente gratuite : 45 min'
@@ -63,15 +63,15 @@ export const AIRPORT_PACKAGES: PriceCard[] = [
     id: 'orly',
     name: 'Paris ↔ Orly',
     subtitle: "Aéroport d'Orly",
-    dayPrice: '55€',
-    nightPrice: '65€',
-    dayHours: 'Jour (6h-22h)',
-    nightHours: 'Nuit (22h-6h)',
+    dayPrice: 'À partir de 30€',
+    nightPrice: '',
+    dayHours: 'Prix indicatif',
+    nightHours: '',
     icon: 'airport',
     isPopular: true,
     features: [
-      '1 à 4 passagers',
-      '3 bagages cabine + 3 valises',
+      '1 à 3 passagers',
+      '2 valises de taille standard',
       'Accueil personnalisé avec pancarte',
       'Suivi du vol en temps réel',
       'Attente gratuite : 45 min'
@@ -87,8 +87,8 @@ export const AIRPORT_PACKAGES: PriceCard[] = [
     nightHours: 'Nuit (22h-6h)',
     icon: 'airport',
     features: [
-      '1 à 4 passagers',
-      '3 bagages cabine + 3 valises',
+      '1 à 3 passagers',
+      '2 valises de taille standard',
       'Accueil personnalisé avec pancarte',
       'Suivi du vol en temps réel',
       'Attente gratuite : 45 min'
@@ -113,14 +113,14 @@ export const AVAILABILITY_PACKAGES: PriceCard[] = [
   {
     id: 'hourly',
     name: "À l'heure",
-    subtitle: 'Flexibilité maximale',
-    dayPrice: '75€',
+    subtitle: '1 heure',
+    dayPrice: '45€',
     nightPrice: '',
-    dayHours: 'par heure',
+    dayHours: 'Par heure',
     nightHours: '',
     icon: 'clock',
     features: [
-      'Minimum 3 heures',
+      'Max 20 km par heure',
       'Chauffeur à disposition',
       'Trajets multiples possibles'
     ]
@@ -129,10 +129,10 @@ export const AVAILABILITY_PACKAGES: PriceCard[] = [
     id: 'half-day',
     name: 'Demi-Journée',
     subtitle: '4 heures',
-    dayPrice: '240€',
+    dayPrice: '160€',
     nightPrice: '',
-    dayHours: '60€/heure',
-    nightHours: 'Économie de 60€',
+    dayHours: '40€/heure',
+    nightHours: '80 km max (4h)',
     icon: 'sun',
     isPopular: true,
     features: [
@@ -145,10 +145,10 @@ export const AVAILABILITY_PACKAGES: PriceCard[] = [
     id: 'full-day',
     name: 'Journée',
     subtitle: '8 heures',
-    dayPrice: '480€',
+    dayPrice: '280€',
     nightPrice: '',
-    dayHours: '60€/heure',
-    nightHours: 'Économie de 120€',
+    dayHours: '8 heures',
+    nightHours: 'Km à définir',
     icon: 'star',
     features: [
       '8 heures continues',
@@ -163,7 +163,7 @@ export const ADDITIONAL_OPTIONS: Option[] = [
   {
     id: 'child-seat',
     name: 'Siège enfant',
-    price: '10€',
+    price: '5€',
     description: 'Par siège',
     icon: 'child'
   },
@@ -171,21 +171,21 @@ export const ADDITIONAL_OPTIONS: Option[] = [
     id: 'extra-waiting',
     name: 'Attente supplémentaire',
     price: '15€',
-    description: 'Par tranche de 15 min',
+    description: 'Par tranche de 20 min (après 10 min)',
     icon: 'clock'
   },
   {
     id: 'extra-luggage',
-    name: 'Bagage supplémentaire',
-    price: '5€',
-    description: 'Au-delà de 3 valises',
+    name: 'Bagages',
+    price: 'Inclus',
+    description: '2 valises de taille standard',
     icon: 'luggage'
   },
   {
     id: 'extra-passenger',
-    name: 'Passager supplémentaire',
-    price: 'Gratuit',
-    description: "Jusqu'à 4 personnes",
+    name: 'Passagers',
+    price: 'Inclus',
+    description: 'Maximum 3 personnes',
     icon: 'passenger'
   }
 ];
@@ -214,7 +214,7 @@ export const INCLUDED_FEATURES: IncludedFeature[] = [
   },
   {
     title: 'Annulation flexible',
-    description: "Gratuite jusqu'à 12h avant"
+    description: "Gratuite jusqu'à 24h avant"
   }
 ];
 
@@ -224,7 +224,7 @@ export const PRICING_METADATA = {
   description: 'Découvrez nos tarifs transparents pour vos courses VTC en Île-de-France : forfaits aéroports, mise à disposition, trajets longue distance.',
   sectionTitles: {
     airports: 'Forfaits Aéroports',
-    airportsSubtitle: 'Tarifs fixes depuis ou vers les aéroports parisiens, valables pour 1 à 4 passagers',
+    airportsSubtitle: 'Tarifs fixes depuis ou vers les aéroports parisiens, valables pour 1 à 3 passagers',
     stations: 'Forfaits Gares Parisiennes',
     stationsSubtitle: 'Transferts depuis ou vers les principales gares de Paris',
     availability: 'Mise à Disposition',

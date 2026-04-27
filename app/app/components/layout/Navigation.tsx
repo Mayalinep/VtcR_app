@@ -1,29 +1,31 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  getLocaleFromPath,
+  LANGUAGE_OPTIONS,
+  localizeHref,
+  NAV_TRANSLATIONS,
+  switchLocalePath,
+} from '../../lib/i18n';
 
 /**
- * Navigation - Barre de navigation moderne style Uber
- * 
- * Navigation premium avec fond vert semi-transparent (glassmorphism)
- * Inspirée d'Uber mais adaptée à VTC Rachel
- * 
- * Features:
- * - Fond vert foncé avec blur au scroll
- * - Liens : Tarifs, À propos, Contact, FAQ
- * - Bouton téléphone cliquable
- * - Responsive avec menu hamburger élégant
- * - Micro-animations au hover
- * 
- * @example
- * <Navigation />
+ * Navigation - Barre de navigation premium
+ *
+ * Adaptative :
+ * - Mobile / tablette : menu hamburger
+ * - lg (>=1024px) : nav complète compacte (tel en icône, langues, CTA)
+ * - xl (>=1280px) : version confortable (tel complet + labels)
  */
 export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const locale = getLocaleFromPath(pathname || '/');
+  const t = NAV_TRANSLATIONS[locale];
 
-  // Détection du scroll pour ajuster l'opacité
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -32,38 +34,40 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const navItems = [
+    { label: t.tarifs, href: '/tarifs' },
+    { label: t.about, href: '/a-propos' },
+    { label: t.services, href: '/prestations' },
+    { label: t.contact, href: '/contact' },
+    { label: t.faq, href: '/faq' },
+  ];
+
   return (
-    <nav 
+    <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled 
-          ? 'bg-[#0F4C3A]/80 backdrop-blur-xl shadow-lg' 
+        scrolled
+          ? 'bg-[#0F4C3A]/80 backdrop-blur-xl shadow-lg'
           : 'bg-[#0F4C3A]/70 backdrop-blur-lg'
       }`}
     >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14 lg:h-16">
-          
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-14 lg:h-16 gap-4">
           {/* Logo */}
-          <a 
-            href="/" 
-            className="text-lg lg:text-xl font-bold tracking-tight text-white hover:text-white/80 transition-colors duration-200"
+          <a
+            href={localizeHref('/', locale)}
+            className="shrink-0 text-lg lg:text-xl font-bold tracking-tight text-white hover:text-white/80 transition-colors duration-200"
             style={{ fontFamily: 'var(--font-playfair)' }}
           >
             VTC Rachel
           </a>
-          
+
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-0.5">
-            {[
-              { label: 'Tarifs', href: '/tarifs' },
-              { label: 'À propos', href: '/a-propos' },
-              { label: 'Contact', href: '/contact' },
-              { label: 'FAQ', href: '/faq' }
-            ].map((item) => (
+            {navItems.map((item) => (
               <a
                 key={item.label}
-                href={item.href}
-                className="px-3 py-1.5 text-sm text-white/90 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
+                href={localizeHref(item.href, locale)}
+                className="whitespace-nowrap px-2.5 py-1.5 text-sm text-white/90 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
               >
                 {item.label}
               </a>
@@ -71,28 +75,71 @@ export default function Navigation() {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2">
             {/* Téléphone */}
             <a
               href="tel:+33661590290"
-              className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-white/90 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
+              className="flex items-center gap-1.5 px-2 py-1.5 text-sm text-white/90 hover:text-white hover:bg-white/10 rounded-md transition-all duration-200"
+              aria-label="+33 6 61 59 02 90"
+              title="+33 6 61 59 02 90"
             >
-              <svg 
-                className="w-4 h-4" 
-                fill="none" 
-                stroke="currentColor" 
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
                 strokeWidth={2}
               >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" 
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                 />
               </svg>
-              <span>+33 6 61 59 02 90</span>
+              {/* Label visible seulement à partir de xl pour laisser de la place */}
+              <span className="hidden xl:inline whitespace-nowrap">
+                +33 6 61 59 02 90
+              </span>
             </a>
 
+            <div className="w-px h-5 bg-white/20" />
+
+            {/* Langues */}
+            <div className="flex items-center gap-0.5">
+              {LANGUAGE_OPTIONS.map((option) => (
+                <a
+                  key={option.locale}
+                  href={switchLocalePath(pathname || '/', option.locale)}
+                  title={option.label}
+                  aria-label={option.label}
+                  className={`px-1.5 py-1 rounded-md text-base leading-none transition-all ${
+                    option.locale === locale
+                      ? 'bg-white/20'
+                      : 'opacity-70 hover:opacity-100 hover:bg-white/10'
+                  }`}
+                >
+                  {option.icon}
+                </a>
+              ))}
+            </div>
+
+            <div className="w-px h-5 bg-white/20" />
+
+            {/* Connexion */}
+            <a
+              href="#"
+              className="whitespace-nowrap px-3 py-1.5 text-sm text-white border border-white/30 hover:border-white/60 rounded-md transition-all duration-200 hover:bg-white/5"
+            >
+              {t.login}
+            </a>
+
+            {/* Inscription */}
+            <a
+              href="#"
+              className="whitespace-nowrap px-3 py-1.5 text-sm bg-white text-[#0F4C3A] rounded-md font-medium transition-all duration-200 hover:bg-gray-100"
+            >
+              {t.signup}
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -102,12 +149,32 @@ export default function Navigation() {
             aria-label="Menu"
           >
             {menuOpen ? (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             ) : (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             )}
           </button>
@@ -117,34 +184,28 @@ export default function Navigation() {
       {/* Mobile Menu */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ 
+            transition={{
               duration: 0.4,
               opacity: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-              height: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
+              height: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
             }}
             className="lg:hidden bg-[#0F4C3A]/98 backdrop-blur-lg border-t border-white/10 overflow-hidden"
           >
             <div className="px-4 py-6 space-y-1">
-              {/* Navigation Links */}
-              {[
-                { label: 'Tarifs', href: '/tarifs' },
-                { label: 'À propos', href: '/a-propos' },
-                { label: 'Contact', href: '/contact' },
-                { label: 'FAQ', href: '/faq' }
-              ].map((item, i) => (
+              {navItems.map((item, i) => (
                 <motion.a
                   key={item.label}
-                  href={item.href}
+                  href={localizeHref(item.href, locale)}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ 
-                    duration: 0.4, 
+                  transition={{
+                    duration: 0.4,
                     delay: 0.1 + i * 0.05,
-                    ease: [0.16, 1, 0.3, 1]
+                    ease: [0.16, 1, 0.3, 1],
                   }}
                   className="block text-white py-3 px-4 rounded-lg hover:bg-white/10 transition-colors font-medium"
                 >
@@ -152,10 +213,8 @@ export default function Navigation() {
                 </motion.a>
               ))}
 
-              {/* Divider */}
               <div className="h-px bg-white/10 my-4" />
 
-              {/* Contact Info Mobile */}
               <motion.a
                 href="tel:+33661590290"
                 initial={{ opacity: 0, x: -10 }}
@@ -163,22 +222,68 @@ export default function Navigation() {
                 transition={{ duration: 0.4, delay: 0.25 }}
                 className="flex items-center gap-3 text-white/90 py-3 px-4 rounded-lg hover:bg-white/10 transition-colors"
               >
-                <svg 
-                  className="w-5 h-5" 
-                  fill="none" 
-                  stroke="currentColor" 
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
                   viewBox="0 0 24 24"
                   strokeWidth={2}
                 >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" 
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                   />
                 </svg>
                 <span>+33 6 61 59 02 90</span>
               </motion.a>
 
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+                className="px-4 py-3"
+              >
+                <div className="text-white/80 text-xs mb-2">Langue</div>
+                <div className="flex items-center gap-2">
+                  {LANGUAGE_OPTIONS.map((option) => (
+                    <a
+                      key={option.locale}
+                      href={switchLocalePath(pathname || '/', option.locale)}
+                      title={option.label}
+                      aria-label={option.label}
+                      className={`px-3 py-1.5 rounded-md text-lg leading-none transition-all ${
+                        option.locale === locale
+                          ? 'bg-white/20'
+                          : 'opacity-70 hover:opacity-100 hover:bg-white/10'
+                      }`}
+                    >
+                      {option.icon}
+                    </a>
+                  ))}
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.35 }}
+                className="pt-4 space-y-3"
+              >
+                <a
+                  href="#"
+                  className="block w-full py-3 px-4 text-center text-white border-2 border-white/30 rounded-lg font-semibold hover:bg-white/5 transition-all"
+                >
+                  {t.login}
+                </a>
+
+                <a
+                  href="#"
+                  className="block w-full py-3.5 px-4 text-center bg-white text-[#0F4C3A] rounded-lg font-semibold transition-all hover:bg-gray-100 active:scale-95"
+                >
+                  {t.signup}
+                </a>
+              </motion.div>
             </div>
           </motion.div>
         )}
