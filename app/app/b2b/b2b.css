@@ -1,0 +1,111 @@
+/* Rachel VTC Partners — Design tokens (scoped to .b2b wrapper) */
+.b2b {
+  --green:       #1F3A30;
+  --green-2:     #2A4A3E;
+  --green-12:    #14271F;
+  --green-soft:  #E6EBE7;
+  --green-glow:  rgba(31,58,48,0.10);
+
+  --gold:        #C89A3A;
+  --gold-2:      #B98828;
+  --gold-soft:   #F4E9C8;
+  --gold-glow:   rgba(200,154,58,0.18);
+
+  --cream:       #FAF6EC;
+  --cream-2:     #F3EEE0;
+  --cream-3:     #ECE5D2;
+
+  --ink:         #1F1D1A;
+  --ink-2:       #4A463F;
+  --ink-3:       #8A857A;
+  --ink-4:       #B8B2A3;
+
+  --paper:       #FFFFFF;
+
+  --st-pending-bg:   #F4E9C8;
+  --st-pending-fg:   #7A5C18;
+  --st-validated-bg: #E6EBE7;
+  --st-validated-fg: #1F3A30;
+  --st-inprogress-bg:#1F3A30;
+  --st-inprogress-fg:#F4E9C8;
+  --st-done-bg:      #ECE5D2;
+  --st-done-fg:      #4A463F;
+
+  --danger:      #9A3A2A;
+
+  --f-serif: var(--font-cormorant, 'Georgia', serif);
+  --f-sans:  var(--font-inter, system-ui, sans-serif);
+  --f-mono:  var(--font-jetbrains-mono, ui-monospace, monospace);
+
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-xl: 20px;
+  --r-pill: 999px;
+
+  --sh-1: 0 1px 2px rgba(31,29,26,0.04), 0 1px 1px rgba(31,29,26,0.03);
+  --sh-2: 0 4px 12px rgba(31,29,26,0.06), 0 1px 2px rgba(31,29,26,0.04);
+  --sh-3: 0 12px 32px rgba(31,29,26,0.10), 0 2px 6px rgba(31,29,26,0.05);
+  --sh-modal: 0 24px 60px rgba(20,39,31,0.28), 0 6px 18px rgba(20,39,31,0.16);
+
+  --ease: cubic-bezier(.2,.7,.2,1);
+
+  font-family: var(--f-sans);
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+.b2b * { box-sizing: border-box; }
+
+.b2b .serif {
+  font-family: var(--f-serif);
+  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
+}
+.b2b .serif-tight { letter-spacing: -0.02em; }
+.b2b .mono {
+  font-family: var(--f-mono);
+  font-feature-settings: 'tnum';
+}
+.b2b .label {
+  font-family: var(--f-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.b2b button { font-family: inherit; cursor: pointer; }
+.b2b input, .b2b textarea, .b2b select { font-family: inherit; }
+
+.b2b ::-webkit-scrollbar { width: 10px; height: 10px; }
+.b2b ::-webkit-scrollbar-track { background: transparent; }
+.b2b ::-webkit-scrollbar-thumb { background: var(--cream-3); border-radius: 999px; border: 2px solid var(--cream); }
+.b2b ::-webkit-scrollbar-thumb:hover { background: var(--ink-4); }
+
+.b2b :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
+
+.b2b .row { display: flex; align-items: center; }
+.b2b .col { display: flex; flex-direction: column; }
+.b2b .gap-4 { gap: 4px; } .b2b .gap-6 { gap: 6px; } .b2b .gap-8 { gap: 8px; }
+.b2b .gap-10 { gap: 10px; } .b2b .gap-12 { gap: 12px; } .b2b .gap-16 { gap: 16px; }
+.b2b .gap-20 { gap: 20px; } .b2b .gap-24 { gap: 24px; }
+.b2b .spacer { flex: 1; }
+
+@keyframes b2b-fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes b2b-fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .b2b-main-scroll { padding-bottom: 80px !important; }
+  .b2b-toast       { bottom: 80px !important; }
+}
+@keyframes b2b-pulseDot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200,154,58, 0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(200,154,58, 0); }
+}

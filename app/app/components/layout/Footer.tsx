@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { getLocaleFromPath, localizeHref, FOOTER_TRANSLATIONS, NAV_TRANSLATIONS } from '../../lib/i18n';
+import RachLogo from './RachLogo';
 
 export default function Footer() {
   const locale = getLocaleFromPath(usePathname() || '/');
@@ -15,11 +16,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           <div className="col-span-2 md:col-span-1">
-            <img
-              src="/images/branding/LOGO%20PAGE%20%281%29.svg"
-              alt="VTC Rachel"
-              className="h-12 w-auto object-contain mb-3"
-            />
+            <div className="mb-3">
+              <RachLogo size={36} theme="light" variant="lockup" />
+            </div>
             <p className="text-sm text-gray-600">{t.tagline}</p>
           </div>
 

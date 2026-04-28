@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="512" height="512">
+
+  <path d="M 60 22 A 38 38 0 1 1 22 60" stroke="#0E2A22" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+  <path d="M 60 98 A 38 38 0 1 1 98 60" stroke="#0E2A22" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+  <circle cx="60" cy="22" r="1.2" fill="#0E2A22"/>
+  <circle cx="22" cy="60" r="1.2" fill="#0E2A22"/>
+  <circle cx="60" cy="98" r="1.2" fill="#0E2A22"/>
+  <circle cx="98" cy="60" r="1.2" fill="#0E2A22"/>
+  <text x="60" y="76" text-anchor="middle" fill="#0E2A22" font-family="Bodoni Moda, serif" font-style="italic" font-weight="500" font-size="56" letter-spacing="-0.04em">Rs</text>
+</svg>

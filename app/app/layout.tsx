@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Bodoni_Moda, Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import StructuredData from "./components/seo/StructuredData";
 import { LOCAL_BUSINESS_SCHEMA } from "./lib/seo/schema";
+
+const bodoni = Bodoni_Moda({
+  variable: '--font-bodoni',
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+});
 
 // Police principale - Inter (moderne et lisible)
 const inter = Inter({
@@ -98,7 +106,7 @@ export default function RootLayout({
         <StructuredData data={LOCAL_BUSINESS_SCHEMA} />
       </head>
       <body
-        className={`${inter.variable} ${playfair.variable} antialiased`}
+        className={`${bodoni.variable} ${inter.variable} ${playfair.variable} antialiased`}
       >
         {children}
       </body>

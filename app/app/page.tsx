@@ -22,6 +22,8 @@ interface HomeProps {
 export default function Home({ locale = DEFAULT_LOCALE }: HomeProps) {
   const t = HOME_TRANSLATIONS[locale];
   const tc = COMMON_TRANSLATIONS[locale];
+  const homeMapsQuery = encodeURIComponent('Paris, Ile-de-France');
+  const homeMapsEmbedUrl = `https://maps.google.com/maps?q=${homeMapsQuery}&t=&z=10&ie=UTF8&iwloc=&output=embed`;
   // On garde les icônes SVG depuis FEATURES_DATA, et on prend les textes depuis les traductions.
   const featuresIcons = Object.fromEntries(FEATURES_DATA.map((f) => [f.id, f.icon]));
 
@@ -133,7 +135,7 @@ export default function Home({ locale = DEFAULT_LOCALE }: HomeProps) {
               <FadeInSection delay={0.2}>
                 <div className="sticky top-24 h-[600px] rounded-2xl overflow-hidden shadow-lg border border-gray-200">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d335994.89219464146!2d2.2646348!3d48.8589465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b005%3A0x40b82c3688c9460!2sParis%2C%20France!5e0!3m2!1sfr!2sfr!4v1704902400000!5m2!1sfr!2sfr"
+                    src={homeMapsEmbedUrl}
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}

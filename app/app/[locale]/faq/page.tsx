@@ -1,12 +1,13 @@
+import { use } from 'react';
 import FAQ from '../../faq/page';
 import { isSupportedLocale, DEFAULT_LOCALE } from '../../lib/i18n';
 
-export default async function LocalizedFAQ({
+export default function LocalizedFAQ({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale } = use(params);
   const safeLocale = isSupportedLocale(locale) ? locale : DEFAULT_LOCALE;
   return <FAQ locale={safeLocale} />;
 }

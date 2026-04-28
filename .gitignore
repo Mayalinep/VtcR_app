@@ -22,3 +22,4 @@
 *.temp
 
 # Le dossier app/ a son propre .gitignore pour Next.js
+.claude/

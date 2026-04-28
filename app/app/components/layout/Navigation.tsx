@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import RachLogo from './RachLogo';
 import {
   getLocaleFromPath,
   LANGUAGE_OPTIONS,
@@ -56,13 +57,9 @@ export default function Navigation() {
           <a
             href={localizeHref('/', locale)}
             className="shrink-0 inline-flex items-center"
-            aria-label="VTC Rachel"
+            aria-label="Rach Services — accueil"
           >
-            <img
-              src="/images/branding/LOGO%20PAGE%20%281%29.svg"
-              alt="VTC Rachel"
-              className="h-11 lg:h-12 w-auto object-contain"
-            />
+            <RachLogo size={38} theme="dark" variant="lockup" />
           </a>
 
           {/* Desktop Navigation */}
@@ -129,20 +126,11 @@ export default function Navigation() {
 
             <div className="w-px h-5 bg-white/20" />
 
-            {/* Connexion */}
             <a
-              href="#"
-              className="whitespace-nowrap px-3 py-1.5 text-sm text-white border border-white/30 hover:border-white/60 rounded-md transition-all duration-200 hover:bg-white/5"
+              href="/b2b/login"
+              className="whitespace-nowrap px-4 py-2 text-sm text-white rounded-md font-semibold border border-white/35 bg-gradient-to-r from-[#2A8A6A] to-[#0F4C3A] shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition-all duration-300 hover:from-[#36A47D] hover:to-[#145A45] hover:border-white/60 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(0,0,0,0.35)]"
             >
-              {t.login}
-            </a>
-
-            {/* Inscription */}
-            <a
-              href="#"
-              className="whitespace-nowrap px-3 py-1.5 text-sm bg-white text-[#0F4C3A] rounded-md font-medium transition-all duration-200 hover:bg-gray-100"
-            >
-              {t.signup}
+              Espace partenaire
             </a>
           </div>
 
@@ -275,17 +263,10 @@ export default function Navigation() {
                 className="pt-4 space-y-3"
               >
                 <a
-                  href="#"
-                  className="block w-full py-3 px-4 text-center text-white border-2 border-white/30 rounded-lg font-semibold hover:bg-white/5 transition-all"
+                  href="/b2b/login"
+                  className="block w-full py-3.5 px-4 text-center text-white rounded-lg font-semibold border border-white/35 bg-gradient-to-r from-[#2A8A6A] to-[#0F4C3A] shadow-[0_10px_24px_rgba(0,0,0,0.3)] transition-all duration-300 hover:from-[#36A47D] hover:to-[#145A45] hover:border-white/60 active:scale-95"
                 >
-                  {t.login}
-                </a>
-
-                <a
-                  href="#"
-                  className="block w-full py-3.5 px-4 text-center bg-white text-[#0F4C3A] rounded-lg font-semibold transition-all hover:bg-gray-100 active:scale-95"
-                >
-                  {t.signup}
+                  Espace partenaire
                 </a>
               </motion.div>
             </div>
