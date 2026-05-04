@@ -224,9 +224,9 @@ export default function Dashboard({
         />
       </div>
 
-      {/* Two-col main */}
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.6fr 1fr', gap: 16 }}>
-        {/* Recent rides */}
+      {/* Main content */}
+      <div className="col gap-16">
+        {/* Recent rides - full width */}
         <div style={{ overflowX: 'auto' }}>
         <Card pad={0} style={{ overflow: 'visible', minWidth: isMobile ? 580 : 'auto' }}>
           <div className="row" style={{ padding: '18px 20px 14px', justifyContent: 'space-between', borderBottom: '1px solid var(--cream-2)' }}>
@@ -276,52 +276,25 @@ export default function Dashboard({
         </Card>
         </div>
 
-        {/* Right column */}
-        <div className="col gap-16">
-          {/* Commission chart */}
-          <Card pad={20}>
-            <div className="row" style={{ justifyContent: 'space-between', marginBottom: 4 }}>
-              <div className="col" style={{ gap: 2 }}>
-                <span className="label">Commissions {new Date().getFullYear()}</span>
-                <div className="serif" style={{ fontSize: 26, fontWeight: 500, letterSpacing: '-0.02em' }}>{formatEUR(yearCommission, { decimals: 0 })}</div>
-              </div>
-              <Tabs size="sm" tabs={[{ label: 'M', value: 'm' }]} value="m" onChange={() => {}} />
+        {/* Commission chart */}
+        <Card pad={20}>
+          <div className="row" style={{ justifyContent: 'space-between', marginBottom: 4 }}>
+            <div className="col" style={{ gap: 2 }}>
+              <span className="label">Commissions {new Date().getFullYear()}</span>
+              <div className="serif" style={{ fontSize: 26, fontWeight: 500, letterSpacing: '-0.02em' }}>{formatEUR(yearCommission, { decimals: 0 })}</div>
             </div>
-            <MiniBars data={monthly} current={currentIdx} />
-            <div className="row gap-6" style={{ fontSize: 11.5, color: 'var(--ink-3)', marginTop: 14, paddingTop: 14, borderTop: '1px dashed var(--cream-3)' }}>
-              <span style={{ width: 8, height: 8, background: 'var(--gold)', borderRadius: 2 }} />
-              <span style={{ color: 'var(--ink-2)', fontWeight: 600 }}>
-                {MONTHS[new Date().getMonth()]} en cours
-              </span>
-              <span className="spacer" />
-              <span className="mono">{formatEUR(monthCommission, { decimals: 2 })}</span>
-            </div>
-          </Card>
-
-          {/* Quick actions */}
-          <Card pad={20} style={{ background: 'linear-gradient(135deg, var(--green-12), var(--green))', border: 'none', color: 'var(--cream)' }}>
-            <div className="col" style={{ gap: 12 }}>
-              <div className="row gap-8">
-                <Icon name="sparkle" size={16} color="var(--gold)" />
-                <span className="label" style={{ color: 'rgba(250,246,236,0.7)' }}>Accès rapide</span>
-              </div>
-              <div className="serif" style={{ fontSize: 20, fontWeight: 500, lineHeight: 1.2 }}>
-                Réserver une course pour vos clients
-              </div>
-              <p style={{ fontSize: 12.5, color: 'rgba(250,246,236,0.75)', margin: 0, lineHeight: 1.5 }}>
-                Rachel validera le prix sous 2h. Vous serez notifié·e à chaque étape.
-              </p>
-              <button type="button" onClick={onNew} style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                padding: '10px 16px', background: 'var(--gold)', color: 'var(--green-12)',
-                border: 'none', borderRadius: 'var(--r-md)', fontWeight: 600, fontSize: 13,
-                cursor: 'pointer', alignSelf: 'flex-start',
-              }}>
-                <Icon name="plus" size={16} /> Nouvelle course
-              </button>
-            </div>
-          </Card>
-        </div>
+            <Tabs size="sm" tabs={[{ label: 'M', value: 'm' }]} value="m" onChange={() => {}} />
+          </div>
+          <MiniBars data={monthly} current={currentIdx} />
+          <div className="row gap-6" style={{ fontSize: 11.5, color: 'var(--ink-3)', marginTop: 14, paddingTop: 14, borderTop: '1px dashed var(--cream-3)' }}>
+            <span style={{ width: 8, height: 8, background: 'var(--gold)', borderRadius: 2 }} />
+            <span style={{ color: 'var(--ink-2)', fontWeight: 600 }}>
+              {MONTHS[new Date().getMonth()]} en cours
+            </span>
+            <span className="spacer" />
+            <span className="mono">{formatEUR(monthCommission, { decimals: 2 })}</span>
+          </div>
+        </Card>
       </div>
     </div>
   );

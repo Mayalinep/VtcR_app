@@ -64,7 +64,7 @@ export default function Commissions({ reservations }: { reservations: Reservatio
           <div style={{ position: 'absolute', right: -40, top: -40, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(200,154,58,0.18), transparent 70%)' }} />
           <span className="label" style={{ color: 'rgba(250,246,236,0.6)' }}>Cumul {currentYear}</span>
           <div className="serif serif-tight" style={{ fontSize: 52, fontWeight: 500, lineHeight: 1, marginTop: 4, color: 'var(--cream)' }}>
-            {formatEUR(Math.floor(yearCommission))}
+            {formatEUR(yearCommission, { decimals: 2 })}
           </div>
           <div style={{ fontSize: 13, color: 'rgba(250,246,236,0.7)', marginTop: 10 }}>
             {yearRides} courses · taux moyen 10%
@@ -72,7 +72,7 @@ export default function Commissions({ reservations }: { reservations: Reservatio
         </Card>
         <Card pad={20}>
           <span className="label">Ce mois</span>
-          <div className="serif" style={{ fontSize: 32, fontWeight: 500, marginTop: 2, letterSpacing: '-0.02em' }}>{formatEUR(monthCommission, { decimals: 0 })}</div>
+          <div className="serif" style={{ fontSize: 32, fontWeight: 500, marginTop: 2, letterSpacing: '-0.02em' }}>{formatEUR(monthCommission, { decimals: 2 })}</div>
           <div style={{ fontSize: 12, color: 'var(--ink-3)', marginTop: 10 }}>
             {MONTH_LABELS[currentMonth]} {currentYear}
           </div>
@@ -82,7 +82,7 @@ export default function Commissions({ reservations }: { reservations: Reservatio
             <span className="label" style={{ color: 'var(--gold-2)' }}>Prochain versement</span>
             <Icon name="sparkle" size={16} color="var(--gold-2)" />
           </div>
-          <div className="serif" style={{ fontSize: 32, fontWeight: 500, marginTop: 2, letterSpacing: '-0.02em' }}>{formatEUR(monthCommission, { decimals: 0 })}</div>
+          <div className="serif" style={{ fontSize: 32, fontWeight: 500, marginTop: 2, letterSpacing: '-0.02em' }}>{formatEUR(monthCommission, { decimals: 2 })}</div>
           <div style={{ fontSize: 13, color: 'var(--ink-2)', marginTop: 6 }}>
             prévu le <strong>5 du mois prochain</strong>
           </div>
@@ -123,9 +123,9 @@ export default function Commissions({ reservations }: { reservations: Reservatio
         </div>
         <div style={{ display: 'flex', gap: 6 }}>
           <div className="col" style={{ justifyContent: 'space-between', height: 240, paddingBottom: 24, fontSize: 10.5, color: 'var(--ink-3)', textAlign: 'right', minWidth: 40 }}>
-            <span className="mono">{formatEUR(maxEur * 0.9, { decimals: 0 })}</span>
-            <span className="mono">{formatEUR(maxEur * 0.6, { decimals: 0 })}</span>
-            <span className="mono">{formatEUR(maxEur * 0.3, { decimals: 0 })}</span>
+            <span className="mono">{formatEUR(maxEur * 0.9, { decimals: 2 })}</span>
+            <span className="mono">{formatEUR(maxEur * 0.6, { decimals: 2 })}</span>
+            <span className="mono">{formatEUR(maxEur * 0.3, { decimals: 2 })}</span>
             <span className="mono">0</span>
           </div>
           <div style={{ flex: 1, position: 'relative', borderLeft: '1px solid var(--cream-3)', paddingLeft: 14 }}>
@@ -141,7 +141,7 @@ export default function Commissions({ reservations }: { reservations: Reservatio
                   <div key={d.m} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
                     {!future && d.eur > 0 && (
                       <div className="mono" style={{ fontSize: 10.5, fontWeight: 600, color: isCurrent ? 'var(--gold-2)' : 'var(--ink-3)' }}>
-                        {formatEUR(d.eur, { decimals: 0 })}
+                        {formatEUR(d.eur, { decimals: 2 })}
                       </div>
                     )}
                     <div style={{
@@ -207,7 +207,7 @@ export default function Commissions({ reservations }: { reservations: Reservatio
                 <span className="spacer" />
                 <span className="mono" style={{ fontSize: 12, color: 'var(--ink-3)' }}>{d.n} courses</span>
                 <span style={{ width: 10 }} />
-                <span className="mono" style={{ fontSize: 13, fontWeight: 700, color: 'var(--green)' }}>{formatEUR(d.eur, { decimals: 0 })}</span>
+                <span className="mono" style={{ fontSize: 13, fontWeight: 700, color: 'var(--green)' }}>{formatEUR(d.eur, { decimals: 2 })}</span>
               </div>
               <div style={{ height: 6, background: 'var(--cream-2)', borderRadius: 999, overflow: 'hidden' }}>
                 <div style={{ width: `${(d.eur / maxDestEur) * 100}%`, height: '100%', background: i === 0 ? 'var(--gold)' : 'var(--green)', borderRadius: 999 }} />

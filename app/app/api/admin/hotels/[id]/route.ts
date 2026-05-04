@@ -35,8 +35,34 @@ export async function DELETE(_request: NextRequest, { params }: { params: Promis
 
   const { id } = await params;
 
-  const { error } = await supabaseAdmin.from('hotels').delete().eq('id', id);
-  if (error) return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+  // Tentative directe (fonctionne si FK avec ON DELETE CASCADE est bien en place)
+  const directDelete = await supabaseAdmin.from('hotels').delete().eq('id', id);
+  if (!directDelete.error) {
+    return NextResponse.json({ success: true });
+  }
 
-  return NextResponse.json({ success: true });
+  const isForeignKeyError =
+    directDelete.error.code === '23503' ||
+    /foreign key/i.test(directDelete.error.message ?? '') ||
+    /foreign key/i.test(directDelete.error.details ?? '');
+
+  // Fallback défensif : certaines bases existantes peuvent ne pas avoir la contrainte CASCADE
+  if (isForeignKeyError) {
+    const { error: reservationsDeleteError } = await supabaseAdmin
+      .from('b2b_reservations')
+      .delete()
+      .eq('hotel_id', id);
+
+    if (reservationsDeleteError) {
+      return NextResponse.json({ error: 'Impossible de supprimer les réservations liées' }, { status: 500 });
+    }
+
+    const { error: hotelDeleteError } = await supabaseAdmin.from('hotels').delete().eq('id', id);
+    if (hotelDeleteError) {
+      return NextResponse.json({ error: 'Impossible de supprimer cet hôtel' }, { status: 500 });
+    }
+    return NextResponse.json({ success: true });
+  }
+
+  return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
 }

@@ -52,7 +52,7 @@ export default function B2BDashboardPage() {
   const handleBookingSubmit = useCallback(async (data: {
     client_name: string; client_phone: string; room: string;
     departure: string; arrival: string;
-    date: string; time: string; passengers: number;
+    date: string; time: string; passengers: number; luggage: number;
     comment: string; estimated_price: number | null;
   }) => {
     setBookingOpen(false);
@@ -68,7 +68,7 @@ export default function B2BDashboardPage() {
           date: data.date,
           time: data.time,
           passengers: data.passengers,
-          luggage: 0,
+          luggage: data.luggage ?? 0,
           comment: [data.room ? `Ch. ${data.room}` : '', data.comment].filter(Boolean).join(' — '),
           estimated_price: data.estimated_price,
           staff_role: '',

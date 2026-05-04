@@ -256,19 +256,6 @@ export default function Navigation() {
                 </div>
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.35 }}
-                className="pt-4 space-y-3"
-              >
-                <a
-                  href="/b2b/login"
-                  className="block w-full py-3.5 px-4 text-center text-white rounded-lg font-semibold border border-white/35 bg-gradient-to-r from-[#2A8A6A] to-[#0F4C3A] shadow-[0_10px_24px_rgba(0,0,0,0.3)] transition-all duration-300 hover:from-[#36A47D] hover:to-[#145A45] hover:border-white/60 active:scale-95"
-                >
-                  Espace partenaire
-                </a>
-              </motion.div>
             </div>
           </motion.div>
         )}

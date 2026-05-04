@@ -10,6 +10,12 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   const body = await request.json();
   const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
 
+  if (body.estimated_price !== undefined) {
+    updates.estimated_price = body.estimated_price;
+    if (body.commission_rate !== undefined) {
+      updates.commission_amount = (body.estimated_price * body.commission_rate) / 100;
+    }
+  }
   if (body.final_price !== undefined) {
     updates.final_price = body.final_price;
     // Recalculer la commission sur le prix final

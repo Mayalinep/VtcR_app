@@ -2,6 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import { Icon, Btn, Field, formatEUR } from './ui';
 import { DESTINATIONS } from './types';
+import AddressAutocomplete from '../../components/AddressAutocomplete';
 
 type BookingData = {
   client_name: string;
@@ -12,6 +13,7 @@ type BookingData = {
   date: string;
   time: string;
   passengers: number;
+  luggage: number;
   comment: string;
   estimated_price: number | null;
 };
@@ -29,19 +31,37 @@ export default function BookingModal({
   const [phone, setPhone] = useState('');
   const [room, setRoom] = useState('');
   const [from, setFrom] = useState(defaultDeparture);
+  const [fromPlace, setFromPlace] = useState<google.maps.places.PlaceResult | null>(null);
   const [to, setTo] = useState('');
+  const [toPlace, setToPlace] = useState<google.maps.places.PlaceResult | null>(null);
   const [toMatch, setToMatch] = useState<(typeof DESTINATIONS)[0] | null>(null);
   const [showSuggest, setShowSuggest] = useState(false);
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [pax, setPax] = useState(1);
+  const [luggage, setLuggage] = useState(0);
   const [note, setNote] = useState('');
+  const [estimatedPrice, setEstimatedPrice] = useState<number | null>(null);
+  const [estimatedDistance, setEstimatedDistance] = useState<string | null>(null);
+  const [estimatedDuration, setEstimatedDuration] = useState<string | null>(null);
+  const [estimating, setEstimating] = useState(false);
+  const [estimateError, setEstimateError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const hasGoogleAutocomplete = Boolean(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY);
+
+  const resetEstimate = () => {
+    setEstimatedPrice(null);
+    setEstimatedDistance(null);
+    setEstimatedDuration(null);
+    setEstimateError(null);
+  };
 
   React.useEffect(() => {
     if (open) {
       setClient(''); setPhone(''); setRoom('');
-      setTo(''); setToMatch(null); setDate(''); setTime(''); setPax(1); setNote('');
+      setTo(''); setToMatch(null); setDate(''); setTime(''); setPax(1); setLuggage(0); setNote('');
+      setFromPlace(null); setToPlace(null); setShowSuggest(false);
+      resetEstimate();
       setSubmitting(false);
       setFrom(defaultDeparture);
     }
@@ -49,15 +69,47 @@ export default function BookingModal({
   }, [open]);
 
   const matches = useMemo(() => {
+    if (hasGoogleAutocomplete) return [];
     if (!to || to.length < 2) return [];
     const q = to.toLowerCase();
     return DESTINATIONS.filter((d) => d.name.toLowerCase().includes(q)).slice(0, 6);
-  }, [to]);
+  }, [to, hasGoogleAutocomplete]);
 
   const dest = toMatch ?? (matches.length === 1 ? matches[0] : null);
-  const price = dest?.price ?? null;
+  const price = estimatedPrice ?? dest?.price ?? null;
   const comm = price ? Math.round(price * 0.10 * 100) / 100 : null;
-  const canSubmit = client && to && date && time;
+  const canEstimate = from.trim().length > 0 && to.trim().length > 0;
+  const canSubmit = client && to && date && time && price !== null;
+
+  const calculateEstimate = async () => {
+    if (!canEstimate) return;
+    setEstimating(true);
+    setEstimateError(null);
+    try {
+      const response = await fetch('/api/calculate-price', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          origin: fromPlace?.formatted_address || from,
+          destination: toPlace?.formatted_address || dest?.name || to,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Estimation indisponible');
+      }
+      const data = await response.json();
+      setEstimatedPrice(Number(data.price) || null);
+      setEstimatedDistance(data.distanceText ?? null);
+      setEstimatedDuration(data.durationText ?? null);
+    } catch {
+      setEstimateError('Estimation indisponible pour le moment.');
+      setEstimatedPrice(dest?.price ?? null);
+      setEstimatedDistance(null);
+      setEstimatedDuration(null);
+    } finally {
+      setEstimating(false);
+    }
+  };
 
   const submit = () => {
     if (!canSubmit) return;
@@ -72,6 +124,7 @@ export default function BookingModal({
         date,
         time,
         passengers: pax,
+        luggage,
         comment: note,
         estimated_price: price,
       });
@@ -132,17 +185,75 @@ export default function BookingModal({
               <span className="label">Trajet</span>
             </div>
             <div className="col" style={{ gap: 10 }}>
-              <Field label="Prise en charge" value={from} onChange={(e) => setFrom(e.target.value)} icon="pin" hint="Adresse de l'hôtel par défaut" />
-              <div style={{ position: 'relative' }}>
+              {hasGoogleAutocomplete ? (
+                <div>
+                  <div className="label" style={{ marginBottom: 6 }}>Prise en charge</div>
+                  <div style={{ position: 'relative' }}>
+                    <div style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', zIndex: 2, pointerEvents: 'none' }}>
+                      <Icon name="pin" size={14} color="var(--ink-3)" />
+                    </div>
+                    <AddressAutocomplete
+                      placeholder="Adresse de l'hôtel, terminal, rue..."
+                      initialValue={from}
+                      onInputChange={(value) => { setFrom(value); setFromPlace(null); resetEstimate(); }}
+                      onPlaceSelect={(place) => {
+                        setFromPlace(place);
+                        if (place?.formatted_address || place?.name) {
+                          setFrom(place.formatted_address || place.name || '');
+                        }
+                        resetEstimate();
+                      }}
+                      className="pl-10"
+                      id="b2b-from"
+                    />
+                  </div>
+                  <div style={{ marginTop: 6, fontSize: 11.5, color: 'var(--ink-3)' }}>Adresse de l'hôtel par défaut</div>
+                </div>
+              ) : (
                 <Field
-                  label="Destination" placeholder="Aéroport, gare, adresse…"
-                  value={to}
-                  onChange={(e) => { setTo(e.target.value); setToMatch(null); setShowSuggest(true); }}
-                  onFocus={() => setShowSuggest(true)}
-                  onBlur={() => setTimeout(() => setShowSuggest(false), 150)}
-                  icon="flag" accent="gold"
+                  label="Prise en charge"
+                  value={from}
+                  onChange={(e) => { setFrom(e.target.value); setFromPlace(null); resetEstimate(); }}
+                  icon="pin"
+                  hint="Adresse de l'hôtel par défaut"
                 />
-                {showSuggest && matches.length > 0 && (
+              )}
+              <div style={{ position: 'relative' }}>
+                {hasGoogleAutocomplete ? (
+                  <div>
+                    <div className="label" style={{ marginBottom: 6 }}>Destination</div>
+                    <div style={{ position: 'relative' }}>
+                      <div style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', zIndex: 2, pointerEvents: 'none' }}>
+                        <Icon name="flag" size={14} color="var(--gold-2)" />
+                      </div>
+                      <AddressAutocomplete
+                        placeholder="Aéroport, gare, adresse..."
+                        initialValue={to}
+                        onInputChange={(value) => { setTo(value); setToMatch(null); setToPlace(null); resetEstimate(); }}
+                        onPlaceSelect={(place) => {
+                          setToPlace(place);
+                          if (place?.formatted_address || place?.name) {
+                            setTo(place.formatted_address || place.name || '');
+                          }
+                          setToMatch(null);
+                          resetEstimate();
+                        }}
+                        className="pl-10"
+                        id="b2b-to"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <Field
+                    label="Destination" placeholder="Aéroport, gare, adresse…"
+                    value={to}
+                    onChange={(e) => { setTo(e.target.value); setToMatch(null); setToPlace(null); setShowSuggest(true); resetEstimate(); }}
+                    onFocus={() => setShowSuggest(true)}
+                    onBlur={() => setTimeout(() => setShowSuggest(false), 150)}
+                    icon="flag" accent="gold"
+                  />
+                )}
+                {!hasGoogleAutocomplete && showSuggest && matches.length > 0 && (
                   <div style={{
                     position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 10,
                     background: 'var(--paper)', border: '1px solid var(--cream-3)',
@@ -150,7 +261,16 @@ export default function BookingModal({
                   }}>
                     {matches.map((m, i) => (
                       <div key={m.name}
-                        onMouseDown={() => { setTo(m.name); setToMatch(m); setShowSuggest(false); }}
+                        onMouseDown={() => {
+                          setTo(m.name);
+                          setToMatch(m);
+                          setShowSuggest(false);
+                          setEstimatedPrice(m.price);
+                          setEstimatedDistance(null);
+                          setEstimatedDuration(null);
+                          setEstimateError(null);
+                          setToPlace(null);
+                        }}
                         style={{
                           padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10,
                           cursor: 'pointer', borderTop: i === 0 ? 'none' : '1px solid var(--cream-2)',
@@ -168,11 +288,32 @@ export default function BookingModal({
                 )}
               </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14, marginTop: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 14, marginTop: 14 }}>
               <Field label="Date" icon="calendar" value={date} onChange={(e) => setDate(e.target.value)} type="date" />
               <Field label="Heure" icon="clock" value={time} onChange={(e) => setTime(e.target.value)} type="time" />
               <Field label="Passagers" icon="users" value={pax} onChange={(e) => setPax(+e.target.value)} type="number" />
+              <Field label="Bagages" icon="hash" value={luggage} onChange={(e) => setLuggage(Math.max(0, +e.target.value || 0))} type="number" />
             </div>
+            <div className="row gap-10" style={{ marginTop: 14 }}>
+              <Btn
+                kind="secondary"
+                icon="sparkle"
+                onClick={calculateEstimate}
+                disabled={!canEstimate || estimating}
+              >
+                {estimating ? 'Calcul en cours…' : 'Voir estimation'}
+              </Btn>
+              {(estimatedDistance || estimatedDuration) && (
+                <span style={{ fontSize: 12, color: 'var(--ink-3)' }}>
+                  {estimatedDistance ? `${estimatedDistance}` : ''}{estimatedDistance && estimatedDuration ? ' · ' : ''}{estimatedDuration ? `${estimatedDuration}` : ''}
+                </span>
+              )}
+            </div>
+            {estimateError && (
+              <div style={{ marginTop: 8, fontSize: 12, color: 'var(--danger)' }}>
+                {estimateError}
+              </div>
+            )}
           </div>
 
           {/* Estimate */}
