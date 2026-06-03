@@ -20,7 +20,12 @@ import {
  * Note : Utilise actuellement un calcul fictif (45-85€).
  * À remplacer par Google Distance Matrix API en production.
  */
-export default function PriceEstimator() {
+interface PriceEstimatorProps {
+  onDepartureChange?: (place: google.maps.places.PlaceResult | null) => void;
+  onArrivalChange?: (place: google.maps.places.PlaceResult | null) => void;
+}
+
+export default function PriceEstimator({ onDepartureChange, onArrivalChange }: PriceEstimatorProps = {}) {
   const router = useRouter();
   const pathname = usePathname();
   const locale = getLocaleFromPath(pathname || '/');
@@ -134,6 +139,7 @@ export default function PriceEstimator() {
               onPlaceSelect={(place) => {
                 setDeparturePlace(place);
                 setDeparture(place?.formatted_address || place?.name || '');
+                onDepartureChange?.(place);
                 if (estimatedPrice) resetEstimation();
               }}
               id="departure-input"
@@ -160,6 +166,7 @@ export default function PriceEstimator() {
               onPlaceSelect={(place) => {
                 setArrivalPlace(place);
                 setArrival(place?.formatted_address || place?.name || '');
+                onArrivalChange?.(place);
                 if (estimatedPrice) resetEstimation();
               }}
               id="arrival-input"

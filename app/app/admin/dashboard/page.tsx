@@ -443,8 +443,10 @@ function InboxTab({ reservations, onRefresh }: { reservations: Reservation[]; on
 }
 
 // ── History Tab (ex "Valider") ────────────────────────────────────────────────
-function ValidateTab({ reservations }: { reservations: Reservation[]; onRefresh: () => void }) {
+function ValidateTab({ reservations, onRefresh }: { reservations: Reservation[]; onRefresh: () => void }) {
   const [filter, setFilter] = useState<'upcoming' | 'done'>('upcoming');
+  const [completingId, setCompletingId] = useState<string | null>(null);
+  const [cancellingId, setCancellingId] = useState<string | null>(null);
 
   const getRideDate = (r: Reservation) => {
     const fromDateTime = new Date(`${r.date}T${r.time}`);
@@ -461,6 +463,34 @@ function ValidateTab({ reservations }: { reservations: Reservation[]; onRefresh:
     .sort((a, b) => getRideDate(b).getTime() - getRideDate(a).getTime());
 
   const rows = filter === 'upcoming' ? upcoming : done;
+
+  async function markAsCompleted(id: string) {
+    setCompletingId(id);
+    try {
+      await fetch(`/api/admin/reservations/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'completed' }),
+      });
+      onRefresh();
+    } finally {
+      setCompletingId(null);
+    }
+  }
+
+  async function markAsCancelled(id: string) {
+    setCancellingId(id);
+    try {
+      await fetch(`/api/admin/reservations/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'cancelled' }),
+      });
+      onRefresh();
+    } finally {
+      setCancellingId(null);
+    }
+  }
 
   return (
     <div style={{ flex: 1, overflowY: 'auto' }}>
@@ -547,6 +577,46 @@ function ValidateTab({ reservations }: { reservations: Reservation[]; onRefresh:
                 <div style={{ fontFamily: sans, fontSize: 10.5, color: T.ink3 }}>
                   {filter === 'upcoming' ? 'estimé' : 'encaissé'}
                 </div>
+                {filter === 'upcoming' && (
+                  <div style={{ marginTop: 8, display: 'flex', justifyContent: 'flex-end', gap: 6 }}>
+                    <button
+                      onClick={() => markAsCancelled(r.id)}
+                      disabled={cancellingId === r.id || completingId === r.id}
+                      style={{
+                        border: `1px solid ${T.red}55`,
+                        borderRadius: 8,
+                        padding: '6px 10px',
+                        background: 'transparent',
+                        color: T.red,
+                        fontFamily: sans,
+                        fontSize: 11.5,
+                        fontWeight: 700,
+                        cursor: cancellingId === r.id || completingId === r.id ? 'not-allowed' : 'pointer',
+                        opacity: cancellingId === r.id || completingId === r.id ? 0.7 : 1,
+                      }}
+                    >
+                      {cancellingId === r.id ? '…' : 'Annuler'}
+                    </button>
+                    <button
+                      onClick={() => markAsCompleted(r.id)}
+                      disabled={completingId === r.id || cancellingId === r.id}
+                      style={{
+                        border: 'none',
+                        borderRadius: 8,
+                        padding: '6px 10px',
+                        background: T.gold,
+                        color: T.greenInk,
+                        fontFamily: sans,
+                        fontSize: 11.5,
+                        fontWeight: 700,
+                        cursor: completingId === r.id || cancellingId === r.id ? 'not-allowed' : 'pointer',
+                        opacity: completingId === r.id || cancellingId === r.id ? 0.75 : 1,
+                      }}
+                    >
+                      {completingId === r.id ? '…' : 'Terminée'}
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ))

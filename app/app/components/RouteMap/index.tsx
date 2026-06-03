@@ -19,7 +19,7 @@
  * />
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { APIProvider, Map, useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 
 interface RouteMapProps {
@@ -46,29 +46,13 @@ function DirectionsRenderer({
 }) {
   const map = useMap();
   const routesLibrary = useMapsLibrary('routes');
-  const directionsServiceRef = useRef<google.maps.DirectionsService | null>(null);
-  const directionsRendererRef = useRef<google.maps.DirectionsRenderer | null>(null);
 
-  // Initialiser les services Google Maps
   useEffect(() => {
     if (!routesLibrary || !map) return;
-
-    directionsServiceRef.current = new routesLibrary.DirectionsService();
-    directionsRendererRef.current = new routesLibrary.DirectionsRenderer({ map });
-
-    return () => {
-      directionsRendererRef.current?.setMap(null);
-      directionsRendererRef.current = null;
-      directionsServiceRef.current = null;
-    };
-  }, [routesLibrary, map]);
-
-  // Calculer et afficher le trajet
-  useEffect(() => {
-    const directionsService = directionsServiceRef.current;
-    const directionsRenderer = directionsRendererRef.current;
-    if (!directionsService || !directionsRenderer) return;
     if (!origin?.geometry?.location || !destination?.geometry?.location) return;
+
+    const directionsService = new routesLibrary.DirectionsService();
+    const directionsRenderer = new routesLibrary.DirectionsRenderer({ map });
 
     directionsService
       .route({
@@ -83,7 +67,11 @@ function DirectionsRenderer({
       .catch((error) => {
         console.error('Erreur lors du calcul du trajet:', error);
       });
-  }, [origin, destination]);
+
+    return () => {
+      directionsRenderer.setMap(null);
+    };
+  }, [routesLibrary, map, origin, destination]);
 
   return null;
 }

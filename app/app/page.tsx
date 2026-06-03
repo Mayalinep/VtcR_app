@@ -3,7 +3,7 @@ import Navigation from './components/layout/Navigation';
 import Footer from './components/layout/Footer';
 import FadeIn from './components/animations/FadeIn';
 import FadeInSection from './components/animations/FadeInSection';
-import PriceEstimator from './components/forms/PriceEstimator';
+import BookingSection from './components/sections/BookingSection';
 import HeroScrollIndicator from './components/ui/HeroScrollIndicator';
 import Badge from './components/ui/Badge';
 import Testimonials from './components/sections/Testimonials';
@@ -114,40 +114,19 @@ export default function Home({ locale = DEFAULT_LOCALE }: HomeProps) {
       {/* Section Estimateur */}
       <section id="booking-estimator" className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6" style={{ backgroundColor: '#FAFAF9' }}>
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-            <div className="w-full lg:w-2/5">
-              <FadeInSection delay={0}>
-                <div className="text-left mb-6">
-                  <h2
-                    className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3"
-                    style={{ fontFamily: 'var(--font-playfair)' }}
-                  >
-                    {t.bookingTitle}
-                  </h2>
-                  <p className="text-gray-500 text-sm sm:text-base">{t.bookingSubtitle}</p>
-                </div>
-              </FadeInSection>
-
-              <PriceEstimator />
+          <FadeInSection delay={0}>
+            <div className="text-left mb-6">
+              <h2
+                className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3"
+                style={{ fontFamily: 'var(--font-playfair)' }}
+              >
+                {t.bookingTitle}
+              </h2>
+              <p className="text-gray-500 text-sm sm:text-base">{t.bookingSubtitle}</p>
             </div>
+          </FadeInSection>
 
-            <div className="hidden lg:block lg:w-3/5">
-              <FadeInSection delay={0.2}>
-                <div className="sticky top-24 h-[600px] rounded-2xl overflow-hidden shadow-lg border border-gray-200">
-                  <iframe
-                    src={homeMapsEmbedUrl}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen={false}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title={t.zonesTitle}
-                  />
-                </div>
-              </FadeInSection>
-            </div>
-          </div>
+          <BookingSection />
         </div>
       </section>
 

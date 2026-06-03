@@ -22,17 +22,17 @@ type DestinationPreset = {
 };
 
 const DESTINATION_PRESETS: DestinationPreset[] = [
-  { keywords: ['cdg', 'charles de gaulle', 'roissy'], price: 78, distance: 31, duration: 42 },
-  { keywords: ['orly'], price: 65, distance: 23, duration: 36 },
-  { keywords: ['beauvais'], price: 140, distance: 85, duration: 72 },
-  { keywords: ['gare de lyon'], price: 24, distance: 9, duration: 24 },
-  { keywords: ['gare du nord', 'gare nord'], price: 28, distance: 10, duration: 28 },
-  { keywords: ['montparnasse'], price: 20, distance: 7, duration: 21 },
-  { keywords: ['tour eiffel', 'eiffel'], price: 20, distance: 8, duration: 22 },
-  { keywords: ['louvre'], price: 18, distance: 6, duration: 19 },
-  { keywords: ['opera garnier', 'opera'], price: 22, distance: 7, duration: 21 },
-  { keywords: ['versailles'], price: 95, distance: 36, duration: 55 },
-  { keywords: ['disney', 'disneyland'], price: 142, distance: 48, duration: 62 },
+  { keywords: ['cdg', 'charles de gaulle', 'roissy'], price: 45, distance: 31, duration: 42 },
+  { keywords: ['orly'], price: 35, distance: 23, duration: 36 },
+  { keywords: ['beauvais'], price: 130, distance: 85, duration: 72 },
+  { keywords: ['gare de lyon'], price: 35, distance: 9, duration: 24 },
+  { keywords: ['gare du nord', 'gare nord'], price: 20, distance: 10, duration: 28 },
+  { keywords: ['montparnasse'], price: 30, distance: 7, duration: 21 },
+  { keywords: ['tour eiffel', 'eiffel'], price: 30, distance: 8, duration: 22 },
+  { keywords: ['louvre'], price: 25, distance: 6, duration: 19 },
+  { keywords: ['opera garnier', 'opera'], price: 30, distance: 7, duration: 21 },
+  { keywords: ['versailles'], price: 55, distance: 36, duration: 55 },
+  { keywords: ['disney', 'disneyland'], price: 70, distance: 48, duration: 62 },
 ];
 
 function normalizeText(value: string): string {
@@ -84,20 +84,20 @@ function estimateFallback(origin: string, destination: string): PriceCalculation
 
   let distance = 20;
   let duration = 35;
-  let price = 45;
+  let price = 40;
 
   if (destinationInParis) {
     distance = 10;
     duration = 24;
-    price = 28;
+    price = 20;
   } else if (destinationDept !== null && [92, 93, 94].includes(destinationDept)) {
     distance = 18;
     duration = 33;
-    price = 40;
+    price = 35;
   } else if (destinationDept !== null && [77, 78, 91, 95].includes(destinationDept)) {
     distance = 32;
     duration = 52;
-    price = 68;
+    price = 50;
   }
 
   if (originDept !== null && destinationDept !== null && originDept === destinationDept) {
@@ -156,9 +156,15 @@ export async function POST(request: NextRequest) {
     const distanceInKm = element.distance.value / 1000;
     const durationInMinutes = Math.round(element.duration.value / 60);
 
-    const pricePerKm = 2;
     const minimumPrice = 15;
-    let calculatedPrice = distanceInKm * pricePerKm;
+    let calculatedPrice;
+    if (distanceInKm < 10) {
+      calculatedPrice = distanceInKm * 4;
+    } else if (distanceInKm > 20) {
+      calculatedPrice = distanceInKm * 1.5;
+    } else {
+      calculatedPrice = distanceInKm * 2;
+    }
     if (calculatedPrice < minimumPrice) {
       calculatedPrice = minimumPrice;
     }

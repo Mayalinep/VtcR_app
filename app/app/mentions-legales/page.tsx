@@ -2,163 +2,104 @@ import Link from 'next/link';
 import Navigation from '../components/layout/Navigation';
 import Footer from '../components/layout/Footer';
 import Hero from '../components/sections/Hero';
-import FadeInSection from '../components/animations/FadeInSection';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Mentions Légales | VTC Rachel",
-  description: "Mentions légales de VTC Rachel - Informations légales, coordonnées de l'entreprise et conditions d'utilisation du site.",
+  title: "Mentions Légales | RACH SERVICES",
+  description: "Mentions légales de RACH SERVICES - Informations légales, coordonnées de l'entreprise et conditions d'utilisation du site.",
 };
+
+const Section = ({ num, title, children }: { num: number; title: string; children: React.ReactNode }) => (
+  <div className="mb-12">
+    <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
+      {num}. {title}
+    </h2>
+    {children}
+  </div>
+);
+
+const P = ({ children }: { children: React.ReactNode }) => (
+  <p className="text-gray-700 leading-relaxed mb-4">{children}</p>
+);
 
 export default function MentionsLegalesPage() {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
 
-      {/* Hero Section */}
       <Hero
         badge="Informations légales"
         title={<>Mentions<br /><span style={{ color: 'var(--forest-green)' }}>Légales</span></>}
-        description="Informations légales concernant VTC Rachel et l'utilisation de ce site"
+        description="Informations légales concernant RACH SERVICES et l'utilisation de ce site"
       />
 
-      {/* Contenu */}
       <section className="py-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto">
-          <FadeInSection delay={0}>
-            <div className="prose prose-lg max-w-none">
-              
-              {/* Éditeur du site */}
-              <div className="mb-12">
-                <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
-                  1. Éditeur du site
-                </h2>
-                <div className="space-y-2 text-gray-700 leading-relaxed">
-                  <p><strong>Raison sociale :</strong> VTC Rachel (Auto-Entreprise)</p>
-                  <p><strong>Responsable :</strong> Rachel [Nom]</p>
-                  <p><strong>SIRET :</strong> [À compléter]</p>
-                  <p><strong>Adresse :</strong> [Adresse à compléter]</p>
-                  <p><strong>Email :</strong> contact@vtc-rachel.fr</p>
-                  <p><strong>Téléphone :</strong> +33 6 61 59 02 90</p>
-                  <p><strong>Licence VTC :</strong> [Numéro à compléter]</p>
-                </div>
-              </div>
 
-              {/* Directeur de publication */}
-              <div className="mb-12">
-                <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
-                  2. Directeur de publication
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  Le directeur de la publication du site est Rachel [Nom], gérante de VTC Rachel.
-                </p>
-              </div>
-
-              {/* Hébergement */}
-              <div className="mb-12">
-                <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
-                  3. Hébergement
-                </h2>
-                <div className="space-y-2 text-gray-700 leading-relaxed">
-                  <p><strong>Hébergeur :</strong> Vercel Inc.</p>
-                  <p><strong>Adresse :</strong> 440 N Barranca Ave #4133, Covina, CA 91723, USA</p>
-                  <p><strong>Site web :</strong> <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="text-forest-green hover:underline">vercel.com</a></p>
-                </div>
-              </div>
-
-              {/* Propriété intellectuelle */}
-              <div className="mb-12">
-                <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
-                  4. Propriété intellectuelle
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  L&apos;ensemble du contenu de ce site (textes, images, vidéos, logos, graphismes, etc.) est la propriété exclusive de VTC Rachel, 
-                  sauf mention contraire.
-                </p>
-                <p className="text-gray-700 leading-relaxed">
-                  Toute reproduction, distribution, modification, adaptation, retransmission ou publication, même partielle, de ces différents éléments 
-                  est strictement interdite sans l&apos;accord exprès par écrit de VTC Rachel.
-                </p>
-              </div>
-
-              {/* Données personnelles */}
-              <div className="mb-12">
-                <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
-                  5. Protection des données personnelles
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés, 
-                  vous disposez d&apos;un droit d&apos;accès, de rectification, de suppression et d&apos;opposition aux données personnelles vous concernant.
-                </p>
-                <p className="text-gray-700 leading-relaxed">
-                  Pour exercer ces droits, vous pouvez nous contacter à l&apos;adresse : <a href="mailto:contact@vtc-rachel.fr" className="text-forest-green hover:underline">contact@vtc-rachel.fr</a>
-                </p>
-                <p className="text-gray-700 leading-relaxed mt-4">
-                  Pour plus d&apos;informations, consultez notre <Link href="/confidentialite" className="text-forest-green hover:underline font-medium">Politique de confidentialité</Link>.
-                </p>
-              </div>
-
-              {/* Cookies */}
-              <div className="mb-12">
-                <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
-                  6. Cookies
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Ce site utilise des cookies pour améliorer l&apos;expérience utilisateur et réaliser des statistiques de visites.
-                </p>
-                <p className="text-gray-700 leading-relaxed">
-                  Vous pouvez à tout moment désactiver ces cookies dans les paramètres de votre navigateur. 
-                  Cependant, cela peut affecter le bon fonctionnement de certaines fonctionnalités du site.
-                </p>
-              </div>
-
-              {/* Limitation de responsabilité */}
-              <div className="mb-12">
-                <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
-                  7. Limitation de responsabilité
-                </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  VTC Rachel s&apos;efforce d&apos;assurer l&apos;exactitude et la mise à jour des informations diffusées sur ce site, 
-                  mais ne peut garantir l&apos;exactitude, la précision ou l&apos;exhaustivité des informations mises à disposition.
-                </p>
-                <p className="text-gray-700 leading-relaxed">
-                  En conséquence, VTC Rachel décline toute responsabilité pour toute imprécision, inexactitude ou omission 
-                  portant sur des informations disponibles sur ce site.
-                </p>
-              </div>
-
-              {/* Droit applicable */}
-              <div className="mb-12">
-                <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
-                  8. Droit applicable
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  Les présentes mentions légales sont soumises au droit français. 
-                  En cas de litige, les tribunaux français seront seuls compétents.
-                </p>
-              </div>
-
-              {/* Crédits */}
-              <div className="mb-12">
-                <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
-                  9. Crédits
-                </h2>
-                <div className="space-y-2 text-gray-700 leading-relaxed">
-                  <p><strong>Conception et développement :</strong> [Votre nom/entreprise]</p>
-                  <p><strong>Icônes :</strong> Lucide Icons</p>
-                  <p><strong>Polices :</strong> Inter (Google Fonts), Playfair Display (Google Fonts)</p>
-                </div>
-              </div>
-
-              {/* Date de mise à jour */}
-              <div className="pt-8 border-t border-gray-200">
-                <p className="text-sm text-gray-500">
-                  <strong>Dernière mise à jour :</strong> Janvier 2026
-                </p>
-              </div>
-
+          <Section num={1} title="Éditeur du site">
+            <div className="space-y-2 text-gray-700 leading-relaxed">
+              <p><strong>Raison sociale :</strong> RACH SERVICES</p>
+              <p><strong>Responsable :</strong> Rachel Meganou</p>
+              <p><strong>SIRET :</strong> 937 563 526</p>
+              <p><strong>N° TVA intracommunautaire :</strong> FR 20937563526</p>
+              <p><strong>Adresse :</strong> 14 Rue Pierre Larousse, 93300 Aubervilliers</p>
+              <p><strong>Téléphone :</strong> 06 61 59 02 90</p>
+              <p><strong>Email :</strong> <a href="mailto:rachtravelservices@gmail.com" className="hover:underline" style={{ color: 'var(--forest-green)' }}>rachtravelservices@gmail.com</a></p>
+              <p><strong>Site web :</strong> www.rach-services.com</p>
             </div>
-          </FadeInSection>
+          </Section>
+
+          <Section num={2} title="Directeur de publication">
+            <P>Le directeur de la publication du site est <strong>Rachel Meganou</strong>, gérante de RACH SERVICES.</P>
+          </Section>
+
+          <Section num={3} title="Hébergement">
+            <div className="space-y-2 text-gray-700 leading-relaxed">
+              <p><strong>Hébergeur :</strong> Vercel Inc.</p>
+              <p><strong>Adresse :</strong> 440 N Barranca Ave #4133, Covina, CA 91723, USA</p>
+              <p><strong>Site web :</strong> <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="hover:underline" style={{ color: 'var(--forest-green)' }}>vercel.com</a></p>
+            </div>
+          </Section>
+
+          <Section num={4} title="Conception et développement">
+            <div className="space-y-2 text-gray-700 leading-relaxed">
+              <p><strong>Développement :</strong> Maya-Line Pelage</p>
+              <p><strong>Contact :</strong> <a href="mailto:mayaline.pelage@gmail.com" className="hover:underline" style={{ color: 'var(--forest-green)' }}>mayaline.pelage@gmail.com</a></p>
+              <p><strong>Polices :</strong> Fraunces, Inter, JetBrains Mono (Google Fonts)</p>
+            </div>
+          </Section>
+
+          <Section num={5} title="Propriété intellectuelle">
+            <P>L&apos;ensemble du contenu de ce site (textes, images, logos, graphismes, etc.) est la propriété exclusive de RACH SERVICES, sauf mention contraire.</P>
+            <P>Toute reproduction, distribution, modification ou publication, même partielle, est strictement interdite sans l&apos;accord exprès écrit de RACH SERVICES.</P>
+          </Section>
+
+          <Section num={6} title="Protection des données personnelles">
+            <P>Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d&apos;un droit d&apos;accès, de rectification, de suppression et d&apos;opposition aux données personnelles vous concernant.</P>
+            <P>Pour exercer ces droits : <a href="mailto:rachtravelservices@gmail.com" className="hover:underline" style={{ color: 'var(--forest-green)' }}>rachtravelservices@gmail.com</a></P>
+            <P>Pour plus d&apos;informations, consultez notre <Link href="/confidentialite" className="hover:underline font-medium" style={{ color: 'var(--forest-green)' }}>Politique de confidentialité</Link>.</P>
+          </Section>
+
+          <Section num={7} title="Cookies">
+            <P>Ce site utilise des cookies techniques nécessaires à son bon fonctionnement ainsi que Google reCAPTCHA pour la protection contre les formulaires automatisés.</P>
+            <P>Vous pouvez désactiver les cookies dans les paramètres de votre navigateur, ce qui peut affecter certaines fonctionnalités du site.</P>
+          </Section>
+
+          <Section num={8} title="Limitation de responsabilité">
+            <P>RACH SERVICES s&apos;efforce d&apos;assurer l&apos;exactitude des informations diffusées sur ce site mais ne peut garantir leur exhaustivité. RACH SERVICES décline toute responsabilité pour toute imprécision ou omission.</P>
+            <P>RACH SERVICES ne saurait être tenue responsable des retards dus à des circonstances indépendantes de sa volonté (embouteillages, conditions météorologiques, force majeure).</P>
+          </Section>
+
+          <Section num={9} title="Droit applicable">
+            <P>Les présentes mentions légales sont soumises au droit français. En cas de litige, les tribunaux compétents du lieu du siège social de RACH SERVICES (Seine-Saint-Denis) seront seuls compétents.</P>
+          </Section>
+
+          <div className="pt-8 border-t border-gray-200">
+            <p className="text-sm text-gray-500">
+              <strong>Dernière mise à jour :</strong> Juin 2026
+            </p>
+          </div>
+
         </div>
       </section>
 

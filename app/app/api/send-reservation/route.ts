@@ -56,12 +56,9 @@ export async function POST(request: NextRequest) {
 
           // Vérifier le score (minimum 0.5 pour accepter)
           if (!recaptchaData.success) {
-            console.warn('⚠️ reCAPTCHA failed (mode dégradé - on continue quand même):', recaptchaData);
-            // On continue quand même en mode dégradé pour le développement
+            return NextResponse.json({ error: 'Échec de la vérification anti-spam.' }, { status: 403 });
           } else if (recaptchaData.score < 0.5) {
-            console.warn('⚠️ reCAPTCHA score trop faible:', recaptchaData.score, '(mode dégradé - on continue)');
-            // TODO: En production, décommenter la ligne ci-dessous pour bloquer les bots
-            // return NextResponse.json({ error: 'Échec de la vérification anti-spam.' }, { status: 403 });
+            return NextResponse.json({ error: 'Échec de la vérification anti-spam.' }, { status: 403 });
           } else {
             console.log('✅ reCAPTCHA validé avec score:', recaptchaData.score);
           }
@@ -136,7 +133,7 @@ ${data.comment ? `Commentaire : ${data.comment}` : ''}
             'Authorization': `Bearer ${resendApiKey}`,
           },
           body: JSON.stringify({
-            from: 'VTC Rachel <onboarding@resend.dev>',
+            from: 'VTC Rachel <noreply@rach-services.com>',
             to: [rachelEmail],
             reply_to: data.email,
             subject: `🚖 Nouvelle réservation : ${data.firstName} ${data.lastName}`,
@@ -208,7 +205,7 @@ ${data.comment ? `Commentaire : ${data.comment}` : ''}
             'Authorization': `Bearer ${resendApiKey}`,
           },
           body: JSON.stringify({
-            from: 'VTC Rachel <onboarding@resend.dev>',
+            from: 'VTC Rachel <noreply@rach-services.com>',
             to: [data.email],
             subject: '✅ Votre demande de réservation a bien été reçue',
             html: `

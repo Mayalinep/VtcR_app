@@ -10,6 +10,7 @@ export async function GET() {
     .from('b2b_reservations')
     .select('*')
     .eq('hotel_id', session.hotelId)
+    .neq('status', 'cancelled')
     .order('created_at', { ascending: false });
 
   if (error) return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
@@ -80,7 +81,7 @@ export async function POST(request: NextRequest) {
           'Authorization': `Bearer ${resendApiKey}`,
         },
         body: JSON.stringify({
-          from: 'VTC Rachel B2B <onboarding@resend.dev>',
+          from: 'VTC Rachel B2B <noreply@rach-services.com>',
           to: [rachelEmail],
           subject: `🏨 Réservation B2B — ${session.hotelName}`,
           html: `
