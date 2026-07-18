@@ -100,7 +100,16 @@ export default function ContactForm() {
     setSubmitStatus('idle');
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await fetch('/api/send-contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('send-contact failed');
+      }
+
       setSubmitStatus('success');
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
       setTimeout(() => setSubmitStatus('idle'), 5000);

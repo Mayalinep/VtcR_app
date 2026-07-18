@@ -18,6 +18,8 @@ import Navigation from '@/app/components/layout/Navigation';
 import Footer from '@/app/components/layout/Footer';
 import AddressAutocomplete from '@/app/components/AddressAutocomplete';
 import { motion } from 'framer-motion';
+import { CONTACT } from '@/app/lib/utils/constants';
+import { CONFIRMATION_STORAGE_KEY, type ConfirmationData } from '@/app/lib/confirmation';
 
 function ReservationContent() {
   const searchParams = useSearchParams();
@@ -49,7 +51,6 @@ function ReservationContent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRecalculating, setIsRecalculating] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showSuccess, setShowSuccess] = useState(false);
 
   // Si pas de données de trajet, rediriger vers la home
   useEffect(() => {
@@ -132,7 +133,25 @@ function ReservationContent() {
         throw new Error('Erreur lors de l\'envoi de la réservation');
       }
 
-      setShowSuccess(true);
+      const confirmation: ConfirmationData = {
+        ...formData,
+        passengers: Number(formData.passengers) || 1,
+        luggage: Number(formData.luggage) || 0,
+        departure,
+        arrival,
+        price,
+        distance,
+        duration,
+      };
+
+      try {
+        sessionStorage.setItem(CONFIRMATION_STORAGE_KEY, JSON.stringify(confirmation));
+      } catch {
+        // sessionStorage indisponible : on redirige quand même
+      }
+
+      router.push('/confirmation');
+      return;
     } catch (err) {
       setError('Une erreur est survenue. Veuillez réessayer.');
       console.error('Reservation error:', err);
@@ -142,52 +161,6 @@ function ReservationContent() {
   };
 
   const today = new Date().toISOString().split('T')[0];
-
-  // Affichage de la confirmation
-  if (showSuccess) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Navigation />
-        <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="mb-6">
-              <div className="w-20 h-20 mx-auto rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--gold-light)' }}>
-                <svg className="w-10 h-10" style={{ color: 'var(--forest-green)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-            </div>
-            <h1 className="text-3xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)', color: 'var(--forest-green)' }}>
-              Réservation envoyée !
-            </h1>
-            <p className="text-lg text-gray-600 mb-8">
-              Rachel a bien reçu votre demande et vous contactera très prochainement.
-            </p>
-            <div className="bg-gray-50 rounded-xl p-6 mb-8">
-              <p className="text-sm text-gray-700 mb-2">
-                📧 Un email de confirmation vous a été envoyé
-              </p>
-              <p className="text-sm text-gray-700">
-                📱 Rachel vous appellera pour confirmer les détails
-              </p>
-            </div>
-            <button
-              onClick={() => router.push('/')}
-              className="px-8 py-3 rounded-lg font-semibold text-white transition-all hover:scale-105"
-              style={{ backgroundColor: 'var(--forest-green)' }}
-            >
-              Retour à l&apos;accueil
-            </button>
-          </motion.div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -510,7 +483,7 @@ function ReservationContent() {
                 
                 {/* Téléphone */}
                 <a
-                  href="tel:+33761890250"
+                  href={`tel:${CONTACT.phone.replace(/\s/g, '')}`}
                   className="flex items-center gap-3 p-4 rounded-lg border-2 transition-all mb-3 hover:scale-105"
                   style={{ borderColor: 'var(--gold-champagne)', backgroundColor: 'var(--gold-light)' }}
                 >
@@ -521,7 +494,7 @@ function ReservationContent() {
                   </div>
                   <div>
                     <p className="text-xs text-gray-600 mb-1">Appelez Rachel</p>
-                    <p className="font-bold" style={{ color: 'var(--forest-green)' }}>+33 7 61 89 02 50</p>
+                    <p className="font-bold" style={{ color: 'var(--forest-green)' }}>{CONTACT.phoneDisplay}</p>
                   </div>
                 </a>
 

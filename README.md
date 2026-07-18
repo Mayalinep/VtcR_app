@@ -99,7 +99,7 @@ npm run fresh        # clean .next + restart
 ## Équipe
 
 - **Product Owner :** Rachel (VTC)
-- **Développement initial :** Maya
+- **Développement :** Maya-Line Pelage — développeuse fullstack (à l’origine du code)
 
 ---
 
