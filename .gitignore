@@ -1,6 +1,14 @@
 # VTC Rachel - Root .gitignore
 # Ce fichier ignore les fichiers à la racine du projet (hors app/)
 
+# =============================================================================
+# Privé / local uniquement — ne pas publier sur GitHub
+# =============================================================================
+docs/
+.bmad-core/
+.claude/
+.cursor/
+
 # Documentation générée
 *.log
 
@@ -22,4 +30,3 @@
 *.temp
 
 # Le dossier app/ a son propre .gitignore pour Next.js
-.claude/
