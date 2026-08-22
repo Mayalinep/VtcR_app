@@ -127,10 +127,10 @@ export default function Navigation() {
             <div className="w-px h-5 bg-white/20" />
 
             <a
-              href="/b2b/login"
+              href={localizeHref('/partenaires', locale)}
               className="whitespace-nowrap px-4 py-2 text-sm text-white rounded-md font-semibold border border-white/35 bg-gradient-to-r from-[#2A8A6A] to-[#0F4C3A] shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition-all duration-300 hover:from-[#36A47D] hover:to-[#145A45] hover:border-white/60 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(0,0,0,0.35)]"
             >
-              Espace partenaire
+              {t.partners}
             </a>
           </div>
 
@@ -255,6 +255,17 @@ export default function Navigation() {
                   ))}
                 </div>
               </motion.div>
+
+              <motion.a
+                href={localizeHref('/partenaires', locale)}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 0.35 }}
+                className="block mx-4 mt-4 py-3 px-4 rounded-lg font-semibold text-center text-white border border-white/35"
+                style={{ background: 'linear-gradient(to right, #2A8A6A, #0F4C3A)' }}
+              >
+                {t.partners}
+              </motion.a>
 
             </div>
           </motion.div>

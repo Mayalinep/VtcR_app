@@ -12,13 +12,9 @@
     "fresh": "rm -rf .next && npm run dev"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.105.0",
-    "@types/bcryptjs": "^2.4.6",
     "@vis.gl/react-google-maps": "^1.8.3",
-    "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "framer-motion": "^12.25.0",
-    "jose": "^6.2.3",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",

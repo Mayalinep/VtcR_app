@@ -11,7 +11,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/admin/', '/_next/'], // Bloquer dossiers privés
+        disallow: ['/api/', '/_next/'],
       },
     ],
     sitemap: 'https://vtcrachel.fr/sitemap.xml',

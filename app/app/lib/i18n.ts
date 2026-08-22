@@ -24,6 +24,7 @@ export const NAV_TRANSLATIONS: Record<
     faq: string;
     login: string;
     signup: string;
+    partners: string;
   }
 > = {
   fr: {
@@ -34,6 +35,7 @@ export const NAV_TRANSLATIONS: Record<
     faq: 'FAQ',
     login: 'Connexion',
     signup: 'Inscription',
+    partners: 'Espace partenaire',
   },
   en: {
     tarifs: 'Pricing',
@@ -43,6 +45,7 @@ export const NAV_TRANSLATIONS: Record<
     faq: 'FAQ',
     login: 'Log in',
     signup: 'Sign up',
+    partners: 'Partner area',
   },
   es: {
     tarifs: 'Tarifas',
@@ -52,6 +55,7 @@ export const NAV_TRANSLATIONS: Record<
     faq: 'FAQ',
     login: 'Acceder',
     signup: 'Registrarse',
+    partners: 'Espacio socios',
   },
 };
 
