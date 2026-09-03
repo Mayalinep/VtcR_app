@@ -82,8 +82,8 @@ export default function ContactPage({ locale = DEFAULT_LOCALE }: ContactProps) {
                     </svg>
                   </div>
                   <h3 className="font-semibold text-lg mb-2">{t.email.title}</h3>
-                  <a href="mailto:contact@vtc-rachel.fr" className="text-gray-600 hover:text-forest-green transition-colors break-all">
-                    contact@vtc-rachel.fr
+                  <a href="mailto:rachtravelservices@gmail.com" className="text-gray-600 hover:text-forest-green transition-colors break-all">
+                    rachtravelservices@gmail.com
                   </a>
                   <p className="text-sm text-gray-500 mt-2">{t.email.responseTime}</p>
                 </div>
