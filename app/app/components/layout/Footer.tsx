@@ -46,7 +46,7 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-3 text-sm sm:text-base">{t.contactTitle}</h4>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li className="py-0.5">contact@vtc-rachel.fr</li>
+              <li className="py-0.5">rachtravelservices@gmail.com</li>
               <li className="py-0.5">+33 6 61 59 02 90</li>
             </ul>
           </div>
