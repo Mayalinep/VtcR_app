@@ -3,6 +3,7 @@ import { Bodoni_Moda, Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import StructuredData from "./components/seo/StructuredData";
 import { LOCAL_BUSINESS_SCHEMA } from "./lib/seo/schema";
+import { Analytics } from '@vercel/analytics/next';
 
 const bodoni = Bodoni_Moda({
   variable: '--font-bodoni',
@@ -109,6 +110,7 @@ export default function RootLayout({
         className={`${bodoni.variable} ${inter.variable} ${playfair.variable} antialiased`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );
